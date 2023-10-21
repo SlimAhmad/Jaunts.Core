@@ -1,0 +1,6 @@
+@Jaunts.Core_HostAddress = http://localhost:5163
+
+GET {{Jaunts.Core_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
