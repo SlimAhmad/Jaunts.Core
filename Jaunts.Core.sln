@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34212.112
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core.Api", "Jaunts.Core\Jaunts.Core.Api.csproj", "{BFDB34DC-A4CE-4697-90CA-1098B953B990}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaunts.Core.Api", "Jaunts.Core.Api\Jaunts.Core.Api.csproj", "{BFDB34DC-A4CE-4697-90CA-1098B953B990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core.Api.Infrastructure.Build", "Jaunts.Core.Api.Infrastructure.Build\Jaunts.Core.Api.Infrastructure.Build.csproj", "{B7E54605-9B43-499D-8F4D-5E41345E83EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaunts.Core.Api.Infrastructure.Build", "Jaunts.Core.Api.Infrastructure.Build\Jaunts.Core.Api.Infrastructure.Build.csproj", "{B7E54605-9B43-499D-8F4D-5E41345E83EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core.Api.Infrastructure.Provision", "Jaunts.Core.Api.Infrastructure.Provision\Jaunts.Core.Api.Infrastructure.Provision.csproj", "{C4B102A7-11EC-46B8-941C-A5D6C9DC1AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaunts.Core.Api.Infrastructure.Provision", "Jaunts.Core.Api.Infrastructure.Provision\Jaunts.Core.Api.Infrastructure.Provision.csproj", "{C4B102A7-11EC-46B8-941C-A5D6C9DC1AAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core.Api.Tests.Acceptance", "Jaunts.Core.Api.Tests.Acceptance\Jaunts.Core.Api.Tests.Acceptance.csproj", "{94A4598A-B52C-4536-BA36-3F4181775B0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaunts.Core.Api.Tests.Acceptance", "Jaunts.Core.Api.Tests.Acceptance\Jaunts.Core.Api.Tests.Acceptance.csproj", "{94A4598A-B52C-4536-BA36-3F4181775B0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core.Api.Tests.Unit", "Jaunts.Core.Api.Tests.Unit\Jaunts.Core.Api.Tests.Unit.csproj", "{8E7CB73C-259E-48EC-A562-128D7DECA7F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jaunts.Core.Api.Tests.Unit", "Jaunts.Core.Api.Tests.Unit\Jaunts.Core.Api.Tests.Unit.csproj", "{8E7CB73C-259E-48EC-A562-128D7DECA7F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jaunts.Core", "Jaunts.Core\Jaunts.Core.csproj", "{F3188138-365D-4DBF-BEE3-B45E39ED6705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8E7CB73C-259E-48EC-A562-128D7DECA7F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E7CB73C-259E-48EC-A562-128D7DECA7F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E7CB73C-259E-48EC-A562-128D7DECA7F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3188138-365D-4DBF-BEE3-B45E39ED6705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3188138-365D-4DBF-BEE3-B45E39ED6705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3188138-365D-4DBF-BEE3-B45E39ED6705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3188138-365D-4DBF-BEE3-B45E39ED6705}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
