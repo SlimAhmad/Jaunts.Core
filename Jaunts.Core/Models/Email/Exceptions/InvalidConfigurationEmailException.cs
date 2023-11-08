@@ -6,7 +6,7 @@ namespace Jaunts.Core.Models.Exceptions
     public class InvalidConfigurationEmailException : Xeption
     {
         public InvalidConfigurationEmailException(Exception innerException)
-            : base(message: "Invalid Auth configuration error occurred, contact support.",
+            : base(message: "Invalid Email configuration error occurred, contact support.",
                   innerException)
         { }
 

@@ -9,14 +9,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
     {
        
 
-        private delegate ValueTask<SendEmailDetails> ReturningSendEmailDetailsFunction();
+        private delegate ValueTask<SendEmailResponse> ReturningSendEmailResponseFunction();
 
 
-        private async ValueTask<SendEmailDetails> TryCatch(ReturningSendEmailDetailsFunction returningSendEmailDetailsFunction)
+        private async ValueTask<SendEmailResponse> TryCatch(ReturningSendEmailResponseFunction returningSendEmailResponseFunction)
         {
             try
             {
-                return await returningSendEmailDetailsFunction();
+                return await returningSendEmailResponseFunction();
             }
             catch (NullEmailException nullEmailException)
             {

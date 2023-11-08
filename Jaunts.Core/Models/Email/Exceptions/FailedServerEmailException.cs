@@ -6,7 +6,7 @@ namespace Jaunts.Core.Models.Exceptions
     public class FailedServerEmailException : Xeption
     {
         public FailedServerEmailException(Exception innerException)
-            : base(message: "Failed Auth server error occurred, contact support.",
+            : base(message: "Failed Email server error occurred, contact support.",
                   innerException)
         { }
 

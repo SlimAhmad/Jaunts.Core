@@ -14,6 +14,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
         private delegate ValueTask<UserProfileDetailsApiResponse> ReturningAuthProfileDetailsFunction();
         private delegate ValueTask<ResetPasswordApiResponse> ReturningResetPasswordFunction();
         private delegate ValueTask<ForgotPasswordApiResponse> ReturningForgotPasswordFunction();
+        private delegate ValueTask<Enable2FAApiResponse> ReturningEnable2FAFunction();
         private async ValueTask<RegisterResultApiResponse> TryCatch(ReturningRegisterResultFunction returningRegisterResultFunction)
         {
             try
@@ -199,6 +200,66 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             try
             {
                 return await returningForgotPasswordFunction();
+            }
+            catch (NullAuthException nullAuthException)
+            {
+                throw CreateAndLogValidationException(nullAuthException);
+            }
+            catch (InvalidAuthException invalidAuthException)
+            {
+                throw CreateAndLogValidationException(invalidAuthException);
+            }
+            catch (SqlException sqlException)
+            {
+                var failedAuthStorageException =
+                    new FailedAuthStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAuthStorageException);
+            }
+            catch (NotFoundAuthException notFoundAuthException)
+            {
+                throw CreateAndLogValidationException(notFoundAuthException);
+            }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExistsAuthException =
+                    new AlreadyExistsAuthException(duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(alreadyExistsAuthException);
+            }
+            catch (ForeignKeyConstraintConflictException foreignKeyConstraintConflictException)
+            {
+                var invalidAuthReferenceException =
+                    new InvalidAuthReferenceException(foreignKeyConstraintConflictException);
+
+                throw CreateAndLogDependencyValidationException(invalidAuthReferenceException);
+            }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                var lockedAuthException = new LockedAuthException(dbUpdateConcurrencyException);
+
+                throw CreateAndLogDependencyValidationException(lockedAuthException);
+            }
+            catch (DbUpdateException databaseUpdateException)
+            {
+                var failedAuthStorageException =
+                    new FailedAuthStorageException(databaseUpdateException);
+
+                throw CreateAndLogDependencyException(failedAuthStorageException);
+            }
+            catch (Exception exception)
+            {
+                var failedAuthServiceException =
+                    new FailedAuthServiceException(exception);
+
+                throw CreateAndLogServiceException(failedAuthServiceException);
+            }
+        }
+        private async ValueTask<Enable2FAApiResponse> TryCatch(ReturningEnable2FAFunction returningEnable2FAFunction)
+        {
+            try
+            {
+                return await returningEnable2FAFunction();
             }
             catch (NullAuthException nullAuthException)
             {

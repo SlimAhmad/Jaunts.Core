@@ -1,5 +1,4 @@
-﻿using FluentAssertions.Common;
-using Jaunts.Core.Api.Brokers.DateTimes;
+﻿using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.EmailBroker;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.RoleManagement;
@@ -10,7 +9,7 @@ using Jaunts.Core.Api.Services.Foundations.Auth;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Api.Services.Foundations.Role;
 using Jaunts.Core.Api.Services.Foundations.Users;
-using Jaunts.Core.Email;
+using Jaunts.Core.Models.Email;
 
 namespace Jaunts.Core.Api.DI
 {
@@ -49,7 +48,7 @@ namespace Jaunts.Core.Api.DI
         {
             // Inject the SendGridEmailSender
             services.AddScoped<IEmailTemplateSender, EmailTemplateSender>();
-
+         
             // Return collection for chaining
             return services;
         }

@@ -45,6 +45,7 @@ namespace Jaunts.Core.Api.Models.Auth
         /// The roles associated with the user
         /// </summary>
         public List<string> Role { get; set; }
+        public bool TwoFactorEnabled { get; set; }
 
         #endregion
 

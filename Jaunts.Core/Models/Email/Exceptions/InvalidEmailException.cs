@@ -6,11 +6,11 @@ namespace Jaunts.Core.Models.Exceptions
     public class InvalidEmailException : Xeption
     {
         public InvalidEmailException()
-            : base(message: "Invalid Auth error occurred, fix errors and try again.")
+            : base(message: "Invalid Email error occurred, fix errors and try again.")
         { }
 
         public InvalidEmailException(Exception innerException)
-            : base(message: "Invalid Auth error occurred, fix errors and try again.",
+            : base(message: "Invalid Email error occurred, fix errors and try again.",
                   innerException)
         { }
 

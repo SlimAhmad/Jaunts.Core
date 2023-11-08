@@ -20,6 +20,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             string code,
             string userNameOrEmail);
 
-        ValueTask<UserProfileDetailsApiResponse> EnableUser2FARequestAsync(Guid id);
+        ValueTask<Enable2FAApiResponse> EnableUser2FARequestAsync(Guid id);
     }
 }

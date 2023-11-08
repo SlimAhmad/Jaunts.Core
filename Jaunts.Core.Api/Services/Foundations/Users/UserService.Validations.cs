@@ -1,6 +1,7 @@
 ﻿using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Models.Exceptions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Jaunts.Core.Api.Services.Foundations.Users
 {
@@ -17,6 +18,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 (Rule: IsInvalid(user.UserName), Parameter: nameof(ApplicationUser.UserName)),
                 (Rule: IsInvalid(user.PhoneNumber), Parameter: nameof(ApplicationUser.PhoneNumber)),
                 (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)),
+                (Rule: IsInvalid(user.CreatedDate), Parameter: nameof(ApplicationUser.CreatedDate)),
+                (Rule: IsInvalid(user.UpdatedDate), Parameter: nameof(ApplicationUser.UpdatedDate)),
                 (Rule: IsInvalid(password), Parameter: nameof(ApplicationUser)),
 
                 (Rule: IsNotSame(
@@ -39,6 +42,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
                (Rule: IsInvalid(user.UserName), Parameter: nameof(ApplicationUser.UserName)),
                (Rule: IsInvalid(user.PhoneNumber), Parameter: nameof(ApplicationUser.PhoneNumber)),
+               (Rule: IsInvalid(user.CreatedDate), Parameter: nameof(ApplicationUser.CreatedDate)),
+               (Rule: IsInvalid(user.UpdatedDate), Parameter: nameof(ApplicationUser.UpdatedDate)),
 
                (Rule: IsSame(
                     firstDate: user.UpdatedDate,
@@ -61,7 +66,21 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 throw new NotFoundUserException(userId);
             }
         }
-  
+
+        private void ValidateIdentityResultResponse(IdentityResult identityResult)
+        {
+            if (!identityResult.Succeeded)
+            {
+                foreach (var errors in identityResult.Errors)
+                {
+                    Validate(
+                         (Rule: IsInvalid(errors), Parameter: nameof(IdentityError))
+                        );
+                }
+            }
+
+
+        }
 
         private static void ValidateUserIsNull(ApplicationUser user)
         {
@@ -70,6 +89,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 throw new NullUserException();
             }
         }
+
+
 
         private static dynamic IsInvalid(object @object) => new
         {
@@ -120,6 +141,12 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         {
             Condition = IsDateNotRecent(date),
             Message = "Date is not recent"
+        };
+
+        private static dynamic IsInvalidResult(IdentityError @object) => new
+        {
+            Condition = @object.Code != null,
+            Message = @object.Description
         };
 
         private bool IsDateNotRecent(DateTimeOffset date)

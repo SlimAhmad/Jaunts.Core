@@ -12,6 +12,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
 
             Validate(
                 (Rule: IsInvalid(role.Name), Parameter: nameof(ApplicationRole.Name)),
+                (Rule: IsInvalid(role.CreatedDate), Parameter: nameof(ApplicationRole.CreatedDate)),
+                (Rule: IsInvalid(role.UpdatedDate), Parameter: nameof(ApplicationRole.UpdatedDate)),
 
                 (Rule: IsNotSame(
                     firstDate: role.UpdatedDate,
@@ -31,6 +33,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
             Validate(
                (Rule: IsInvalid(role.Id), Parameter: nameof(ApplicationRole.Id)),
                (Rule: IsInvalid(role.Name), Parameter: nameof(ApplicationRole.Name)),
+               (Rule: IsInvalid(role.CreatedDate), Parameter: nameof(ApplicationRole.CreatedDate)),
+               (Rule: IsInvalid(role.UpdatedDate), Parameter: nameof(ApplicationRole.UpdatedDate)),
 
                (Rule: IsSame(
                     firstDate: role.UpdatedDate,
@@ -152,19 +156,19 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidresetPasswordException = new InvalidEmailException();
+            var invalidRoleException = new InvalidRoleException();
 
             foreach ((dynamic rule, string parameter) in validations)
             {
                 if (rule.Condition)
                 {
-                    invalidresetPasswordException.UpsertDataList(
+                    invalidRoleException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidresetPasswordException.ThrowIfContainsErrors();
+            invalidRoleException.ThrowIfContainsErrors();
         }
     }
 }

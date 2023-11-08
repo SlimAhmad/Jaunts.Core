@@ -3,6 +3,7 @@ using Jaunts.Core.Api.Brokers.Storages;
 using Jaunts.Core.Api.DI;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -28,6 +29,17 @@ namespace Jaunts.Core.Api
 
         public static void ConfigureServices(IServiceCollection services)
         {
+
+            // Add proper cookie request to follow GDPR 
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for 
+                // non-essential cookies is needed for a given request
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+
             services.AddControllers();
             AddNewtonSoftJson(services);
             services.AddLogging();
@@ -36,6 +48,7 @@ namespace Jaunts.Core.Api
             services.AddEmailTemplateSender();
             services.AddFoundationServices();
             
+
 
             // Add JWT Authentication for Api clients
             services.AddAuthentication().
@@ -80,11 +93,10 @@ namespace Jaunts.Core.Api
 
 
             });
-
-            services.AddIdentityCore<ApplicationUser>()
-                    .AddRoles<ApplicationRole>()
-                    .AddEntityFrameworkStores<StorageBroker>()
-                    .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                     .AddEntityFrameworkStores<StorageBroker>()
+                     .AddDefaultTokenProviders();
+      
                     
             services.AddSwaggerGen(options =>
             {
@@ -114,6 +126,9 @@ namespace Jaunts.Core.Api
                     name: "Jaunts.Core.Api v1"));
             }
 
+            // Force non-essential cookies to only store
+            // if the user has consented
+            applicationBuilder.UseCookiePolicy();
             applicationBuilder.UseHttpsRedirection();
             applicationBuilder.UseRouting();
             applicationBuilder.UseAuthorization();

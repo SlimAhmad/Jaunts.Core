@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Email\" />
+    <Folder Include="Models\Services\Foundations\" />
     <Folder Include="Models\SMS\" />
     <Folder Include="Routes\Application\" />
   </ItemGroup>

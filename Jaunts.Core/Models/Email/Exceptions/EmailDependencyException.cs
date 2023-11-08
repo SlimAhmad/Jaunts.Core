@@ -5,7 +5,7 @@ namespace Jaunts.Core.Models.Exceptions
     public class EmailDependencyException : Xeption
     {
         public EmailDependencyException(Xeption innerException)
-            : base(message: "Auth dependency error occurred, contact support.",
+            : base(message: "Email dependency error occurred, contact support.",
                   innerException)
         { }
 

@@ -3,6 +3,7 @@ using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Models.Auth.LoginRegister;
+using Jaunts.Core.Models.Email;
 using Jaunts.Core.Models.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
@@ -104,6 +105,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
 
         public void ValidateUserProfileDetails(string text) =>
              Validate((Rule: IsInvalid(text), Parameter: nameof(UserProfileDetailsApiResponse)));
+        public void ValidateUserPassword(bool password) =>
+            Validate((Rule: IsNotValidPassword(password), Parameter: nameof(ApplicationUser)));
+
+        public void ValidateSignIn(bool code) =>
+           Validate((Rule: IsInvalidCode(code), Parameter: nameof(ApplicationUser)));
 
         private static void ValidateStorageUser(ApplicationUser storageUser, Guid userId)
         {
@@ -146,6 +152,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             }
         }
 
+       
         private static dynamic IsInvalid(object @object) => new
         {
             Condition = @object is null,
@@ -220,6 +227,18 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             Message = "Invalid Email"
         };
 
+        private dynamic IsNotValidPassword(bool password) => new
+        {
+            Condition = password is false,
+            Message = "Invalid password or email"
+        };
+
+        private dynamic IsInvalidCode(bool code) => new
+        {
+            Condition = code is false,
+            Message = "Invalid OTP code"
+        };
+
         private bool IsDateNotRecent(DateTimeOffset date)
         {
             DateTimeOffset currentDateTime =
@@ -236,6 +255,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             return regex.IsMatch(email);
         }
+
+      
 
         private static dynamic IsInvalid(DateTimeOffset date) => new
         {

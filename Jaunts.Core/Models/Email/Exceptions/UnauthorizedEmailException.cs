@@ -6,7 +6,7 @@ namespace Jaunts.Core.Models.Exceptions
     public class UnauthorizedEmailException : Xeption
     {
         public UnauthorizedEmailException(Exception innerException)
-            : base(message: "Unauthorized Auth request, fix errors and try again.",
+            : base(message: "Unauthorized Email request, fix errors and try again.",
                   innerException)
         { }
 

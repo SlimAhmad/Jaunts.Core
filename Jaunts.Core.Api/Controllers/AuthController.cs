@@ -53,7 +53,8 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.Login)]
-        public async ValueTask<ActionResult<UserProfileDetailsApiResponse>> LoginAsync(LoginCredentialsApiRequest  loginCredentialsApiRequest)
+        public async ValueTask<ActionResult<UserProfileDetailsApiResponse>> LoginAsync(
+            LoginCredentialsApiRequest  loginCredentialsApiRequest)
         {
             try
             {
@@ -223,11 +224,11 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.Enable2FA)]
-        public async ValueTask<ActionResult<UserProfileDetailsApiResponse>> Enable2FAAsync(Guid id)
+        public async ValueTask<ActionResult<Enable2FAApiResponse>> Enable2FAAsync(Guid id)
         {
             try
             {
-                UserProfileDetailsApiResponse registeredAuth =
+                Enable2FAApiResponse registeredAuth =
                     await this.authService.EnableUser2FARequestAsync(id);
 
                 return Created(registeredAuth);

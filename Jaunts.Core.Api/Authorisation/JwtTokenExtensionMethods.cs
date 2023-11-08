@@ -15,7 +15,7 @@ public static class JwtTokenExtensionMethods
 {
    
 
-        private static readonly IConfiguration configuration;
+       
 
         /// <summary>
         /// Generates a Jwt bearer token containing the users username

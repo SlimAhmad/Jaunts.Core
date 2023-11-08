@@ -1,6 +1,4 @@
-﻿using Jaunts.Core.Api.Brokers.EmailBroker;
-using Jaunts.Core.Email;
-using Jaunts.Core.Models.Email;
+﻿using Jaunts.Core.Models.Email;
 using System.Reflection;
 using System.Text;
 
@@ -8,9 +6,7 @@ namespace Jaunts.Core.Api.Email.Templates
 {
     public class EmailTemplateSender : IEmailTemplateSender
     {
-        public  SendEmailDetails SendGeneralEmailAsync(
-            SendEmailDetails details, string title, string content1,
-            string content2, string buttonText, string buttonUrl)
+        public async ValueTask<SendEmailDetails> SendVerificationEmailAsync(SendEmailDetails details, string title, string content1, string content2, string buttonText, string buttonUrl)
         {
             var templateText = default(string);
 
@@ -19,7 +15,7 @@ namespace Jaunts.Core.Api.Email.Templates
             using (var reader = new StreamReader(Assembly.GetEntryAssembly().GetManifestResourceStream("Jaunts.Core.Api.Email.Templates.GeneralTemplate.htm"), Encoding.UTF8))
             {
                 // Read file contents
-                templateText =  reader.ReadToEnd();
+                templateText = await reader.ReadToEndAsync();
             }
 
             // Replace special values with those inside the template
@@ -30,11 +26,14 @@ namespace Jaunts.Core.Api.Email.Templates
                                         .Replace("--ButtonUrl--", buttonUrl);
 
             // Set the details content to this template content
-            details.Text = templateText;
+            details.Html = templateText;
+
 
             // Send email
-            return details; 
+            return details;
         }
+
+       
 
     }
 }

@@ -25,8 +25,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUserOnCreate(user, password);
-
             return await this.userManagementBroker.InsertUserAsync(user, password);
+          
         });
 
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
