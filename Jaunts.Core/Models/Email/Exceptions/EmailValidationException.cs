@@ -6,7 +6,7 @@ namespace Jaunts.Core.Models.Exceptions
     public class EmailValidationException : Xeption
     {
         public EmailValidationException(Xeption innerException)
-            : base(message: "Auth validation error occurred, fix errors and try again.",
+            : base(message: "Email validation error occurred, fix errors and try again.",
                   innerException)
         { }
 

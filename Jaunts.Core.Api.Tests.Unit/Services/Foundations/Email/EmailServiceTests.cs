@@ -59,8 +59,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
         }
 
 
-        private static SendEmailDetails CreateSendEmailDetailsResponse() =>
+        private static SendEmailDetails CreateSendEmailDetailRequest() =>
           CreateSendEmailDetailsFiller().Create();
+        private static SendEmailResponse CreateSendEmailResponse() =>
+          CreateSendEmailResponseFiller().Create();
 
 
         private static DateTimeOffset GetRandomDateTime() =>
@@ -91,6 +93,17 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             };
 
             return user;
+        }
+
+        private static Filler<SendEmailResponse> CreateSendEmailResponseFiller()
+        {
+            var filler = new Filler<SendEmailResponse>();
+
+            filler.Setup()
+                .OnType<object>().IgnoreIt()
+                .OnType<DateTimeOffset>().IgnoreIt();
+
+            return filler;
         }
 
         private static Filler<SendEmailDetails> CreateSendEmailDetailsFiller()

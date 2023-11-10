@@ -1,5 +1,6 @@
 ﻿using Jaunts.Core.Models.Exceptions;
 using Jaunts.Core.Models.Email;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 
 namespace Jaunts.Core.Api.Services.Foundations.Email
 {
@@ -7,10 +8,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
     {
         private static void ValidateMail(SendEmailDetails sendEmailDetails)
         {
-            ValidateMailNotNull(sendEmailDetails);
-            ValidateMailRequest(sendEmailDetails);
-          
-
+           
+  
             Validate(
                 (Rule: IsInvalid(sendEmailDetails.Subject), Parameter: nameof(SendEmailDetails.Subject)),
                 (Rule: IsInvalid(sendEmailDetails.Text), Parameter: nameof(SendEmailDetails.Text)),
@@ -21,7 +20,19 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
 
         }
 
+        private void ValidateUser(ApplicationUser user)
+        {
+            ValidateUserNotNull(user);
 
+            Validate(
+               (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
+               (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
+               (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)));
+
+             
+
+
+        }
         private static void ValidateMailNotNull(SendEmailDetails sendEmailDetails)
         {
             if (sendEmailDetails is null)
@@ -30,13 +41,20 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
             }
         }
 
-        private static void ValidateMailRequest(SendEmailDetails sendEmailDetailsRequest)
+
+        private static void ValidateUserNotNull(ApplicationUser user)
         {
-            Validate((Rule: IsInvalid(sendEmailDetailsRequest), Parameter: nameof(SendEmailDetails)));
+            if (user is null)
+            {
+                throw new NullEmailException();
+            }
         }
+      
 
- 
 
+        public void ValidateSendMail(string text)=>
+            Validate((Rule: IsInvalid(text), Parameter: nameof(SendEmailResponse)));
+        
 
 
         private static dynamic IsInvalid(object @object) => new
@@ -49,7 +67,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
         private static dynamic IsInvalid(string text) => new
         {
             Condition = String.IsNullOrWhiteSpace(text),
-            Message = "Value is required"
+            Message = "Text is required"
         };
 
         private static dynamic IsInvalid(double number) => new

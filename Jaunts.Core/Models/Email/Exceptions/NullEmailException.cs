@@ -6,7 +6,7 @@ namespace Jaunts.Core.Models.Exceptions
     public partial class NullEmailException : Xeption
     {
         public NullEmailException()
-            : base(message: "Auth is null.")
+            : base(message: "Email is null.")
         { }
 
         public NullEmailException(string message, Exception innerException)

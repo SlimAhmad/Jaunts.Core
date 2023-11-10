@@ -49,6 +49,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
             string fromName) =>
         TryCatch(async () =>
         {
+            ValidateUser(user);
+            ValidateSendMail(subject);
+            ValidateSendMail(token);
+            ValidateSendMail(from);
+            ValidateSendMail(fromName);
             string verificationUrl = GenerateConfirmationUrlAsync(user.Id.ToString(), token);
             SendEmailDetails emailDetails = ConvertEmailDetailsRequest(user, subject,from, fromName);
              SendEmailDetails sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
@@ -59,6 +64,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
                 "Verify Email",
                 verificationUrl
                 );
+            ValidateMail(sendEmailDetails);
             return await emailBroker.PostMailAsync(sendEmailDetails);
 
         });
@@ -71,6 +77,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
             string fromName) =>
         TryCatch(async () => {
 
+            ValidateUser(user);
+            ValidateSendMail(subject);
+            ValidateSendMail(token);
+            ValidateSendMail(from);
+            ValidateSendMail(fromName);
             string verificationUrl = GenerateResetPasswordUrlAsync(user.Id.ToString(), token);
             SendEmailDetails emailDetails = ConvertEmailDetailsRequest(user, 
                 "Forgot Password Verification Token - Jaunts", from, fromName);
@@ -82,6 +93,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
                 $"Verification Token",
                 verificationUrl
                 );
+            ValidateMail(sendEmailDetails);
             return await emailBroker.PostMailAsync(sendEmailDetails);
 
         });
@@ -90,7 +102,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
           ApplicationUser user, string subject, string token, string from, string fromName) =>
         TryCatch(async () =>
         {
-
+            ValidateUser(user);
+            ValidateSendMail(subject);
+            ValidateSendMail(token);
+            ValidateSendMail(from);
+            ValidateSendMail(fromName);
             string verificationUrl = GenerateOTPLoginUrlAsync(user.Id.ToString(), token);
             SendEmailDetails emailDetails = ConvertEmailDetailsRequest(user, subject, from, fromName);
             SendEmailDetails sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
@@ -101,6 +117,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
                 $"OTP-{token}",
                 verificationUrl
                 );
+            ValidateMail(sendEmailDetails);
             return await emailBroker.PostMailAsync(sendEmailDetails);
 
         });
