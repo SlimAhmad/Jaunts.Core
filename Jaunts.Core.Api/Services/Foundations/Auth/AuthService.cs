@@ -8,11 +8,11 @@ using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Authorization;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Jaunts.Core.Models.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Web;
+using static Jaunts.Core.Api.Startup;
 
 namespace Jaunts.Core.Api.Services.Foundations.Auth
 {
@@ -31,13 +31,19 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             ISignInManagementBroker signInManagementBroker,
             IRoleManagementBroker roleManager,
             IDateTimeBroker dateTimeBroker,
-            ILoggingBroker loggingBroker)
+            ILoggingBroker loggingBroker,
+            IConfiguration configuration,
+            IEmailService emailService
+           )
         {
             this.userManagementBroker = userManagementBroker;
             this.roleManagementBroker = roleManager;
             this.signInManagementBroker = signInManagementBroker;
             this.dateTimeBroker = dateTimeBroker;
             this.loggingBroker = loggingBroker;
+            this.configuration = configuration;
+            this.emailService = emailService;
+           
         }
 
 
@@ -46,7 +52,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             RegisterUserApiRequest registerCredentialsApiRequest) =>
         TryCatch(async () =>
         {
-            ValidateUserOnRegister(registerCredentialsApiRequest);
+            //ValidateUserOnRegister(registerCredentialsApiRequest);
             ApplicationUser  registerUserRequest = ConvertToAuthRequest(registerCredentialsApiRequest);
             IdentityResult registerUserResponse = 
                 await userManagementBroker.RegisterUserAsync(registerUserRequest, registerCredentialsApiRequest.Password);
@@ -206,13 +212,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             //
             var permissionsValue = (int)userPermissions;
 
+
             var token = await userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
-            await emailService.PostVerificationMailRequestAsync(
+            await this.emailService.PostVerificationMailRequestAsync(
                 user, 
                 "Verify Your Email - Jaunts",
                 token,
-                configuration.GetSection("MailTrap:From").ToString(),
-                configuration.GetSection("MailTrap:FromName").ToString());
+                configuration.GetSection("MailTrap:Email").Value,
+                configuration.GetSection("MailTrap:Name").Value);
 
             return new RegisterResultApiResponse
             {
@@ -271,10 +278,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             //
             foreach (var rolePermission in userRoles)
                 userPermissions |= rolePermission.Permissions;
-
+       
             //
             var permissionsValue = (int)userPermissions;
-
+            var r = configuration.GetSection("MailTrap:Email").Value;
             return new UserProfileDetailsApiResponse
             {
                 FirstName = user.FirstName,

@@ -3,30 +3,26 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using KellermanSoftware.CompareNetObjects;
-using Castle.Core.Configuration;
 using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.RoleManagement;
+using Jaunts.Core.Api.Brokers.SignInManagement;
 using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Models.Auth;
+using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Foundations.Auth;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Models.Auth.LoginRegister;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using RESTFulSense.Exceptions;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Jaunts.Core.Api.Brokers.SignInManagement;
-using Jaunts.Core.Api.Models.Services.Foundations.Role;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -40,6 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
         private readonly IAuthService authService;
         private readonly IConfiguration configuration;
         private readonly ICompareLogic compareLogic;
+        private readonly IEmailService emailService;
 
         public AuthServiceTests()
         {
@@ -50,6 +47,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.compareLogic = new CompareLogic();
+            
+           
      
            
 
@@ -58,7 +57,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                 signInManagementBroker: this.signInManagerBrokerMock.Object,
                 roleManager: this.roleManagerBrokerMock.Object,
                 dateTimeBroker: this.dateTimeBrokerMock.Object,
-                loggingBroker: this.loggingBrokerMock.Object);
+                loggingBroker: this.loggingBrokerMock.Object,
+                configuration: this.configuration,
+                emailService: this.emailService
+
+              );
         }
 
 

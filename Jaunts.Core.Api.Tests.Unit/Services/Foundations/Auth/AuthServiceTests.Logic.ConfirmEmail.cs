@@ -5,11 +5,9 @@
 
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
-using Jaunts.Core.Api.Models.Services.Foundations.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
 using Moq;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
