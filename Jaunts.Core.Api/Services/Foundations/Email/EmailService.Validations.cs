@@ -12,7 +12,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
   
             Validate(
                 (Rule: IsInvalid(sendEmailDetails.Subject), Parameter: nameof(SendEmailDetails.Subject)),
-                (Rule: IsInvalid(sendEmailDetails.Text), Parameter: nameof(SendEmailDetails.Text)),
+                (Rule: IsInvalid(sendEmailDetails.Html), Parameter: nameof(SendEmailDetails.Html)),
                 (Rule: IsInvalid(sendEmailDetails.To), Parameter: nameof(SendEmailDetails.To)),
                 (Rule: IsInvalid(sendEmailDetails.From), Parameter: nameof(SendEmailDetails.From))
 
