@@ -11,6 +11,7 @@ using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Models.Email;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.SqlClient;
 using Moq;
 using RESTFulSense.Exceptions;
@@ -29,6 +30,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
         private readonly IEmailService emailService;
         private readonly IConfiguration configuration;
         private readonly Mock<IEmailTemplateSender> emailTemplateSender;
+        private readonly ICompareLogic compareLogic;
         public EmailServiceTests()
         {
             this.emailBrokerMock = new Mock<IEmailBroker>();
@@ -36,7 +38,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.emailTemplateSender = new Mock<IEmailTemplateSender>();
-           
+            this.compareLogic = new CompareLogic();
 
             this.emailService = new EmailService(
                 emailBroker: this.emailBrokerMock.Object,
@@ -48,16 +50,18 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                 );
         }
 
-        
 
 
-        private static Expression<Func<Exception, bool>> SameExceptionAs(Exception expectedException)
+
+        private Expression<Func<Exception, bool>> SameExceptionAs(
+             Exception expectedException)
         {
             return actualException =>
-                actualException.Message == expectedException.Message
-                && actualException.InnerException.Message == expectedException.InnerException.Message;
+                this.compareLogic.Compare(
+                    expectedException.InnerException.Message,
+                    actualException.InnerException.Message)
+                        .AreEqual;
         }
-
 
         private static SendEmailDetails CreateSendEmailDetailRequest() =>
           CreateSendEmailDetailsFiller().Create();

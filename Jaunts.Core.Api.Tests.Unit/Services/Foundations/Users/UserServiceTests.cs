@@ -8,6 +8,7 @@ using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Foundations.Users;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.SqlClient;
 using Moq;
 using System.Linq.Expressions;
@@ -23,12 +24,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IUserService userService;
+        private readonly ICompareLogic compareLogic;
 
         public UserServiceTests()
         {
             this.userManagementBrokerMock = new Mock<IUserManagementBroker>();
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
+            this.compareLogic = new CompareLogic();
 
             this.userService = new UserService(
                 userManagementBroker: this.userManagementBrokerMock.Object,
@@ -36,16 +39,18 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
-        
 
-        private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
-
-        private static Expression<Func<Exception, bool>> SameExceptionAs(Exception expectedException)
+        private Expression<Func<Exception, bool>> SameExceptionAs(
+          Exception expectedException)
         {
             return actualException =>
-                actualException.Message == expectedException.Message
-                && actualException.InnerException.Message == expectedException.InnerException.Message;
+                this.compareLogic.Compare(
+                    expectedException.InnerException.Message,
+                    actualException.InnerException.Message)
+                        .AreEqual;
         }
+
+        private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();

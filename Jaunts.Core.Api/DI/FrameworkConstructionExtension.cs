@@ -2,6 +2,7 @@
 using Jaunts.Core.Api.Brokers.EmailBroker;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.RoleManagement;
+using Jaunts.Core.Api.Brokers.SignInManagement;
 using Jaunts.Core.Api.Brokers.Storages;
 using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Email.Templates;
@@ -27,7 +28,7 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
             services.AddTransient<IEmailBroker, EmailBroker>();
             services.AddTransient<IRoleManagementBroker, RoleManagementBroker>();
-
+            services.AddTransient<ISignInManagementBroker, SignInManagementBroker>();
 
 
             return services;
@@ -40,6 +41,7 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+          
 
             return services;
         }

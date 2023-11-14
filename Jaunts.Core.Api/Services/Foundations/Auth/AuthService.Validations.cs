@@ -24,7 +24,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
                 (Rule: IsInvalid(apiRequest.Username), Parameter: nameof(RegisterUserApiRequest.Username)),
                 (Rule: IsInvalid(apiRequest.Email), Parameter: nameof(RegisterUserApiRequest.Email)),
 
-                (Rule: IsNotValidEmail(apiRequest.Email), Parameter: nameof(RegisterUserApiRequest.Email)));
+                 (Rule: IsNotSame(
+                    firstDate: apiRequest.UpdatedDate,
+                    secondDate: apiRequest.CreatedDate,
+                    secondDateName: nameof(apiRequest.CreatedDate)),
+                Parameter: nameof(apiRequest.UpdatedDate)),
+
+                (Rule: IsNotRecent(apiRequest.UpdatedDate), Parameter: nameof(apiRequest.UpdatedDate)),
+            (Rule: IsNotValidEmail(apiRequest.Email), Parameter: nameof(RegisterUserApiRequest.Email)));
 
 
         }

@@ -18,8 +18,8 @@ namespace Jaunts.Core.Api.Tests.Acceptance.Api.WeatherForecastTest
         };
 
       
-    public WeatherForecastApiTest(JauntsApiBroker jauntsApiBroker) =>
-            this.jauntsApiBroker = jauntsApiBroker;
+        public WeatherForecastApiTest(JauntsApiBroker jauntsApiBroker) =>
+                this.jauntsApiBroker = jauntsApiBroker;
 
         [Fact]
         public async Task GetWeatherForecast()

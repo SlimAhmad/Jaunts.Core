@@ -1,4 +1,5 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.Users;
+﻿
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace Jaunts.Core.Api.Brokers.UserManagement
