@@ -3,15 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Jaunts.Core.Models.Auth.LoginRegister;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using Tynamix.ObjectFiller;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -26,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             string randomCode = GetRandomString();
             string randomUsernameOrEmail = GetRandomEmailAddresses();
             var sqlException = GetSqlException();
-       
+
 
             var failedAuthStorageException =
                 new FailedAuthStorageException(sqlException);
@@ -40,7 +38,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             // when
             ValueTask<UserProfileDetailsApiResponse> registerAuthTask =
-                this.authService.LoginWithOTPRequestAsync(randomCode,randomUsernameOrEmail);
+                this.authService.LoginWithOTPRequestAsync(randomCode, randomUsernameOrEmail);
 
             // then
             await Assert.ThrowsAsync<AuthDependencyException>(() =>
@@ -60,7 +58,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                             Times.Once);
 
 
-           
+
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.signInManagerBrokerMock.VerifyNoOtherCalls();
             this.userManagementBrokerMock.VerifyNoOtherCalls();
@@ -76,7 +74,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             string randomCode = GetRandomString();
             string randomUsernameOrEmail = GetRandomEmailAddresses();
             var serviceException = new Exception();
-         
+
 
             var failedAuthServiceException =
                 new FailedAuthServiceException(serviceException);
@@ -90,7 +88,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             // when
             ValueTask<UserProfileDetailsApiResponse> registerAuthTask =
-                 this.authService.LoginWithOTPRequestAsync(randomCode,randomUsernameOrEmail);
+                 this.authService.LoginWithOTPRequestAsync(randomCode, randomUsernameOrEmail);
 
             // then
             await Assert.ThrowsAsync<AuthServiceException>(() =>
@@ -114,7 +112,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                         broker.FindByEmailAsync(It.IsAny<string>()),
                             Times.Once);
 
-          
+
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.signInManagerBrokerMock.VerifyNoOtherCalls();
             this.userManagementBrokerMock.VerifyNoOtherCalls();

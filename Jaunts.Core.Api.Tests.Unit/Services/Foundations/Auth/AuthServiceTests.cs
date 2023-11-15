@@ -3,6 +3,11 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.RoleManagement;
@@ -20,9 +25,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using RESTFulSense.Exceptions;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -40,17 +44,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
         public AuthServiceTests()
         {
-
             this.userManagementBrokerMock = new Mock<IUserManagementBroker>();
             this.signInManagerBrokerMock = new Mock<ISignInManagementBroker>();
             this.roleManagerBrokerMock = new Mock<IRoleManagementBroker>();
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.compareLogic = new CompareLogic();
-            
-           
-     
-           
 
             this.authService = new AuthService(
                 userManagementBroker: this.userManagementBrokerMock.Object,
@@ -60,62 +59,66 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                 loggingBroker: this.loggingBrokerMock.Object,
                 configuration: this.configuration,
                 emailService: this.emailService
-
               );
         }
-
-
-
-
-
 
         private Expression<Func<Exception, bool>> SameExceptionAs(
            Exception expectedException)
         {
+
             return actualException =>
                 this.compareLogic.Compare(
                     expectedException.InnerException.Message,
                     actualException.InnerException.Message)
                         .AreEqual;
-
         }
 
         private static RegisterUserApiRequest CreateRegisterUserApiRequest(DateTimeOffset date) =>
            CreateRegisterUserApiRequestFiller(date).Create();
+
         private static LoginCredentialsApiRequest CreateLoginCredentialsApiRequest() =>
            CreateLoginCredentialsApiRequestFiller().Create();
+
         private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
 
-
         private static RegisterResultApiResponse CreateSendAuthDetailResponse() =>
           CreateRegisterResultApiResponseFiller().Create();
+
         private static UserProfileDetailsApiResponse CreateUserProfileDetailsApiResponse() =>
           CreateUserProfileDetailsApiResponseFiller().Create();
+
         private static ResetPasswordApiResponse CreateResetPasswordApiResponse() =>
             CreateResetPasswordApiResponseFiller().Create();
+
         private static ForgotPasswordApiResponse CreateForgotPasswordApiResponse() =>
             CreateForgotPasswordApiResponseFiller().Create();
+
         private static Enable2FAApiResponse CreateEnable2FAApiResponse() =>
             CreateEnable2FAApiResponseFiller().Create();
+
         private static SignInResult CreateSignInResult() =>
             CreateSignInResultResponseFiller().Create();
-
-
-
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
         private static string GetRandomNames() => new RealNames().GetValue();
+
         private static string GetRandomEmailAddresses() => new EmailAddresses().GetValue();
+
         private static int GetRandomNumber() => new IntRange(min: 2, max: 90).GetValue();
+
         private static int GetNegativeRandomNumber() => -1 * GetRandomNumber();
+
         private static string GetRandomString() => new MnemonicString(1, 8, 20).GetValue();
+
         private static Guid GetRandomGuid() => new Guid();
+
         private static string GetRandomSubject() => new MnemonicString().GetValue();
-        private static List<string> CreateRandomStringList() =>
-                  new Filler<List<string>>().Create();
+
+        private static List<string> CreateRandomStringList() => new Filler<List<string>>().Create();
+
         private static SqlException GetSqlException() =>
             (SqlException)RuntimeHelpers.GetUninitializedObject(typeof(SqlException));
 
@@ -136,7 +139,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             return user;
         }
-
 
         private static Filler<RegisterUserApiRequest> CreateRegisterUserApiRequestFiller(DateTimeOffset date)
         {
@@ -173,8 +175,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             return filler;
         }
 
-
-
         private static Filler<UserProfileDetailsApiResponse> CreateUserProfileDetailsApiResponseFiller()
         {
             var filler = new Filler<UserProfileDetailsApiResponse>();
@@ -207,8 +207,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             return filler;
         }
-
-
 
         private static Filler<ResetPasswordApiResponse> CreateResetPasswordApiResponseFiller()
         {
@@ -275,12 +273,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             return role;
         }
 
-        private static IQueryable<ApplicationRole> CreateRandomRoles(DateTimeOffset dates,List<string> role)
+        private static IQueryable<ApplicationRole> CreateRandomRoles(DateTimeOffset dates, List<string> role)
         {
             var roles = new List<ApplicationRole>();
             foreach (var rol in role)
-            { 
-
+            {
                 roles.Add(new ApplicationRole
                 {
                     Id = Guid.NewGuid(),

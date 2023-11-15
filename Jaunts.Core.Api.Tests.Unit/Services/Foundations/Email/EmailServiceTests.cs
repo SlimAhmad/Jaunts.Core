@@ -3,6 +3,9 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Castle.Core.Configuration;
 using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.EmailBroker;
@@ -15,9 +18,8 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.SqlClient;
 using Moq;
 using RESTFulSense.Exceptions;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 {
@@ -46,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                 dateTimeBroker: this.dateTimeBrokerMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object,
                 emailTemplateSender: this.emailTemplateSender.Object
-               
+
                 );
         }
 

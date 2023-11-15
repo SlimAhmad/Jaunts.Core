@@ -7,15 +7,20 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
     {
         ValueTask<RegisterResultApiResponse> RegisterUserRequestAsync(
             RegisterUserApiRequest registerCredentialsApiRequest);
+
         ValueTask<UserProfileDetailsApiResponse> LogInRequestAsync(
              LoginCredentialsApiRequest loginCredentialsApiRequest);
+
         ValueTask<ResetPasswordApiResponse> ResetPasswordRequestAsync(
            ResetPasswordApiRequest resetPassword);
+
         ValueTask<ForgotPasswordApiResponse> ForgotPasswordRequestAsync(
              string email);
+
         ValueTask<UserProfileDetailsApiResponse> ConfirmEmailRequestAsync(
             string token,
             string email);
+
         ValueTask<UserProfileDetailsApiResponse> LoginWithOTPRequestAsync(
             string code,
             string userNameOrEmail);

@@ -3,10 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 {
@@ -97,7 +100,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ApplicationRole randomRole = CreateRandomRole();
             ApplicationRole invalidRole = randomRole;
             invalidRole.Name = invalidRoleRoleName;
-     
+
 
 
             var invalidRoleException = new InvalidRoleException();
@@ -106,7 +109,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
                 key: nameof(ApplicationRole.Name),
                 values: "Text is required");
 
-    
+
 
             invalidRoleException.AddData(
                key: nameof(ApplicationRole.CreatedDate),
@@ -141,7 +144,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
-      
+
 
         [Fact]
         public async void ShouldThrowValidationExceptionOnCreateWhenCreatedDateIsInvalidAndLogItAsync()

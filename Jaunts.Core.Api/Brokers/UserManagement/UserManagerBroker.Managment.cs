@@ -67,7 +67,7 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
             return await broker.userManagement.FindByNameAsync(userName);
         }
 
-        public async ValueTask<IdentityResult> RegisterUserAsync(ApplicationUser user,string password)
+        public async ValueTask<IdentityResult> RegisterUserAsync(ApplicationUser user, string password)
         {
             var broker = new UserManagementBroker(this.userManagement);
 

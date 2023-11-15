@@ -3,14 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using Jaunts.Core.Api.Models.Auth;
+using System;
+using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using Tynamix.ObjectFiller;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -25,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             ResetPasswordApiRequest randomUserReset = CreateResetPasswordApiRequest();
             ResetPasswordApiRequest inputUser = randomUserReset;
             var sqlException = GetSqlException();
-       
+
 
             var failedAuthStorageException =
                 new FailedAuthStorageException(sqlException);
@@ -38,7 +37,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                    .ReturnsAsync(randomUser);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.ResetPasswordAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>(),It.IsAny<string>()))
+                broker.ResetPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
                     .ThrowsAsync(sqlException);
 
             // when
@@ -78,7 +77,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             ResetPasswordApiRequest randomUserReset = CreateResetPasswordApiRequest();
             ResetPasswordApiRequest inputUser = randomUserReset;
             var serviceException = new Exception();
-         
+
 
             var failedAuthServiceException =
                 new FailedAuthServiceException(serviceException);

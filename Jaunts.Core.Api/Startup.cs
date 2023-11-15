@@ -1,14 +1,13 @@
-﻿using Dna;
+﻿using System.Text;
+using Dna;
 using Jaunts.Core.Api.Brokers.Storages;
 using Jaunts.Core.Api.DI;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using System.Text;
 using static Jaunts.Core.Api.DI.FrameworkConstructionExtensions;
 using JsonStringEnumConverter = Newtonsoft.Json.Converters.StringEnumConverter;
 
@@ -16,16 +15,12 @@ namespace Jaunts.Core.Api
 {
     public class Startup
     {
-
-        public static IConfiguration StaticConfig { get; private set; }
         public IConfiguration configuration { get; }
 
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
-            StaticConfig = configuration;
         }
-
 
         public static void ConfigureServices(IServiceCollection services)
         {
@@ -39,7 +34,6 @@ namespace Jaunts.Core.Api
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddControllers();
             AddNewtonSoftJson(services);
             services.AddLogging();
@@ -47,8 +41,6 @@ namespace Jaunts.Core.Api
             services.AddBrokers();
             services.AddEmailTemplateSender();
             services.AddFoundationServices();
-            
-
 
             // Add JWT Authentication for Api clients
             services.AddAuthentication().
@@ -96,8 +88,7 @@ namespace Jaunts.Core.Api
             services.AddIdentity<ApplicationUser, ApplicationRole>()
                      .AddEntityFrameworkStores<StorageBroker>()
                      .AddDefaultTokenProviders();
-      
-                    
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc(
@@ -134,8 +125,6 @@ namespace Jaunts.Core.Api
             applicationBuilder.UseAuthorization();
             applicationBuilder.UseEndpoints(endpoints => endpoints.MapControllers());
         }
-
-       
 
         private static void AddNewtonSoftJson(IServiceCollection services)
         {
