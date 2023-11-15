@@ -3,22 +3,28 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Microsoft.EntityFrameworkCore;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
     public partial class AuthServiceTests
     {
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnCreateWhenSqlExceptionOccursAndLogItAsync()
+        private async Task ShouldThrowCriticalDependencyExceptionOnRegisterIfSqlExceptionOccursAndLogItAsync()
         {
             // given
             DateTimeOffset dateTime = GetRandomDateTime();
-            RegisterUserApiRequest randomUser = CreateRegisterUserApiRequest(dateTime);
+
+            RegisterUserApiRequest randomUser =
+                CreateRegisterUserApiRequest(dateTime);
+
             RegisterUserApiRequest inputUser = randomUser;
             var sqlException = GetSqlException();
             string password = GetRandomString();
@@ -34,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                     .Returns(dateTime);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.RegisterUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
+                broker.RegisterUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .ThrowsAsync(sqlException);
 
             // when
@@ -48,7 +54,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
                     Times.Once);
-          
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -67,40 +72,49 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnCreateWhenExceptionOccursAndLogItAsync()
+        private async Task ShouldThrowServiceExceptionOnRegisterIfServiceExceptionOccursAndLogItAsync()
         {
             // given
             DateTimeOffset dateTime = GetRandomDateTime();
             RegisterUserApiRequest randomUser = CreateRegisterUserApiRequest(dateTime);
             RegisterUserApiRequest inputUser = randomUser;
             var serviceException = new Exception();
-         
 
             var failedAuthServiceException =
-                new FailedAuthServiceException(serviceException);
+                new FailedAuthServiceException(
+                    message: "Failed Auth service occurred, please contact support",
+                    innerException: serviceException);
 
             var expectedAuthServiceException =
-                new AuthServiceException(failedAuthServiceException);
+                new AuthServiceException(
+                    message: "Auth service error occurred, contact support.",
+                    innerException: failedAuthServiceException);
+
+            this.userManagementBrokerMock.Setup(broker =>
+                broker.RegisterUserAsync(
+                    It.IsAny<ApplicationUser>(),
+                    It.IsAny<string>()))
+                    .ThrowsAsync(serviceException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
-                    .Returns(dateTime);
-
-            this.userManagementBrokerMock.Setup(broker =>
-                broker.RegisterUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
-                    .ThrowsAsync(serviceException);
+                .Returns(dateTime);
 
             // when
             ValueTask<RegisterResultApiResponse> registerAuthTask =
                  this.authService.RegisterUserRequestAsync(inputUser);
 
+            AuthServiceException actualAuthServiceException =
+                await Assert.ThrowsAsync<AuthServiceException>(
+                    registerAuthTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<AuthServiceException>(() =>
-                registerAuthTask.AsTask());
+            actualAuthServiceException.Should().BeEquivalentTo(
+                expectedAuthServiceException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
-                    Times.Once);
+                Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -108,7 +122,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                         Times.Once);
 
             this.userManagementBrokerMock.Verify(broker =>
-                broker.RegisterUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()),
+                broker.RegisterUserAsync(
+                    It.IsAny<ApplicationUser>(),
+                    It.IsAny<string>()),
                     Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();

@@ -1,21 +1,18 @@
-﻿using Jaunts.Core.Api.Models.Auth;
+﻿using System.Text.RegularExpressions;
+using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Jaunts.Core.Models.Email;
-using Jaunts.Core.Models.Exceptions;
 using Microsoft.AspNetCore.Identity;
-using System.Text.RegularExpressions;
 
 namespace Jaunts.Core.Api.Services.Foundations.Auth
 {
     public partial class AuthService
     {
-        private void ValidateUserOnRegister(RegisterUserApiRequest  apiRequest)
+        private void ValidateUserOnRegister(RegisterUserApiRequest apiRequest)
         {
             ValidateRegisterUserIsNull(apiRequest);
-
 
             Validate(
                 (Rule: IsInvalid(apiRequest.FirstName), Parameter: nameof(RegisterUserApiRequest.FirstName)),
@@ -32,12 +29,9 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
 
                 (Rule: IsNotRecent(apiRequest.UpdatedDate), Parameter: nameof(apiRequest.UpdatedDate)),
             (Rule: IsNotValidEmail(apiRequest.Email), Parameter: nameof(RegisterUserApiRequest.Email)));
-
-
         }
 
-
-        private void ValidateResetPassword(ResetPasswordApiRequest  resetPassword)
+        private void ValidateResetPassword(ResetPasswordApiRequest resetPassword)
         {
             ValidateResetPasswordIsNull(resetPassword);
 
@@ -47,9 +41,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
                (Rule: IsInvalid(resetPassword.Token), Parameter: nameof(ResetPasswordApiRequest.Token)),
 
                (Rule: IsNotValidEmail(resetPassword.Email), Parameter: nameof(ResetPasswordApiRequest.Email)));
-
-
         }
+
         private void ValidateUserResponse(ApplicationUser user)
         {
             ValidateUserOnRegisterResponseIsNull(user);
@@ -62,36 +55,25 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
                (Rule: IsInvalid(user.PhoneNumber), Parameter: nameof(ApplicationUser.PhoneNumber)),
 
                (Rule: IsNotValidEmail(user.Email), Parameter: nameof(ApplicationUser.Email)));
-
-
         }
 
         private void ValidateUserOnRegisterRequestIsNull(ApplicationUser user)
         {
-            
-                    Validate(
-                         (Rule: IsInvalidUser(user), Parameter: nameof(ApplicationUser))
-                        );
-           
-
-
+            Validate(
+                 (Rule: IsInvalidUser(user), Parameter: nameof(ApplicationUser)));
         }
 
-        private void ValidateIdentityResultResponse(IdentityResult  identityResult)
+        private void ValidateIdentityResultResponse(IdentityResult identityResult)
         {
             if (!identityResult.Succeeded)
             {
-               foreach(var errors in identityResult.Errors)
+                foreach (var errors in identityResult.Errors)
                 {
                     Validate(
-                         (Rule: IsInvalid(errors), Parameter: nameof(IdentityError))
-                        );
-                } 
+                         (Rule: IsInvalid(errors), Parameter: nameof(IdentityError)));
+                }
             }
-
-
         }
-
 
         private void ValidateUserOnLogin(LoginCredentialsApiRequest request)
         {
@@ -101,7 +83,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
                (Rule: IsInvalid(request.Password), Parameter: nameof(ApplicationUser.PasswordHash)),
                (Rule: IsInvalid(request.UsernameOrEmail), Parameter: nameof(ApplicationUser.UserName)),
                (Rule: IsInvalid(request.UsernameOrEmail), Parameter: nameof(ApplicationUser.Email)));
-
         }
 
         public void ValidateUserId(Guid userId) =>
@@ -112,6 +93,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
 
         public void ValidateUserProfileDetails(string text) =>
              Validate((Rule: IsInvalid(text), Parameter: nameof(UserProfileDetailsApiResponse)));
+
         public void ValidateUserPassword(bool password) =>
             Validate((Rule: IsNotValidPassword(password), Parameter: nameof(ApplicationUser)));
 
@@ -125,9 +107,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
                 throw new NotFoundUserException(userId);
             }
         }
-  
 
-        private static void ValidateRegisterUserIsNull(RegisterUserApiRequest  apiRequest)
+        private static void ValidateRegisterUserIsNull(RegisterUserApiRequest apiRequest)
         {
             if (apiRequest is null)
             {
@@ -143,7 +124,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             }
         }
 
-        private static void ValidateResetPasswordIsNull(ResetPasswordApiRequest  resetPassword)
+        private static void ValidateResetPasswordIsNull(ResetPasswordApiRequest resetPassword)
         {
             if (resetPassword is null)
             {
@@ -159,7 +140,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             }
         }
 
-       
         private static dynamic IsInvalid(object @object) => new
         {
             Condition = @object is null,
@@ -196,14 +176,12 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             Message = "Number is required"
         };
 
-
         private static dynamic IsInvalid(Guid id) => new
         {
             Condition = id == Guid.Empty,
             Message = "Id is required"
         };
 
-      
         private static dynamic IsNotSame(
             DateTimeOffset firstDate,
             DateTimeOffset secondDate,
@@ -263,15 +241,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Auth
             return regex.IsMatch(email);
         }
 
-      
-
         private static dynamic IsInvalid(DateTimeOffset date) => new
         {
             Condition = date == default,
             Message = "Date is required"
         };
 
-        private static void ValidateAgainstStorageUserOnModify(ApplicationUser inputUser, ApplicationUser storageUser)
+        private static void ValidateAgainstStorageUserOnModify(
+            ApplicationUser inputUser, ApplicationUser storageUser)
         {
             Validate(
                 (Rule: IsNotSame(

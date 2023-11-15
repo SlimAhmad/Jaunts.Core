@@ -3,26 +3,36 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Microsoft.AspNetCore.Identity;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
     public partial class AuthServiceTests
     {
         [Fact]
-        public async Task ShouldConfirmEmailAsync()
+        private async Task ShouldConfirmEmailAsync()
         {
             // given
             DateTimeOffset randomDateTime = GetRandomDateTime();
             DateTimeOffset dateTime = randomDateTime;
             List<string> randomRoleList = CreateRandomStringList();
-            IQueryable<ApplicationRole> randomRoles = CreateRandomRoles(dateTime,randomRoleList);
-            ApplicationUser randomUser = CreateRandomUser(dates: dateTime);
+
+            IQueryable<ApplicationRole> randomRoles =
+                CreateRandomRoles(dateTime, randomRoleList);
+
+            ApplicationUser randomUser =
+                CreateRandomUser(dates: dateTime);
+
             ApplicationUser inputUser = randomUser;
             ApplicationUser storageUser = randomUser;
             ApplicationUser expectedUser = storageUser;
@@ -38,8 +48,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                     .ReturnsAsync(storageUser);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-                    .ReturnsAsync(IdentityResult.Success);
+                broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(),
+                    It.IsAny<string>()))
+                        .ReturnsAsync(IdentityResult.Success);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.GetRolesAsync(It.IsAny<ApplicationUser>()))
@@ -51,7 +62,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             // when
             UserProfileDetailsApiResponse actualAuth =
-                await this.authService.ConfirmEmailRequestAsync(token,email);
+                await this.authService.ConfirmEmailRequestAsync(token, email);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUser);
@@ -65,8 +76,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                     Times.Once);
 
             this.userManagementBrokerMock.Verify(broker =>
-                  broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
-                      Times.Once);
+                  broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(),
+                    It.IsAny<string>()),
+                        Times.Once);
 
             this.userManagementBrokerMock.Verify(broker =>
                 broker.GetRolesAsync(It.IsAny<ApplicationUser>()),
@@ -80,6 +92,5 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             this.userManagementBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
-
     }
 }
