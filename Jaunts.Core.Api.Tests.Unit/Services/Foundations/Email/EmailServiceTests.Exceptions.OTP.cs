@@ -1,9 +1,17 @@
-﻿using FluentAssertions;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
+// ---------------------------------------------------------------
+
+using System;
+using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Email;
 using Jaunts.Core.Models.Exceptions;
 using Moq;
 using RESTFulSense.Exceptions;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 {
@@ -34,7 +42,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     invalidConfigurationEmailException);
 
             this.emailTemplateSender.Setup(broker =>
-                broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(),It.IsAny<string>(),It.IsAny<string>(),It.IsAny<string>(),It.IsAny<string>(),It.IsAny<string>()))
+                broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                     .ReturnsAsync(sendEmailDetails);
 
             this.emailBrokerMock.Setup(broker =>
@@ -43,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-               this.emailService.PostOTPVerificationMailRequestAsync(randomUser,randomText, randomText,randomText,randomText);
+               this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -57,10 +65,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             this.emailTemplateSender.Verify(broker =>
                 broker.SendVerificationEmailAsync(
                     It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(), 
+                    It.IsAny<string>(), It.IsAny<string>(),
                     It.IsAny<string>(), It.IsAny<string>()),
                      Times.Once);
-                   
+
 
             this.emailBrokerMock.Verify(broker =>
                 broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
@@ -82,8 +90,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-             var sendEmailDetails = CreateSendEmailDetailRequest();
-         
+            var sendEmailDetails = CreateSendEmailDetailRequest();
+
 
 
             var unauthorizedEmailException =
@@ -140,8 +148,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-             var sendEmailDetails = CreateSendEmailDetailRequest();
-            
+            var sendEmailDetails = CreateSendEmailDetailRequest();
+
 
 
 
@@ -205,8 +213,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-             var sendEmailDetails = CreateSendEmailDetailRequest();
-            
+            var sendEmailDetails = CreateSendEmailDetailRequest();
+
 
 
 
@@ -270,8 +278,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-             var SendEmailDetails = CreateSendEmailDetailRequest();
-            
+            var SendEmailDetails = CreateSendEmailDetailRequest();
+
 
 
 
@@ -397,8 +405,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-             var sendEmailDetails = CreateSendEmailDetailRequest();
-            
+            var sendEmailDetails = CreateSendEmailDetailRequest();
+
 
 
             var serviceException = new Exception();

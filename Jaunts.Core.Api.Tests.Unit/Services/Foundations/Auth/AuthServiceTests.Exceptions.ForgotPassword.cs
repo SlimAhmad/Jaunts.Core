@@ -3,14 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using Jaunts.Core.Api.Models.Auth;
+using System;
+using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using Tynamix.ObjectFiller;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -24,7 +23,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             ApplicationUser randomUser = CreateRandomUser(dateTime);
             string randomUserEmail = GetRandomEmailAddresses();
             var sqlException = GetSqlException();
-       
+
 
             var failedAuthStorageException =
                 new FailedAuthStorageException(sqlException);
@@ -36,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                broker.FindByEmailAsync(It.IsAny<string>()))
                    .ThrowsAsync(sqlException);
 
-        
+
 
             // when
             ValueTask<ForgotPasswordApiResponse> registerAuthTask =
@@ -71,7 +70,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             ApplicationUser randomUser = CreateRandomUser(dateTime);
             string randomUserEmail = GetRandomEmailAddresses();
             var serviceException = new Exception();
-         
+
 
             var failedAuthServiceException =
                 new FailedAuthServiceException(serviceException);

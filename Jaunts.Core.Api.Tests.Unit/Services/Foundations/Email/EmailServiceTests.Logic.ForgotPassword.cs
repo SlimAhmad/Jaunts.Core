@@ -1,9 +1,15 @@
-﻿using FluentAssertions;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
+// ---------------------------------------------------------------
+
+using System.Threading.Tasks;
+using FluentAssertions;
 using Force.DeepCloner;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Email;
 using Moq;
-using RESTFulSense.Exceptions;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 {
@@ -13,7 +19,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
         public async Task ShouldPostForgotPasswordWithForgotPasswordRequestAsync()
         {
             // given 
-            var  sendEmailDetails = CreateSendEmailDetailRequest();
+            var sendEmailDetails = CreateSendEmailDetailRequest();
             var sendEmailResponse = CreateSendEmailResponse();
             ApplicationUser randomUser = CreateRandomUser();
             ApplicationUser inputUser = randomUser;

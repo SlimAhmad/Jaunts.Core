@@ -13,5 +13,9 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions
         public FailedAuthServiceException(Exception innerException)
             : base(message: "Failed Auth service occurred, please contact support", innerException)
         { }
+
+        public FailedAuthServiceException(string message, Exception innerException)
+            : base(message, innerException)
+        { }
     }
 }

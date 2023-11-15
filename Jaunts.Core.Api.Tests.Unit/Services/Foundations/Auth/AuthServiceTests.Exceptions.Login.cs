@@ -3,12 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -23,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             LoginCredentialsApiRequest randomUserrRegistration = CreateLoginCredentialsApiRequest();
             LoginCredentialsApiRequest inputUser = randomUserrRegistration;
             var sqlException = GetSqlException();
-            
+
 
             var failedAuthStorageException =
                 new FailedAuthStorageException(sqlException);
@@ -31,14 +32,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             var expectedAuthDependencyException =
                 new AuthDependencyException(failedAuthStorageException);
 
-       
+
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.FindByNameAsync(It.IsAny<string>()))
                 .ReturnsAsync(randomUser);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.CheckPasswordAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
+                broker.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .ThrowsAsync(sqlException);
 
             // when
@@ -47,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             // then
             await Assert.ThrowsAsync<AuthDependencyException>(() =>
-                loginAuthTask.AsTask());          
+                loginAuthTask.AsTask());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -63,7 +64,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                   Times.Once);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();  
+            this.userManagementBrokerMock.VerifyNoOtherCalls();
         }
 
 

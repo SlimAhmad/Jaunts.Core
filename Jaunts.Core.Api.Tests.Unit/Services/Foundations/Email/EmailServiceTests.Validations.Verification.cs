@@ -1,8 +1,15 @@
-﻿using FluentAssertions;
+﻿// ---------------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
+// ---------------------------------------------------------------
+
+using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Email;
 using Jaunts.Core.Models.Exceptions;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 {
@@ -22,7 +29,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> emailTask =
-                this.emailService.PostVerificationMailRequestAsync(nullUser,nullText,nullText,nullText,nullText);
+                this.emailService.PostVerificationMailRequestAsync(nullUser, nullText, nullText, nullText, nullText);
 
             EmailValidationException actualEmailValidationException =
                 await Assert.ThrowsAsync<EmailValidationException>(
@@ -43,12 +50,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
 
         [Theory]
-        [InlineData(null, null,null,null,null,null,null)]
-        [InlineData("", "","","","","","")]
-        [InlineData("  ", "  "," "," "," "," "," ")]
+        [InlineData(null, null, null, null, null, null, null)]
+        [InlineData("", "", "", "", "", "", "")]
+        [InlineData("  ", "  ", " ", " ", " ", " ", " ")]
         public async Task ShouldThrowValidationExceptionOnPostVerificationMailIfParametersIsInvalidAsync(
-           string invalidFirstName, string invalidLastName,string invalidEmail,
-           string invalidSubject,string invalidFrom,string invalidToken, string invalidFromName)
+           string invalidFirstName, string invalidLastName, string invalidEmail,
+           string invalidSubject, string invalidFrom, string invalidToken, string invalidFromName)
         {
             // given
             var invalidUser = new ApplicationUser
@@ -73,7 +80,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                key: nameof(ApplicationUser.Email),
                values: "Text is required");
 
-        
+
 
             var expectedEmailValidationException =
                 new EmailValidationException(invalidUserException);
@@ -130,7 +137,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> emailTask =
-                this.emailService.PostVerificationMailRequestAsync(emptyUser,emptySubject,emptyToken,emptyFrom,emptyFromName);
+                this.emailService.PostVerificationMailRequestAsync(emptyUser, emptySubject, emptyToken, emptyFrom, emptyFromName);
 
             EmailValidationException actualEmailValidationException =
                 await Assert.ThrowsAsync<EmailValidationException>(

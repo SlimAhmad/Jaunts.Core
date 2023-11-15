@@ -3,10 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 {
@@ -21,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             string randomToken = GetRandomString();
             string randomEmail = GetRandomEmailAddresses();
             var sqlException = GetSqlException();
-       
+
 
             var failedAuthStorageException =
                 new FailedAuthStorageException(sqlException);
@@ -34,12 +37,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                    .ReturnsAsync(randomUser);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
+                broker.ConfirmEmailAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .ThrowsAsync(sqlException);
 
             // when
             ValueTask<UserProfileDetailsApiResponse> registerAuthTask =
-                this.authService.ConfirmEmailRequestAsync(randomToken,randomEmail);
+                this.authService.ConfirmEmailRequestAsync(randomToken, randomEmail);
 
             // then
             await Assert.ThrowsAsync<AuthDependencyException>(() =>
@@ -74,7 +77,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             string randomToken = GetRandomString();
             string randomEmail = GetRandomEmailAddresses();
             var serviceException = new Exception();
-         
+
 
             var failedAuthServiceException =
                 new FailedAuthServiceException(serviceException);
@@ -92,7 +95,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             // when
             ValueTask<UserProfileDetailsApiResponse> registerAuthTask =
-                 this.authService.ConfirmEmailRequestAsync(randomToken,randomEmail);
+                 this.authService.ConfirmEmailRequestAsync(randomToken, randomEmail);
 
             // then
             await Assert.ThrowsAsync<AuthServiceException>(() =>

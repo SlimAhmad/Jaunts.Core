@@ -3,10 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using Force.DeepCloner;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Moq;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 {
@@ -101,7 +104,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ApplicationRole randomRole = CreateRandomRole();
             ApplicationRole invalidRole = randomRole;
             invalidRole.Name = invalidRoleRoleName;
-    
+
 
             var invalidRoleException = new InvalidRoleException();
 
@@ -214,7 +217,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             await Assert.ThrowsAsync<RoleValidationException>(() =>
                 modifyRoleTask.AsTask());
 
-            this.dateTimeBrokerMock.Verify(broker => 
+            this.dateTimeBrokerMock.Verify(broker =>
                  broker.GetCurrentDateTime(),
                  Times.Once);
 

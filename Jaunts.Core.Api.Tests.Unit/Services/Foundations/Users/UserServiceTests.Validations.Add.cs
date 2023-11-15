@@ -3,12 +3,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
-using Microsoft.Extensions.Hosting;
 using Moq;
-using System;
+using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 {
@@ -89,12 +90,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         }
 
         [Theory]
-        [InlineData(null,null,null,null,null,null)]
-        [InlineData("","","","","","")]
-        [InlineData(" "," "," "," "," "," ")]
+        [InlineData(null, null, null, null, null, null)]
+        [InlineData("", "", "", "", "", "")]
+        [InlineData(" ", " ", " ", " ", " ", " ")]
         public async Task ShouldThrowValidationExceptionOnCreateWhenUserUserNameIsInvalidAndLogItAsync(
-            string invalidUserUserName,string invalidEmail,string invalidFirstName,
-            string invalidLastName,string invalidPhoneNumber,string invalidPassword)
+            string invalidUserUserName, string invalidEmail, string invalidFirstName,
+            string invalidLastName, string invalidPhoneNumber, string invalidPassword)
         {
             // given
             ApplicationUser randomUser = CreateRandomUser();
@@ -102,8 +103,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             invalidUser.UserName = invalidUserUserName;
             invalidUser.Email = invalidEmail;
             invalidUser.FirstName = invalidFirstName;
-            invalidUser.LastName = invalidLastName; 
-            invalidUser.PhoneNumber = invalidPhoneNumber;   
+            invalidUser.LastName = invalidLastName;
+            invalidUser.PhoneNumber = invalidPhoneNumber;
             string password = invalidPassword;
 
             var invalidUserException = new InvalidUserException();
@@ -165,7 +166,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
-      
+
 
         [Fact]
         public async void ShouldThrowValidationExceptionOnCreateWhenCreatedDateIsInvalidAndLogItAsync()
