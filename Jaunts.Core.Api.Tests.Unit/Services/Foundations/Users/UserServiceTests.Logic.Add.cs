@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using Xunit;
 
@@ -32,7 +33,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.InsertUserAsync(inputUser, password))
-                    .ReturnsAsync(storageUser);
+                    .ReturnsAsync(IdentityResult.Success);
 
             // when
             ApplicationUser actualUser =

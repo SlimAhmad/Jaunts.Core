@@ -36,12 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     .ReturnsAsync(sendEmailResponse);
             // when
             SendEmailResponse actualCreateForgotPassword =
-               await this.emailService.PostForgetPasswordMailRequestAsync(
-                   inputUser,
-                   GetRandomText(),
-                   GetRandomText(),
-                   GetRandomText(),
-                   GetRandomText());
+               await this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             // then
             actualCreateForgotPassword.Should().BeEquivalentTo(expectedEmailResponse);

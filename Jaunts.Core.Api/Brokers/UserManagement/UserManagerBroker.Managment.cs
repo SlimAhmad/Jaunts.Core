@@ -15,13 +15,10 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
             return await broker.userManagement.FindByIdAsync(userId.ToString());
         }
 
-        public async ValueTask<ApplicationUser> InsertUserAsync(ApplicationUser user, string password)
+        public async ValueTask<IdentityResult> InsertUserAsync(ApplicationUser user, string password)
         {
             var broker = new UserManagementBroker(this.userManagement);
-            await broker.userManagement.CreateAsync(user, password);
-
-            return user;
-           
+            return await broker.userManagement.CreateAsync(user, password);  
         }
 
         public async ValueTask<ApplicationUser> UpdateUserAsync(ApplicationUser user)
@@ -74,11 +71,11 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
             return await broker.userManagement.CreateAsync(user,password);
         }
 
-        public async ValueTask<string> GenerateTwoFactorTokenAsync(ApplicationUser user, string tokenOptions)
+        public async ValueTask<string> GenerateTwoFactorTokenAsync(ApplicationUser user)
         {
             var broker = new UserManagementBroker(this.userManagement);
 
-            return await broker.userManagement.GenerateTwoFactorTokenAsync(user, tokenOptions);
+            return await broker.userManagement.GenerateTwoFactorTokenAsync(user, TokenOptions.DefaultPhoneProvider);
         }
 
         public async ValueTask<bool> CheckPasswordAsync(ApplicationUser user, string password)

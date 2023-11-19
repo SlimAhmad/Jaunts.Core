@@ -2,6 +2,8 @@
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
 
 namespace Jaunts.Core.Api.Services.Foundations.Users
 {
@@ -25,9 +27,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUserOnCreate(user, password);
-            return await this.userManagementBroker.InsertUserAsync(user, password);
-          
+            var response =  await this.userManagementBroker.InsertUserAsync(user, password);
+            ValidateIdentityResultResponse(response);
+            return user;
         });
+
 
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userManagementBroker.SelectAllUsers());
@@ -61,6 +65,80 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateStorageUser(maybeUser, userId);
 
             return await this.userManagementBroker.DeleteUserAsync(maybeUser);
+        });
+
+        public ValueTask<string> GenerateEmailConfirmationTokenRequestAsync(ApplicationUser user) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            return await this.userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
+        });
+
+        public ValueTask<string> GeneratePasswordResetTokenRequestAsync(ApplicationUser user)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            return await this.userManagementBroker.GeneratePasswordResetTokenAsync(user);
+        });
+
+        public ValueTask<string> GenerateTwoFactorTokenRequestAsync(ApplicationUser user) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            return await this.userManagementBroker.GenerateTwoFactorTokenAsync(user);
+        });
+
+        public ValueTask<bool> CheckPasswordRequestAsync(ApplicationUser user, string password)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            return await this.userManagementBroker.CheckPasswordAsync(user,password);
+        });
+
+        public ValueTask<ApplicationUser> ResetPasswordRequestAsync(ApplicationUser user, string token, string password)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            ValidateText(token);
+            ValidateText(password);
+            var result = await this.userManagementBroker.ResetPasswordAsync(user, token, password);
+            ValidateIdentityResultResponse(result);
+            return user;
+        });
+
+        public ValueTask<ApplicationUser> SetTwoFactorEnabledRequestAsync(ApplicationUser user, bool enabled)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            var result = await this.userManagementBroker.SetTwoFactorEnabledAsync(user, enabled);
+            ValidateIdentityResultResponse(result);
+            return user;
+        });
+
+        public ValueTask<List<string>> RetrieveUserRolesRequestAsync(ApplicationUser user)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            var result = await this.userManagementBroker.GetRolesAsync(user);
+            return result.ToList();
+        });
+
+        public ValueTask<ApplicationUser> AddToRoleRequestAsync(ApplicationUser user, string role)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            var response = await this.userManagementBroker.AddToRoleAsync(user,role);
+            ValidateIdentityResultResponse(response);
+            return user ;
+        });
+
+        public ValueTask<ApplicationUser> ConfirmEmailRequestAsync(ApplicationUser user, string token)=>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            var result = await this.userManagementBroker.ConfirmEmailAsync(user,token);
+            ValidateIdentityResultResponse(result);
+            return await this.userManagementBroker.SelectUserByIdAsync(user.Id);
         });
     }
 }

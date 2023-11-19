@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Text;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Authorization;
+using Jaunts.Core.Models.AppSettings;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Jaunts.Core.Api;
@@ -11,6 +13,7 @@ namespace Jaunts.Core.Api;
 /// </summary>
 public static class JwtTokenExtensionMethods
 {
+    private static readonly IOptions<Jwt> jwtConfiguration;
     /// <summary>
     /// Generates a Jwt bearer token containing the users username
     /// </summary>
@@ -21,6 +24,7 @@ public static class JwtTokenExtensionMethods
         var jwtConfiguration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile(@"appsettings.json", false, false).Build();
+
 
         // Set our tokens claims
         var claims = new[]

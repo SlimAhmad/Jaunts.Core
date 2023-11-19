@@ -3,7 +3,7 @@
     /// <summary>
     /// The result of a register request via API
     /// </summary>
-    public class RegisterResultApiResponse : UserProfileDetailsApiResponse
+    public class RegisterResultApiResponse : UserAccountDetailsApiResponse
     {
 
 

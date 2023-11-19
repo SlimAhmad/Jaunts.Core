@@ -39,15 +39,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             this.userManagementBrokerMock = new Mock<IUserManagementBroker>();
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
-            this.emailTemplateSender = new Mock<IEmailTemplateSender>();
             this.compareLogic = new CompareLogic();
 
             this.emailService = new EmailService(
-                emailBroker: this.emailBrokerMock.Object,
-                userManagementBroker: this.userManagementBrokerMock.Object,
-                dateTimeBroker: this.dateTimeBrokerMock.Object,
-                loggingBroker: this.loggingBrokerMock.Object,
-                emailTemplateSender: this.emailTemplateSender.Object
+                 this.emailBrokerMock.Object,
+                 this.dateTimeBrokerMock.Object,
+                 this.loggingBrokerMock.Object
 
                 );
         }

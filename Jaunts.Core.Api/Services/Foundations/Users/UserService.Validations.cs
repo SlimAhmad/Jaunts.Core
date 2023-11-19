@@ -56,8 +56,30 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
            
         }
 
+
+        private void ValidateUser(ApplicationUser user)
+        {
+            ValidateUserIsNull(user);
+
+            Validate(
+               (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
+               (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
+               (Rule: IsInvalid(user.UserName), Parameter: nameof(ApplicationUser.UserName)),
+               (Rule: IsInvalid(user.PhoneNumber), Parameter: nameof(ApplicationUser.PhoneNumber)),
+               (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)),
+               (Rule: IsInvalid(user.CreatedDate), Parameter: nameof(ApplicationUser.CreatedDate)),
+               (Rule: IsInvalid(user.UpdatedDate), Parameter: nameof(ApplicationUser.UpdatedDate)));
+
+            
+
+
+        }
+
         public void ValidateUserId(Guid userId) =>
              Validate((Rule: IsInvalid(userId), Parameter: nameof(ApplicationUser.Id)));
+
+        public void ValidateText(string text) =>
+             Validate((Rule: IsInvalid(text), Parameter: nameof(ApplicationUser)));
 
         private static void ValidateStorageUser(ApplicationUser storageUser, Guid userId)
         {

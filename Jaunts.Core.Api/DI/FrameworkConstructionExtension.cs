@@ -6,10 +6,18 @@ using Jaunts.Core.Api.Brokers.SignInManagement;
 using Jaunts.Core.Api.Brokers.Storages;
 using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Email.Templates;
-using Jaunts.Core.Api.Services.Foundations.Auth;
+using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Api.Services.Foundations.Role;
 using Jaunts.Core.Api.Services.Foundations.Users;
+using Jaunts.Core.Api.Services.Orchestration.Email;
+using Jaunts.Core.Api.Services.Orchestration.Jwt;
+using Jaunts.Core.Api.Services.Orchestration.Role;
+using Jaunts.Core.Api.Services.Orchestration.User;
+using Jaunts.Core.Api.Services.Processings.Email;
+using Jaunts.Core.Api.Services.Processings.Jwt;
+using Jaunts.Core.Api.Services.Processings.Role;
+using Jaunts.Core.Api.Services.Processings.User;
 using Jaunts.Core.Models.Email;
 
 namespace Jaunts.Core.Api.DI
@@ -38,10 +46,37 @@ namespace Jaunts.Core.Api.DI
         public static IServiceCollection AddFoundationServices(this IServiceCollection services)
         {
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
           
+
+            return services;
+        }
+
+        public static IServiceCollection AddProcessingServices(this IServiceCollection services)
+        {
+            services.AddTransient<IEmailProcessingService, EmailProcessingService>();
+            services.AddTransient<IUserProcessingService, UserProcessingService>();
+            services.AddTransient<IJwtProcessingService, JwtProcessingService>();
+            services.AddTransient<IRoleProcessingService, RoleProcessingService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddOrchestrationServices(this IServiceCollection services)
+        {
+            services.AddTransient<IEmailOrchestrationService, EmailOrchestrationService>();
+            services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
+            services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
+            services.AddTransient<IJwtOrchestrationService, JwtOrchestrationService>();
+
+
+            return services;
+        }
+
+        public static IServiceCollection AddAggregationServices(this IServiceCollection services)
+        {
+            services.AddTransient<IAccountAggregationService, AccountAggregationService>();
 
             return services;
         }

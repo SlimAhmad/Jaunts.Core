@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-               this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+               this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -111,7 +111,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -176,7 +176,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -241,7 +241,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -306,7 +306,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException actualEmailDependencyValidationException =
                 await Assert.ThrowsAsync<EmailDependencyValidationException>(
@@ -368,7 +368,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException actualEmailDependencyException =
                 await Assert.ThrowsAsync<EmailDependencyException>(
@@ -426,7 +426,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailServiceException actualEmailServiceException =
                 await Assert.ThrowsAsync<EmailServiceException>(

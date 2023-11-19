@@ -5,17 +5,16 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
 {
     public interface IUserManagementBroker
     {
-        ValueTask<ApplicationUser> InsertUserAsync(ApplicationUser user, string password);
+        ValueTask<IdentityResult> InsertUserAsync(ApplicationUser user, string password);
         IQueryable<ApplicationUser> SelectAllUsers();
         ValueTask<ApplicationUser> SelectUserByIdAsync(Guid userId);
         ValueTask<ApplicationUser> UpdateUserAsync(ApplicationUser user);
         ValueTask<ApplicationUser> DeleteUserAsync(ApplicationUser user);
         ValueTask<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
-        ValueTask<string> GenerateTwoFactorTokenAsync(ApplicationUser user,string tokenOptions);
+        ValueTask<string> GenerateTwoFactorTokenAsync(ApplicationUser user);
         ValueTask<ApplicationUser> FindByNameAsync(string userName);
         ValueTask<ApplicationUser> FindByEmailAsync(string email);
-        ValueTask<IdentityResult> RegisterUserAsync(ApplicationUser user,string password);
         ValueTask<bool> CheckPasswordAsync(ApplicationUser user, string password);
         ValueTask<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string password);
         ValueTask<IdentityResult> SetTwoFactorEnabledAsync(ApplicationUser user, bool enabled);

@@ -4,6 +4,7 @@ using Jaunts.Core.Api.Brokers.Storages;
 using Jaunts.Core.Api.DI;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Models.AppSettings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -16,13 +17,15 @@ namespace Jaunts.Core.Api
     public class Startup
     {
         public IConfiguration configuration { get; }
+        public static IConfiguration staticConfiguration { get; }
 
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
+           
         }
 
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
 
             // Add proper cookie request to follow GDPR 
@@ -41,6 +44,8 @@ namespace Jaunts.Core.Api
             services.AddBrokers();
             services.AddEmailTemplateSender();
             services.AddFoundationServices();
+            services.Configure<Jwt>(configuration.GetSection("Jwt"));
+            services.Configure<MailTrap>(configuration.GetSection("MailTrap"));
 
             // Add JWT Authentication for Api clients
             services.AddAuthentication().

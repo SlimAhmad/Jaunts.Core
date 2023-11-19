@@ -1,6 +1,6 @@
 ﻿using Jaunts.Core.Api.Models.Auth;
-using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
-using Jaunts.Core.Api.Services.Foundations.Auth;
+using Jaunts.Core.Api.Models.Services.Orchestration.Account.Exceptions;
+using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Models.Auth.LoginRegister;
 using Jaunts.Core.Routes;
 using Microsoft.AspNetCore.Mvc;
@@ -9,250 +9,190 @@ using RESTFulSense.Controllers;
 namespace Jaunts.Core.Api.Controllers
 {
     [ApiController]
-    public class AuthController : RESTFulController
+    public class AccountController : RESTFulController
     {
-        private readonly IAuthService authService;
+        private readonly IAccountAggregationService accountAggregationService;
 
-        public AuthController(IAuthService authService) =>
-            this.authService = authService;
+        public AccountController(IAccountAggregationService accountAggregationService) =>
+            this.accountAggregationService = accountAggregationService;
 
         [HttpPost]
         [Route(ApiRoutes.Register)] 
-        public async ValueTask<ActionResult<RegisterResultApiResponse>> RegisterAsync(
+        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> RegisterAsync(
             RegisterUserApiRequest registerUserApiRequest)
         {
             try
             {
-                RegisterResultApiResponse registeredAuth =
-                    await this.authService.RegisterUserRequestAsync(registerUserApiRequest);
+                UserAccountDetailsApiResponse registeredAccount =
+                    await this.accountAggregationService.RegisterUserRequestAsync(registerUserApiRequest);
 
-                return Created(registeredAuth);
+                return Created(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return Conflict(innerMessage);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AuthValidationException authValidationException)
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return BadRequest(authValidationException.InnerException);
+                return InternalServerError(countryOrchestrationDependencyException);
             }
-            catch (AuthDependencyException authDependencyException)
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
             {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
+                return InternalServerError(countryOrchestrationServiceException);
             }
         }
 
         [HttpPost]
         [Route(ApiRoutes.Login)]
-        public async ValueTask<ActionResult<UserProfileDetailsApiResponse>> LoginAsync(
+        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> LoginAsync(
             LoginCredentialsApiRequest  loginCredentialsApiRequest)
         {
             try
             {
-                UserProfileDetailsApiResponse registeredAuth =
-                    await this.authService.LogInRequestAsync(loginCredentialsApiRequest);
+                UserAccountDetailsApiResponse registeredAccount =
+                    await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
 
-                return Created(registeredAuth);
+                return Created(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return Conflict(innerMessage);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AuthValidationException authValidationException)
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return BadRequest(authValidationException.InnerException);
+                return InternalServerError(countryOrchestrationDependencyException);
             }
-            catch (AuthDependencyException authDependencyException)
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
             {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
+                return InternalServerError(countryOrchestrationServiceException);
             }
         }
 
         [HttpPost]
         [Route(ApiRoutes.ResetPassword)]
-        public async ValueTask<ActionResult<ResetPasswordApiResponse>> ResetPasswordAsync(ResetPasswordApiRequest resetPasswordApiRequest)
+        public async ValueTask<ActionResult<bool>> ResetPasswordAsync(ResetPasswordApiRequest resetPasswordApiRequest)
         {
             try
             {
-                ResetPasswordApiResponse registeredAuth =
-                    await this.authService.ResetPasswordRequestAsync(resetPasswordApiRequest);
+                bool registeredAccount =
+                    await this.accountAggregationService.ResetPasswordRequestAsync(resetPasswordApiRequest);
 
-                return Created(registeredAuth);
+                return Ok(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return Conflict(innerMessage);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AuthValidationException authValidationException)
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return BadRequest(authValidationException.InnerException);
+                return InternalServerError(countryOrchestrationDependencyException);
             }
-            catch (AuthDependencyException authDependencyException)
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
             {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
+                return InternalServerError(countryOrchestrationServiceException);
             }
         }
 
         [HttpPost]
         [Route(ApiRoutes.ForgotPassword)]
-        public async ValueTask<ActionResult<ResetPasswordApiResponse>> ForgotPasswordAsync(string email)
+        public async ValueTask<ActionResult<bool>> ForgotPasswordAsync(string email)
         {
             try
             {
-                ForgotPasswordApiResponse registeredAuth =
-                    await this.authService.ForgotPasswordRequestAsync(email);
+                bool registeredAccount =
+                    await this.accountAggregationService.ForgotPasswordRequestAsync(email);
 
-                return Created(registeredAuth);
+                return Created(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+            }
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            {
+                return InternalServerError(countryOrchestrationDependencyException);
+            }
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            {
+                return InternalServerError(countryOrchestrationServiceException);
+            }
 
-                return Conflict(innerMessage);
-            }
-            catch (AuthValidationException authValidationException)
-            {
-                string innerMessage = GetInnerMessage(authValidationException);
+         }
 
-                return BadRequest(authValidationException.InnerException);
-            }
-            catch (AuthDependencyException authDependencyException)
-            {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
-            }
-        }
-
-        [HttpPost]
+            [HttpPost]
         [Route(ApiRoutes.ConfirmEmail)]
-        public async ValueTask<ActionResult<ResetPasswordApiResponse>> ConfirmEmailAsync(string token,string email)
+        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> ConfirmEmailAsync(string token,string email)
         {
             try
             {
-                UserProfileDetailsApiResponse registeredAuth =
-                    await this.authService.ConfirmEmailRequestAsync(token,email);
+                UserAccountDetailsApiResponse registeredAccount =
+                    await this.accountAggregationService.ConfirmEmailRequestAsync(token,email);
 
-                return Created(registeredAuth);
+                return Ok(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return Conflict(innerMessage);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AuthValidationException authValidationException)
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return BadRequest(authValidationException.InnerException);
+                return InternalServerError(countryOrchestrationDependencyException);
             }
-            catch (AuthDependencyException authDependencyException)
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
             {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
+                return InternalServerError(countryOrchestrationServiceException);
             }
         }
 
         [HttpPost]
         [Route(ApiRoutes.LoginWithOTP)]
-        public async ValueTask<ActionResult<ResetPasswordApiResponse>> LoginWithOTPAsync(string code, string userNameOrEmail)
+        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> LoginWithOTPAsync(string code, string userNameOrEmail)
         {
             try
             {
-                UserProfileDetailsApiResponse registeredAuth =
-                    await this.authService.LoginWithOTPRequestAsync(code,userNameOrEmail);
+                UserAccountDetailsApiResponse registeredAccount =
+                    await this.accountAggregationService.LoginWithOTPRequestAsync(code,userNameOrEmail);
 
-                return Created(registeredAuth);
+                return Created(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+            }
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            {
+                return InternalServerError(countryOrchestrationDependencyException);
+            }
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            {
+                return InternalServerError(countryOrchestrationServiceException);
+            }
 
-                return Conflict(innerMessage);
-            }
-            catch (AuthValidationException authValidationException)
-            {
-                string innerMessage = GetInnerMessage(authValidationException);
 
-                return BadRequest(authValidationException.InnerException);
-            }
-            catch (AuthDependencyException authDependencyException)
-            {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
-            }
         }
 
         [HttpPost]
         [Route(ApiRoutes.Enable2FA)]
-        public async ValueTask<ActionResult<Enable2FAApiResponse>> Enable2FAAsync(Guid id)
+        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> Enable2FAAsync(Guid id)
         {
             try
             {
-                Enable2FAApiResponse registeredAuth =
-                    await this.authService.EnableUser2FARequestAsync(id);
+                UserAccountDetailsApiResponse registeredAccount =
+                    await this.accountAggregationService.EnableUser2FARequestAsync(id);
 
-                return Created(registeredAuth);
+                return Ok(registeredAccount);
             }
-            catch (AuthValidationException authValidationException)
-                when (authValidationException.InnerException is AlreadyExistsAuthException)
+            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return Conflict(innerMessage);
+                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AuthValidationException authValidationException)
+            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
             {
-                string innerMessage = GetInnerMessage(authValidationException);
-
-                return BadRequest(authValidationException.InnerException);
+                return InternalServerError(countryOrchestrationDependencyException);
             }
-            catch (AuthDependencyException authDependencyException)
+            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
             {
-                return Problem(authDependencyException.Message);
-            }
-            catch (AuthServiceException authServiceException)
-            {
-                return Problem(authServiceException.Message);
+                return InternalServerError(countryOrchestrationServiceException);
             }
         }
 

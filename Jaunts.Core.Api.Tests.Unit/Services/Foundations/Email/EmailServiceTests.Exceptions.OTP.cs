@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-               this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+               this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -111,7 +111,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -176,7 +176,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -241,7 +241,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -278,7 +278,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var SendEmailDetails = CreateSendEmailDetailRequest();
+            var sendEmailDetails = CreateSendEmailDetailRequest();
 
 
 
@@ -298,7 +298,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             this.emailTemplateSender.Setup(broker =>
              broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                 .ReturnsAsync(SendEmailDetails);
+                 .ReturnsAsync(sendEmailDetails);
 
             this.emailBrokerMock.Setup(broker =>
                 broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
@@ -306,7 +306,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyValidationException actualEmailDependencyValidationException =
                 await Assert.ThrowsAsync<EmailDependencyValidationException>(
@@ -369,7 +369,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailDependencyException actualEmailDependencyException =
                 await Assert.ThrowsAsync<EmailDependencyException>(
@@ -427,7 +427,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostOTPVerificationMailRequestAsync(randomUser, randomText, randomText, randomText, randomText);
+                this.emailService.PostMailRequestAsync(sendEmailDetails);
 
             EmailServiceException actualEmailServiceException =
                 await Assert.ThrowsAsync<EmailServiceException>(

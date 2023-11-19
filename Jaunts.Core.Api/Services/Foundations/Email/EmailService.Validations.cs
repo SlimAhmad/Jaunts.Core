@@ -20,56 +20,34 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
 
         }
 
-        private void ValidateUser(ApplicationUser user)
+        private static void ValidateMailResponse(SendEmailResponse  emailResponse)
         {
-            ValidateUserNotNull(user);
-
-            Validate(
-               (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
-               (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
-               (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)));
-
-             
-
-
-        }
-        private static void ValidateMailNotNull(SendEmailDetails sendEmailDetails)
-        {
-            if (sendEmailDetails is null)
+            if (!emailResponse.Successful)
             {
-                throw new NullEmailException();
+                foreach (var errors in emailResponse.Errors)
+                {
+                    Validate(
+                        (Rule: ErrorsExist(errors), Parameter: nameof(SendEmailResponse)));
+                }
             }
+          
         }
-
-
-        private static void ValidateUserNotNull(ApplicationUser user)
-        {
-            if (user is null)
-            {
-                throw new NullEmailException();
-            }
-        }
-      
-
-
-        public void ValidateSendMail(string text)=>
-            Validate((Rule: IsInvalid(text), Parameter: nameof(SendEmailResponse)));
-        
-
-
         private static dynamic IsInvalid(object @object) => new
         {
             Condition = @object is null,
             Message = "Value is required"
         };
-
-
         private static dynamic IsInvalid(string text) => new
         {
             Condition = String.IsNullOrWhiteSpace(text),
             Message = "Text is required"
         };
 
+        private static dynamic ErrorsExist(string error) => new
+        {
+            Condition = !String.IsNullOrWhiteSpace(error),
+            Message = error
+        };
         private static dynamic IsInvalid(double number) => new
         {
             Condition = number >= 0,
@@ -78,19 +56,19 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidresetPasswordException = new InvalidEmailException();
+            var invalidEmailException = new InvalidEmailException();
 
             foreach ((dynamic rule, string parameter) in validations)
             {
                 if (rule.Condition)
                 {
-                    invalidresetPasswordException.UpsertDataList(
+                    invalidEmailException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidresetPasswordException.ThrowIfContainsErrors();
+            invalidEmailException.ThrowIfContainsErrors();
         }
     }
 }

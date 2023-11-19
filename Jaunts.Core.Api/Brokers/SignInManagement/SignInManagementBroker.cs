@@ -20,11 +20,11 @@ namespace Jaunts.Core.Api.Brokers.SignInManagement
             await broker.signInManagement.SignOutAsync();
         }
 
-        public async ValueTask PasswordSignInAsync(ApplicationUser user,string password,bool isPersistent,bool lockoutOnFailure)
+        public async ValueTask<SignInResult> PasswordSignInAsync(ApplicationUser user,string password,bool isPersistent,bool lockoutOnFailure)
         {
             var broker = new SignInManagementBroker(this.signInManagement);
 
-            await broker.signInManagement.PasswordSignInAsync(user,password,isPersistent,lockoutOnFailure);
+            return await broker.signInManagement.PasswordSignInAsync(user,password,isPersistent,lockoutOnFailure);
         }
 
         public async ValueTask<SignInResult> TwoFactorSignInAsync(string provider, string code, bool isPersistent, bool rememberClient)
