@@ -19,5 +19,6 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);
         ValueTask<ApplicationUser> CheckPasswordValidityAsync(string password, Guid id);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
+        ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user, string role);
     }
 }

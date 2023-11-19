@@ -115,6 +115,12 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         });
 
+        public ValueTask<ApplicationUser> AddToRoleAsync(ApplicationUser user, string role) =>
+        TryCatch(async () =>
+        {
+            return await userService.AddToRoleRequestAsync(user, role);
+        });
+
         public ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {

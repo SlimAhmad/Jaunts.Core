@@ -71,7 +71,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUser(user);
-            return await this.userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
+            string token = await this.userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
+            return token;
         });
 
         public ValueTask<string> GeneratePasswordResetTokenRequestAsync(ApplicationUser user)=>

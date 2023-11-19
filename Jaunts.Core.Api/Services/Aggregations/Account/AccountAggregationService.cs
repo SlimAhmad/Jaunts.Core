@@ -10,6 +10,7 @@ using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Api.Services.Orchestration.Email;
 using Jaunts.Core.Api.Services.Orchestration.Jwt;
+using Jaunts.Core.Api.Services.Orchestration.Role;
 using Jaunts.Core.Api.Services.Orchestration.User;
 using Jaunts.Core.Models.Auth.LoginRegister;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         private readonly IUserOrchestrationService  userOrchestrationService;
         private readonly ISignInManagementBroker signInManagementBroker;
         private readonly IEmailOrchestrationService emailOrchestrationService;
+        private readonly IRoleOrchestrationService roleOrchestrationService;
         private readonly IJwtOrchestrationService jwtOrchestrationService;
         private readonly ILoggingBroker loggingBroker;
 
@@ -28,6 +30,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         public AccountAggregationService(
             IUserOrchestrationService userOrchestrationService,
             IEmailOrchestrationService emailOrchestrationService,
+            IRoleOrchestrationService rolesOrchestrationService,
             IJwtOrchestrationService jwtOrchestrationService,
             ILoggingBroker loggingBroker
            )
@@ -35,7 +38,9 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             this.userOrchestrationService = userOrchestrationService;
             this.loggingBroker = loggingBroker;
             this.emailOrchestrationService= emailOrchestrationService;
+            this.roleOrchestrationService = rolesOrchestrationService;
             this.jwtOrchestrationService = jwtOrchestrationService;
+
         }
 
         public ValueTask<UserAccountDetailsApiResponse> RegisterUserRequestAsync(
@@ -49,6 +54,8 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
                 await userOrchestrationService.RegisterUserAsync(
                     registerUserRequest,
                     registerCredentialsApiRequest.Password);
+            await userOrchestrationService.AddUserToRoleAsync(registerUserResponse, "User");
+            await emailOrchestrationService.VerificationMailAsync(registerUserResponse);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
         });
 
@@ -139,7 +146,9 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
                 FirstName = registerUserApiRequest.FirstName,
                 LastName = registerUserApiRequest.LastName,
                 Email = registerUserApiRequest.Email,
-                PhoneNumber = registerUserApiRequest.PhoneNumber
+                PhoneNumber = registerUserApiRequest.PhoneNumber,
+                CreatedDate = registerUserApiRequest.CreatedDate,
+                UpdatedDate = registerUserApiRequest.UpdatedDate,
             };
         }
     }
