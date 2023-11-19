@@ -44,6 +44,9 @@ namespace Jaunts.Core.Api
             services.AddBrokers();
             services.AddEmailTemplateSender();
             services.AddFoundationServices();
+            services.AddProcessingServices();
+            services.AddOrchestrationServices();
+            services.AddAggregationServices();
             services.Configure<Jwt>(configuration.GetSection("Jwt"));
             services.Configure<MailTrap>(configuration.GetSection("MailTrap"));
 

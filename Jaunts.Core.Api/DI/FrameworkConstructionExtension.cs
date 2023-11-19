@@ -8,6 +8,7 @@ using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Email.Templates;
 using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Api.Services.Foundations.Email;
+using Jaunts.Core.Api.Services.Foundations.Jwt;
 using Jaunts.Core.Api.Services.Foundations.Role;
 using Jaunts.Core.Api.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Orchestration.Email;
@@ -48,7 +49,8 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
-          
+            services.AddTransient<IJwtService, JwtService>();
+         
 
             return services;
         }
