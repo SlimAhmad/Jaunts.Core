@@ -13,6 +13,68 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
     {
   
         private delegate ValueTask<SendEmailResponse> ReturningEmailResponseFunction();
+        private delegate ValueTask<UserAccountDetailsApiResponse> ReturningUserAccountDetailsFunction();
+
+        private async ValueTask<UserAccountDetailsApiResponse> TryCatch(ReturningUserAccountDetailsFunction returningUserAccountDetailsFunction)
+        {
+            try
+            {
+                return await returningUserAccountDetailsFunction();
+            }
+            catch (NullAuthException nullAuthException)
+            {
+                throw CreateAndLogValidationException(nullAuthException);
+            }
+            catch (InvalidAuthException invalidAuthException)
+            {
+                throw CreateAndLogValidationException(invalidAuthException);
+            }
+            catch (SqlException sqlException)
+            {
+                var failedAuthStorageException =
+                    new FailedAuthStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAuthStorageException);
+            }
+            catch (NotFoundAuthException notFoundAuthException)
+            {
+                throw CreateAndLogValidationException(notFoundAuthException);
+            }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExistsAuthException =
+                    new AlreadyExistsAuthException(duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(alreadyExistsAuthException);
+            }
+            catch (ForeignKeyConstraintConflictException foreignKeyConstraintConflictException)
+            {
+                var invalidAuthReferenceException =
+                    new InvalidAuthReferenceException(foreignKeyConstraintConflictException);
+
+                throw CreateAndLogDependencyValidationException(invalidAuthReferenceException);
+            }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                var lockedAuthException = new LockedAuthException(dbUpdateConcurrencyException);
+
+                throw CreateAndLogDependencyValidationException(lockedAuthException);
+            }
+            catch (DbUpdateException databaseUpdateException)
+            {
+                var failedAuthStorageException =
+                    new FailedAuthStorageException(databaseUpdateException);
+
+                throw CreateAndLogDependencyException(failedAuthStorageException);
+            }
+            catch (Exception exception)
+            {
+                var failedAuthServiceException =
+                    new FailedAuthServiceException(exception);
+
+                throw CreateAndLogServiceException(failedAuthServiceException);
+            }
+        }
 
         private async ValueTask<SendEmailResponse> TryCatch(ReturningEmailResponseFunction returningEmailResponseFunction)
         {

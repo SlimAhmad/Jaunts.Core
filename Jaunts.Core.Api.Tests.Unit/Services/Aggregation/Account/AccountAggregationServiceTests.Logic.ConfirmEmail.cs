@@ -3,19 +3,18 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Microsoft.AspNetCore.Identity;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
-namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
+namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 {
     public partial class AccountAggregationServiceTests
     {

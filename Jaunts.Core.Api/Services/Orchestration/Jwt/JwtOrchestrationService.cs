@@ -46,6 +46,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
             return ConvertToAccountDetailsResponse(user,token,userRoles);
         });
 
+
         private UserAccountDetailsApiResponse ConvertToAccountDetailsResponse(ApplicationUser user,string token,List<string> role)
         {
 

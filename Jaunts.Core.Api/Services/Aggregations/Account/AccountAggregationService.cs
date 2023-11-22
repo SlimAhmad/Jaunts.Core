@@ -4,13 +4,11 @@
 // ---------------------------------------------------------------
 
 using Jaunts.Core.Api.Brokers.Loggings;
-using Jaunts.Core.Api.Brokers.SignInManagement;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Api.Services.Orchestration.Email;
 using Jaunts.Core.Api.Services.Orchestration.Jwt;
-using Jaunts.Core.Api.Services.Orchestration.Role;
+using Jaunts.Core.Api.Services.Orchestration.SignIn;
 using Jaunts.Core.Api.Services.Orchestration.User;
 using Jaunts.Core.Models.Auth.LoginRegister;
 using Microsoft.AspNetCore.Identity;
@@ -20,25 +18,24 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
     public partial class AccountAggregationService : IAccountAggregationService
     {
         private readonly IUserOrchestrationService  userOrchestrationService;
-        private readonly ISignInManagementBroker signInManagementBroker;
+        private readonly ISignInOrchestrationService signInOrchestrationService;
         private readonly IEmailOrchestrationService emailOrchestrationService;
-        private readonly IRoleOrchestrationService roleOrchestrationService;
         private readonly IJwtOrchestrationService jwtOrchestrationService;
         private readonly ILoggingBroker loggingBroker;
 
 
         public AccountAggregationService(
             IUserOrchestrationService userOrchestrationService,
+            ISignInOrchestrationService signInOrchestrationService,
             IEmailOrchestrationService emailOrchestrationService,
-            IRoleOrchestrationService rolesOrchestrationService,
             IJwtOrchestrationService jwtOrchestrationService,
             ILoggingBroker loggingBroker
            )
         {
             this.userOrchestrationService = userOrchestrationService;
+            this.signInOrchestrationService= signInOrchestrationService;
             this.loggingBroker = loggingBroker;
             this.emailOrchestrationService= emailOrchestrationService;
-            this.roleOrchestrationService = rolesOrchestrationService;
             this.jwtOrchestrationService = jwtOrchestrationService;
 
         }
@@ -69,26 +66,19 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
 
             if (user.TwoFactorEnabled)
             {
-                await signInManagementBroker.SignOutAsync();
-                await signInManagementBroker.PasswordSignInAsync(
+                await signInOrchestrationService.SignOutAsync();
+                await signInOrchestrationService.PasswordSignInAsync(
                     user, loginCredentialsApiRequest.Password, false, true);
-                var response = await emailOrchestrationService.TwoFactorMailAsync(user);
+               return await emailOrchestrationService.TwoFactorMailAsync(user);
 
-                if (response.Successful)
-                    return ConvertTo2FAResponse(user);
             }
-            ValidateUserResponse(user);
             var isValidPassword = await userOrchestrationService.CheckPasswordValidityAsync(
                 loginCredentialsApiRequest.Password ,user.Id);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(isValidPassword);
         });
 
-        public ValueTask<bool> ResetPasswordRequestAsync(
-            ResetPasswordApiRequest resetPassword) =>
-        TryCatch(async () =>
-        {
-            return await userOrchestrationService.ResetUserPasswordByEmailOrUserNameAsync(resetPassword); 
-        });
+        public ValueTask<bool> ResetPasswordRequestAsync(ResetPasswordApiRequest resetPassword) =>
+        TryCatch(async () => await userOrchestrationService.ResetUserPasswordByEmailOrUserNameAsync(resetPassword));
 
         public ValueTask<bool> ForgotPasswordRequestAsync(string email) =>
         TryCatch(async () =>
@@ -111,7 +101,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         {
             ValidateUserProfileDetails(userNameOrEmail);
             ValidateUserProfileDetails(code);
-            await signInManagementBroker.TwoFactorSignInAsync(
+            await signInOrchestrationService.TwoFactorSignInAsync(
                 TokenOptions.DefaultPhoneProvider, code, false, false);
             ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(userNameOrEmail);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
@@ -123,20 +113,6 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             var user = await userOrchestrationService.EnableOrDisable2FactorAuthenticationAsync(id);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
-
-    
-        private UserAccountDetailsApiResponse ConvertTo2FAResponse(ApplicationUser user)
-        {
-            return new UserAccountDetailsApiResponse
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                TwoFactorEnabled = user.TwoFactorEnabled,
-                EmailConfirmed = user.EmailConfirmed,
-            };
-        }
-
 
         private ApplicationUser ConvertToAuthRequest(RegisterUserApiRequest registerUserApiRequest)
         {
