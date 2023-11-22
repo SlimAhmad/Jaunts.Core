@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
                 ApplicationUser user);
         ValueTask<SendEmailResponse> PasswordResetMailAsync(
                 ApplicationUser user);
-        ValueTask<SendEmailResponse> TwoFactorMailAsync(
+        ValueTask<UserAccountDetailsApiResponse> TwoFactorMailAsync(
                 ApplicationUser user);
     }
 }

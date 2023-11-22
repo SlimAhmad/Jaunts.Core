@@ -52,12 +52,25 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             return await emailProcessingService.PostForgetPasswordMailRequestAsync(user, token);
         });
 
-        public ValueTask<SendEmailResponse> TwoFactorMailAsync(
+        public ValueTask<UserAccountDetailsApiResponse> TwoFactorMailAsync(
                 ApplicationUser user) =>
         TryCatch(async () =>
         {
             string token = await userProcessingService.TwoFactorTokenAsync(user);
-            return await emailProcessingService.PostOTPVerificationMailRequestAsync(user, token);
+            await emailProcessingService.PostOTPVerificationMailRequestAsync(user, token);
+            return ConvertTo2FAResponse(user) ;
         });
+
+        private UserAccountDetailsApiResponse ConvertTo2FAResponse(ApplicationUser user)
+        {
+            return new UserAccountDetailsApiResponse
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                EmailConfirmed = user.EmailConfirmed,
+            };
+        }
     }
 }
