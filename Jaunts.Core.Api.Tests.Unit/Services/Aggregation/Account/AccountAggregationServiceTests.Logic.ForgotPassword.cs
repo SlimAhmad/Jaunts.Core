@@ -17,7 +17,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
     public partial class AccountAggregationServiceTests
     {
         [Fact]
-        private async Task ShouldForgotPasswordAsync()
+        private async Task ShouldForgetPasswordAsync()
         {
             // given
             ApplicationUser randomUser = CreateRandomUser();
