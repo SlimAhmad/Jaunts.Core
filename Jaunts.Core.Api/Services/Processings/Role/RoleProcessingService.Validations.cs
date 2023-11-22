@@ -1,4 +1,5 @@
-﻿using Jaunts.Core.Api.Models.Role.Exceptions;
+﻿using Jaunts.Core.Api.Models.Processings.Role.Exceptions;
+using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Email;
@@ -9,15 +10,11 @@ namespace Jaunts.Core.Api.Services.Processings.Role
     {
         private static void ValidateRole(ApplicationRole  applicationRole)
         {
-
             if (applicationRole is null)
             {
                 throw new NullRoleException();
             }
-
         }
-
-
 
         private static void ValidateUserNotNull(ApplicationUser user)
         {
@@ -38,19 +35,19 @@ namespace Jaunts.Core.Api.Services.Processings.Role
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidRoleException = new InvalidRoleException();
+            var invalidRoleProcessingException = new InvalidRoleProcessingException();
 
             foreach ((dynamic rule, string parameter) in validations)
             {
                 if (rule.Condition)
                 {
-                    invalidRoleException.UpsertDataList(
+                    invalidRoleProcessingException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidRoleException.ThrowIfContainsErrors();
+            invalidRoleProcessingException.ThrowIfContainsErrors();
         }
     }
 }
