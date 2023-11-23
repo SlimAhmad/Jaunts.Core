@@ -46,14 +46,14 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         {
             ApplicationUser registerUserRequest =
                 ConvertToAuthRequest(registerCredentialsApiRequest);
-
-            ApplicationUser registerUserResponse =
+            var registerUserResponse =
                 await userOrchestrationService.RegisterUserAsync(
                     registerUserRequest,
                     registerCredentialsApiRequest.Password);
             await userOrchestrationService.AddUserToRoleAsync(registerUserResponse, "User");
             await emailOrchestrationService.VerificationMailAsync(registerUserResponse);
-            return await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
+            var response = await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
+            return response;
         });
 
         public ValueTask<UserAccountDetailsApiResponse> LogInRequestAsync(
@@ -125,6 +125,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
                 PhoneNumber = registerUserApiRequest.PhoneNumber,
                 CreatedDate = registerUserApiRequest.CreatedDate,
                 UpdatedDate = registerUserApiRequest.UpdatedDate,
+                ConcurrencyStamp = null
             };
         }
     }

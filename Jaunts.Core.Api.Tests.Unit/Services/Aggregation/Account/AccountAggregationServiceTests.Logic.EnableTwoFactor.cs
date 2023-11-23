@@ -6,9 +6,8 @@
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Jaunts.Core.Models.Auth.LoginRegister;
-using Jaunts.Core.Models.Email;
 using Moq;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,42 +16,42 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
     public partial class AccountAggregationServiceTests
     {
         [Fact]
-        private async Task ShouldForgetPasswordAsync()
+        private async Task ShouldEnableTwoFactorAsync()
         {
             // given
             ApplicationUser randomUser = CreateRandomUser();
             ApplicationUser inputUser = randomUser;
             ApplicationUser storageUser = inputUser;
-            ResetPasswordApiRequest resetPasswordApiRequest =
-               CreateResetPasswordApiRequest();
              
-            string randomEmail = GetRandomEmailAddresses();
-            string InputEmail = randomEmail;
-            string storageEmail = InputEmail;
+            Guid randomId = GetRandomGuid();
+            Guid inputId = randomId;
 
-            SendEmailResponse sendEmailResponse =
-                CreateSendEmailResponse();
+            UserAccountDetailsApiResponse userAccountDetailsResponse =
+                CreateUserAccountDetailsApiResponse(inputUser);
+
+            UserAccountDetailsApiResponse expectedUserAccountDetailsResponse =
+                    userAccountDetailsResponse;
 
             this.userOrchestrationMock.Setup(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(InputEmail))
+                broker.EnableOrDisable2FactorAuthenticationAsync(inputId))
                     .ReturnsAsync(randomUser);
 
-            this.emailOrchestrationMock.Setup(broker =>
-                broker.PasswordResetMailAsync(storageUser))
-                    .ReturnsAsync(sendEmailResponse);
+            this.jwtOrchestrationMock.Setup(broker =>
+                broker.JwtAccountDetailsAsync(storageUser))
+                    .ReturnsAsync(expectedUserAccountDetailsResponse);
             // when
-            bool actualAuth =
-                await this.accountAggregationService.ForgotPasswordRequestAsync(storageEmail);
+            UserAccountDetailsApiResponse actualAuth =
+                await this.accountAggregationService.EnableUser2FARequestAsync(inputId);
 
             // then
-            actualAuth.Should().BeTrue();
+            actualAuth.Should().BeEquivalentTo(expectedUserAccountDetailsResponse);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
+                broker.EnableOrDisable2FactorAuthenticationAsync(It.IsAny<Guid>()),
                     Times.Once);
 
-            this.emailOrchestrationMock.Verify(broker =>
-              broker.PasswordResetMailAsync(It.IsAny<ApplicationUser>()),
+            this.jwtOrchestrationMock.Verify(broker =>
+              broker.JwtAccountDetailsAsync(It.IsAny<ApplicationUser>()),
                   Times.Once);
 
             this.userOrchestrationMock.VerifyNoOtherCalls();

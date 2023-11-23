@@ -28,17 +28,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Created(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
         }
 
@@ -54,17 +54,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Created(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
         }
 
@@ -79,17 +79,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Ok(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
         }
 
@@ -104,17 +104,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Created(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
 
          }
@@ -130,17 +130,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Ok(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
         }
 
@@ -155,17 +155,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Created(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
 
 
@@ -182,17 +182,17 @@ namespace Jaunts.Core.Api.Controllers
 
                 return Ok(registeredAccount);
             }
-            catch (AccountOrchestrationDependencyValidationException countryOrchestrationDependencyValidationException)
+            catch (AccountOrchestrationDependencyValidationException accountOrchestrationDependencyValidationException)
             {
-                return BadRequest(countryOrchestrationDependencyValidationException.InnerException);
+                return BadRequest(accountOrchestrationDependencyValidationException.InnerException);
             }
-            catch (AccountOrchestrationDependencyException countryOrchestrationDependencyException)
+            catch (AccountOrchestrationDependencyException accountOrchestrationDependencyException)
             {
-                return InternalServerError(countryOrchestrationDependencyException);
+                return InternalServerError(accountOrchestrationDependencyException);
             }
-            catch (AccountOrchestrationServiceException countryOrchestrationServiceException)
+            catch (AccountOrchestrationServiceException accountOrchestrationServiceException)
             {
-                return InternalServerError(countryOrchestrationServiceException);
+                return InternalServerError(accountOrchestrationServiceException);
             }
         }
 

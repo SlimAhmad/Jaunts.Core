@@ -42,8 +42,6 @@ namespace Jaunts.Core.Api.Models.Auth
         /// <summary>
         /// The users role
         /// </summary>
-        public string Role { get; set; }
-        public string ProfileImage { get; set; }
         public string Id { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }

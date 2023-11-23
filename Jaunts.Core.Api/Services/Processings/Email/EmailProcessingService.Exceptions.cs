@@ -55,45 +55,45 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
         private EmailProcessingServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var countryProcessingServiceException = new
+            var EmailProcessingServiceException = new
                 EmailProcessingServiceException(exception);
 
-            this.loggingBroker.LogError(countryProcessingServiceException);
+            this.loggingBroker.LogError(EmailProcessingServiceException);
 
-            return countryProcessingServiceException;
+            return EmailProcessingServiceException;
         }
 
         private EmailProcessingDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var countryProcessingDependencyValidationException =
+            var EmailProcessingDependencyValidationException =
                 new EmailProcessingDependencyValidationException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyValidationException);
+            this.loggingBroker.LogError(EmailProcessingDependencyValidationException);
 
-            return countryProcessingDependencyValidationException;
+            return EmailProcessingDependencyValidationException;
         }
 
         private EmailProcessingDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var countryProcessingDependencyException =
+            var EmailProcessingDependencyException =
                 new EmailProcessingDependencyException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyException);
+            this.loggingBroker.LogError(EmailProcessingDependencyException);
 
-            return countryProcessingDependencyException;
+            return EmailProcessingDependencyException;
         }
 
         private EmailProcessingValidationException CreateAndLogValidationException(
             Xeption exception)
         {
-            var countryProcessingValidationException =
+            var EmailProcessingValidationException =
                 new EmailProcessingValidationException(exception);
 
-            this.loggingBroker.LogError(countryProcessingValidationException);
+            this.loggingBroker.LogError(EmailProcessingValidationException);
 
-            return countryProcessingValidationException;
+            return EmailProcessingValidationException;
         }
 
     }
