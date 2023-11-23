@@ -37,7 +37,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 broker.RetrieveUserByEmailOrUserNameAsync(InputEmail))
                     .ReturnsAsync(randomUser);
 
-            this.emailOrchestrationBrokerMock.Setup(broker =>
+            this.emailOrchestrationMock.Setup(broker =>
                 broker.PasswordResetMailAsync(storageUser))
                     .ReturnsAsync(sendEmailResponse);
             // when
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
                     Times.Once);
 
-            this.emailOrchestrationBrokerMock.Verify(broker =>
+            this.emailOrchestrationMock.Verify(broker =>
               broker.PasswordResetMailAsync(It.IsAny<ApplicationUser>()),
                   Times.Once);
 
