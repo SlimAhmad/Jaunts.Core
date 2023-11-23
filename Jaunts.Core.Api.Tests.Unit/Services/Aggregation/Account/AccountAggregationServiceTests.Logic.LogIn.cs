@@ -85,7 +85,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         }
 
         [Fact]
-        private async Task ShouldLoginWithOtpAsync() 
+        private async Task ShouldLoginWithOtpTokenAsync() 
         {
             // given
             DateTimeOffset randomDateTime = GetRandomDateTime();
@@ -126,7 +126,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                broker.PasswordSignInAsync(storageUser, password,randomBoolean,randomBoolean))
                    .ReturnsAsync(randomBoolean);
 
-            this.emailOrchestrationBrokerMock.Setup(broker =>
+            this.emailOrchestrationMock.Setup(broker =>
                 broker.TwoFactorMailAsync(storageUser))
                     .ReturnsAsync(inputUserProfileDetails);
 
@@ -149,13 +149,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
              broker.PasswordSignInAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>(),It.IsAny<bool>(),It.IsAny<bool>()),
                  Times.Once);
 
-            this.emailOrchestrationBrokerMock.Verify(broker =>
+            this.emailOrchestrationMock.Verify(broker =>
                  broker.TwoFactorMailAsync(It.IsAny<ApplicationUser>()),
                        Times.Once);
 
             this.userOrchestrationMock.VerifyNoOtherCalls();
             this.signInOrchestrationMock.VerifyNoOtherCalls();
-            this.emailOrchestrationBrokerMock.VerifyNoOtherCalls();
+            this.emailOrchestrationMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
