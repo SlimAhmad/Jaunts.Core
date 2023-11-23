@@ -72,7 +72,6 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
             services.AddTransient<IJwtOrchestrationService, JwtOrchestrationService>();
 
-
             return services;
         }
 
