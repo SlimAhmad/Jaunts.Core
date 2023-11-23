@@ -26,21 +26,21 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
             {
                 throw CreateAndLogValidationException(invalidSignInProcessingException);
             }
-            catch (SignInValidationException countryValidationException)
+            catch (SignInValidationException signInValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryValidationException);
+                throw CreateAndLogDependencyValidationException(signInValidationException);
             }
-            catch (SignInDependencyValidationException countryDependencyValidationException)
+            catch (SignInDependencyValidationException signInDependencyValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryDependencyValidationException);
+                throw CreateAndLogDependencyValidationException(signInDependencyValidationException);
             }
-            catch (SignInDependencyException countryDependencyException)
+            catch (SignInDependencyException signInDependencyException)
             {
-                throw CreateAndLogDependencyException(countryDependencyException);
+                throw CreateAndLogDependencyException(signInDependencyException);
             }
-            catch (SignInServiceException countryServiceException)
+            catch (SignInServiceException signInServiceException)
             {
-                throw CreateAndLogDependencyException(countryServiceException);
+                throw CreateAndLogDependencyException(signInServiceException);
             }
             catch (Exception exception)
             {
@@ -65,21 +65,21 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
             {
                 throw CreateAndLogValidationException(invalidSignInProcessingException);
             }
-            catch (SignInValidationException countryValidationException)
+            catch (SignInValidationException signInValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryValidationException);
+                throw CreateAndLogDependencyValidationException(signInValidationException);
             }
-            catch (SignInDependencyValidationException countryDependencyValidationException)
+            catch (SignInDependencyValidationException signInDependencyValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryDependencyValidationException);
+                throw CreateAndLogDependencyValidationException(signInDependencyValidationException);
             }
-            catch (SignInDependencyException countryDependencyException)
+            catch (SignInDependencyException signInDependencyException)
             {
-                throw CreateAndLogDependencyException(countryDependencyException);
+                throw CreateAndLogDependencyException(signInDependencyException);
             }
-            catch (SignInServiceException countryServiceException)
+            catch (SignInServiceException signInServiceException)
             {
-                throw CreateAndLogDependencyException(countryServiceException);
+                throw CreateAndLogDependencyException(signInServiceException);
             }
             catch (Exception exception)
             {
@@ -91,45 +91,45 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
         }
         private SignInProcessingServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var countryProcessingServiceException = new
+            var signInProcessingServiceException = new
                 SignInProcessingServiceException(exception);
 
-            this.loggingBroker.LogError(countryProcessingServiceException);
+            this.loggingBroker.LogError(signInProcessingServiceException);
 
-            return countryProcessingServiceException;
+            return signInProcessingServiceException;
         }
 
         private SignInProcessingDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var countryProcessingDependencyValidationException =
+            var signInProcessingDependencyValidationException =
                 new SignInProcessingDependencyValidationException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyValidationException);
+            this.loggingBroker.LogError(signInProcessingDependencyValidationException);
 
-            return countryProcessingDependencyValidationException;
+            return signInProcessingDependencyValidationException;
         }
 
         private SignInProcessingDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var countryProcessingDependencyException =
+            var signInProcessingDependencyException =
                 new SignInProcessingDependencyException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyException);
+            this.loggingBroker.LogError(signInProcessingDependencyException);
 
-            return countryProcessingDependencyException;
+            return signInProcessingDependencyException;
         }
 
         private SignInProcessingValidationException CreateAndLogValidationException(
             Xeption exception)
         {
-            var countryProcessingValidationException =
+            var signInProcessingValidationException =
                 new SignInProcessingValidationException(exception);
 
-            this.loggingBroker.LogError(countryProcessingValidationException);
+            this.loggingBroker.LogError(signInProcessingValidationException);
 
-            return countryProcessingValidationException;
+            return signInProcessingValidationException;
         }
     }
 }

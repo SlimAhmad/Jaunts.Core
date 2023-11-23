@@ -26,21 +26,21 @@ namespace Jaunts.Core.Api.Services.Processings.Jwt
             {
                 throw CreateAndLogValidationException(invalidJwtProcessingException);
             }
-            catch (JwtValidationException countryValidationException)
+            catch (JwtValidationException jwtValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryValidationException);
+                throw CreateAndLogDependencyValidationException(jwtValidationException);
             }
-            catch (JwtDependencyValidationException countryDependencyValidationException)
+            catch (JwtDependencyValidationException jwtDependencyValidationException)
             {
-                throw CreateAndLogDependencyValidationException(countryDependencyValidationException);
+                throw CreateAndLogDependencyValidationException(jwtDependencyValidationException);
             }
-            catch (JwtDependencyException countryDependencyException)
+            catch (JwtDependencyException jwtDependencyException)
             {
-                throw CreateAndLogDependencyException(countryDependencyException);
+                throw CreateAndLogDependencyException(jwtDependencyException);
             }
-            catch (JwtServiceException countryServiceException)
+            catch (JwtServiceException jwtServiceException)
             {
-                throw CreateAndLogDependencyException(countryServiceException);
+                throw CreateAndLogDependencyException(jwtServiceException);
             }
             catch (Exception exception)
             {
@@ -53,45 +53,45 @@ namespace Jaunts.Core.Api.Services.Processings.Jwt
 
         private JwtProcessingServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var countryProcessingServiceException = new
+            var jwtProcessingServiceException = new
                 JwtProcessingServiceException(exception);
 
-            this.loggingBroker.LogError(countryProcessingServiceException);
+            this.loggingBroker.LogError(jwtProcessingServiceException);
 
-            return countryProcessingServiceException;
+            return jwtProcessingServiceException;
         }
 
         private JwtProcessingDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var countryProcessingDependencyValidationException =
+            var jwtProcessingDependencyValidationException =
                 new JwtProcessingDependencyValidationException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyValidationException);
+            this.loggingBroker.LogError(jwtProcessingDependencyValidationException);
 
-            return countryProcessingDependencyValidationException;
+            return jwtProcessingDependencyValidationException;
         }
 
         private JwtProcessingDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var countryProcessingDependencyException =
+            var jwtProcessingDependencyException =
                 new JwtProcessingDependencyException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyException);
+            this.loggingBroker.LogError(jwtProcessingDependencyException);
 
-            return countryProcessingDependencyException;
+            return jwtProcessingDependencyException;
         }
 
         private JwtProcessingValidationException CreateAndLogValidationException(
             Xeption exception)
         {
-            var countryProcessingValidationException =
+            var jwtProcessingValidationException =
                 new JwtProcessingValidationException(exception);
 
-            this.loggingBroker.LogError(countryProcessingValidationException);
+            this.loggingBroker.LogError(jwtProcessingValidationException);
 
-            return countryProcessingValidationException;
+            return jwtProcessingValidationException;
         }
     }
 }

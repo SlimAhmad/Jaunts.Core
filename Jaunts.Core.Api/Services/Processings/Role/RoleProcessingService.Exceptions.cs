@@ -172,45 +172,45 @@ namespace Jaunts.Core.Api.Services.Processings.Role
 
         private RoleProcessingServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var countryProcessingServiceException = new
+            var roleProcessingServiceException = new
                 RoleProcessingServiceException(exception);
 
-            this.loggingBroker.LogError(countryProcessingServiceException);
+            this.loggingBroker.LogError(roleProcessingServiceException);
 
-            return countryProcessingServiceException;
+            return roleProcessingServiceException;
         }
 
         private RoleProcessingDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
         {
-            var countryProcessingDependencyValidationException =
+            var roleProcessingDependencyValidationException =
                 new RoleProcessingDependencyValidationException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyValidationException);
+            this.loggingBroker.LogError(roleProcessingDependencyValidationException);
 
-            return countryProcessingDependencyValidationException;
+            return roleProcessingDependencyValidationException;
         }
 
         private RoleProcessingDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var countryProcessingDependencyException =
+            var roleProcessingDependencyException =
                 new RoleProcessingDependencyException(
                     exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryProcessingDependencyException);
+            this.loggingBroker.LogError(roleProcessingDependencyException);
 
-            return countryProcessingDependencyException;
+            return roleProcessingDependencyException;
         }
 
         private RoleProcessingValidationException CreateAndLogValidationException(
             Xeption exception)
         {
-            var countryProcessingValidationException =
+            var roleProcessingValidationException =
                 new RoleProcessingValidationException(exception);
 
-            this.loggingBroker.LogError(countryProcessingValidationException);
+            this.loggingBroker.LogError(roleProcessingValidationException);
 
-            return countryProcessingValidationException;
+            return roleProcessingValidationException;
         }
     }
 }
