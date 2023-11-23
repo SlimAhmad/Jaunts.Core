@@ -15,13 +15,13 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             {
                 return await returningAccountFunction();
             }
-            catch (AccountAggregationDependencyException countryDependencyException)
+            catch (AccountAggregationDependencyException accountDependencyException)
             {
-                throw CreateAndLogDependencyException(countryDependencyException);
+                throw CreateAndLogDependencyException(accountDependencyException);
             }
-            catch (AccountAggregationServiceException countryServiceException)
+            catch (AccountAggregationServiceException accountServiceException)
             {
-                throw CreateAndLogDependencyException(countryServiceException);
+                throw CreateAndLogDependencyException(accountServiceException);
             }
             catch (Exception exception)
             {
@@ -38,13 +38,13 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             {
                 return await returningBooleanFunction();
             }
-            catch (AccountAggregationDependencyException countryDependencyException)
+            catch (AccountAggregationDependencyException accountDependencyException)
             {
-                throw CreateAndLogDependencyException(countryDependencyException);
+                throw CreateAndLogDependencyException(accountDependencyException);
             }
-            catch (AccountAggregationServiceException countryServiceException)
+            catch (AccountAggregationServiceException accountServiceException)
             {
-                throw CreateAndLogDependencyException(countryServiceException);
+                throw CreateAndLogDependencyException(accountServiceException);
             }
             catch (Exception exception)
             {
@@ -58,23 +58,23 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         private AccountAggregationDependencyValidationException CreateAndLogDependencyValidationException(
             Xeption exception)
         {
-            var countryAggregationDependencyValidationException =
+            var accountAggregationDependencyValidationException =
                new AccountAggregationDependencyValidationException(
                    exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryAggregationDependencyValidationException);
+            this.loggingBroker.LogError(accountAggregationDependencyValidationException);
 
-            return countryAggregationDependencyValidationException;
+            return accountAggregationDependencyValidationException;
         }
         private AccountAggregationDependencyException CreateAndLogDependencyException(Xeption exception)
         {
-            var countryAggregationDependencyException =
+            var accountAggregationDependencyException =
               new AccountAggregationDependencyException(
                   exception.InnerException as Xeption);
 
-            this.loggingBroker.LogError(countryAggregationDependencyException);
+            this.loggingBroker.LogError(accountAggregationDependencyException);
 
-            return countryAggregationDependencyException;
+            return accountAggregationDependencyException;
         }
 
         private AccountAggregationServiceException CreateAndLogServiceException(Xeption exception)
