@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public FailedUserStorageException(Exception innerException)
 			: base(message: "Failed User storage error occurred, contact support.", innerException)
 		{ }
-	}
+        public FailedUserStorageException(string message, Exception innerException)
+		: base(message, innerException) { }
+    }
 }

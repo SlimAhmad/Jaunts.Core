@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public NotFoundUserException(Guid UserId)
 			: base(message: $"Couldn't find User with id: {UserId}.")
 		{ }
-	}
+        public NotFoundUserException(string message)
+        : base(message) { }
+    }
 }

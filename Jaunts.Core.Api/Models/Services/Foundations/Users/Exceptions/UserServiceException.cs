@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 	{
 		public UserServiceException(Exception innerException)
 			: base(message: "User service error occurred, contact support.", innerException) { }
-	}
+        public UserServiceException(string message, Exception innerException)
+		: base(message, innerException) { }
+    }
 }

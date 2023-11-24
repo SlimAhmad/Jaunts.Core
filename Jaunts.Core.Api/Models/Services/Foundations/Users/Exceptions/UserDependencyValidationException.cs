@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public UserDependencyValidationException(Xeption innerException)
 			: base(message: "User dependency validation occurred, please try again.", innerException)
 		{ }
-	}
+        public UserDependencyValidationException(string message, Exception innerException)
+        : base(message, innerException) { }
+    }
 }
