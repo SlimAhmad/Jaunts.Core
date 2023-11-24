@@ -88,10 +88,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateException = new DbUpdateException();
 
             var failedUserStorageException =
-                new FailedUserStorageException(databaseUpdateException);
+                   new FailedUserStorageException(
+                       message: "Failed User storage error occurred, contact support.",
+                       innerException: databaseUpdateException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -105,9 +109,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> modifyUserTask =
                 this.userService.ModifyUserRequestAsync(someUser);
 
+            UserDependencyException actualUserDependencyException =
+            await Assert.ThrowsAsync<UserDependencyException>(
+                modifyUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                modifyUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
