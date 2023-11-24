@@ -5,6 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -28,10 +29,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             SqlException sqlException = GetSqlException();
 
             var failedUserStorageException =
-                new FailedUserStorageException(sqlException);
+                  new FailedUserStorageException(
+                      message: "Failed User storage error occurred, contact support.",
+                      innerException: sqlException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -45,9 +50,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> modifyUserTask =
                 this.userService.ModifyUserRequestAsync(someUser);
 
+            UserDependencyException actualUserDependencyException =
+             await Assert.ThrowsAsync<UserDependencyException>(
+                 modifyUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                modifyUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
