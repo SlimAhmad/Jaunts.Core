@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
@@ -18,12 +19,15 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         {
             // given
             SqlException sqlException = GetSqlException();
-
             var failedUserStorageException =
-                new FailedUserStorageException(sqlException);
+                new FailedUserStorageException(
+                    message: "Failed User storage error occurred, contact support.",
+                    innerException: sqlException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectAllUsers())
@@ -33,9 +37,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             Action retrieveAllUsersAction = () =>
                 this.userService.RetrieveAllUsers();
 
+            UserDependencyException actualUserDependencyException =
+                 Assert.Throws<UserDependencyException>(
+                    retrieveAllUsersAction);
+
             // then
-            Assert.Throws<UserDependencyException>(
-                retrieveAllUsersAction);
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -62,10 +70,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var serviceException = new Exception();
 
             var failedUserServiceException =
-                new FailedUserServiceException(serviceException);
+                new FailedUserServiceException(
+                    message: "Failed User service occurred, please contact support",
+                    innerException: serviceException);
 
             var expectedUserServiceException =
-                new UserServiceException(failedUserServiceException);
+                new UserServiceException(
+                    message: "User service error occurred, contact support.",
+                    innerException: failedUserServiceException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectAllUsers())
@@ -76,9 +88,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             Action retrieveAllUsersAction = () =>
                 this.userService.RetrieveAllUsers();
 
+            UserServiceException actualUserServiceException =
+                  Assert.Throws<UserServiceException>(
+                     retrieveAllUsersAction);
+
             // then
-            Assert.Throws<UserServiceException>(
-                retrieveAllUsersAction);
+            actualUserServiceException.Should().BeEquivalentTo(
+                expectedUserServiceException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
