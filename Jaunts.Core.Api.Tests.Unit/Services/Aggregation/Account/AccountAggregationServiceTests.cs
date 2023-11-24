@@ -3,24 +3,19 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
-using Jaunts.Core.Api.Brokers.RoleManagement;
-using Jaunts.Core.Api.Brokers.SignInManagement;
-using Jaunts.Core.Api.Brokers.UserManagement;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Aggregations.Account;
-using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Api.Services.Orchestration.Email;
 using Jaunts.Core.Api.Services.Orchestration.Jwt;
+using Jaunts.Core.Api.Services.Orchestration.SignIn;
 using Jaunts.Core.Api.Services.Orchestration.User;
 using Jaunts.Core.Models.Auth.LoginRegister;
+using Jaunts.Core.Models.Email;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using RESTFulSense.Exceptions;
 using System;
@@ -31,12 +26,13 @@ using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
 using Xunit;
 
-namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
+namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 {
     public partial class AccountAggregationServiceTests
     {
         private readonly Mock<IUserOrchestrationService> userOrchestrationMock;
-        private readonly Mock<IEmailOrchestrationService> emailOrchestrationBrokerMock;
+        private readonly Mock<ISignInOrchestrationService> signInOrchestrationMock;
+        private readonly Mock<IEmailOrchestrationService> emailOrchestrationMock;
         private readonly Mock<IJwtOrchestrationService> jwtOrchestrationMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IAccountAggregationService accountAggregationService;
@@ -45,7 +41,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
         public AccountAggregationServiceTests()
         {
             this.userOrchestrationMock = new Mock<IUserOrchestrationService>();
-            this.emailOrchestrationBrokerMock = new Mock<IEmailOrchestrationService>();
+            this.signInOrchestrationMock = new Mock<ISignInOrchestrationService>();
+            this.emailOrchestrationMock = new Mock<IEmailOrchestrationService>();
             this.jwtOrchestrationMock = new Mock<IJwtOrchestrationService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.compareLogic = new CompareLogic();
@@ -53,7 +50,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
             this.accountAggregationService = new AccountAggregationService(
                 userOrchestrationService : this.userOrchestrationMock.Object,
-                emailOrchestrationService: this.emailOrchestrationBrokerMock.Object,
+                signInOrchestrationService : this.signInOrchestrationMock.Object,
+                emailOrchestrationService: this.emailOrchestrationMock.Object,
                 jwtOrchestrationService: this.jwtOrchestrationMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object
               );
@@ -79,8 +77,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
         private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
 
-        private static RegisterResultApiResponse CreateSendAuthDetailResponse() =>
-          CreateRegisterResultApiResponseFiller().Create();
+        private static UserAccountDetailsApiResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
+          CreateRegisterApiResponseFiller(user).Create();
 
         private static UserAccountDetailsApiResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
           CreateUserProfileDetailsApiResponseFiller(user).Create();
@@ -90,9 +88,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
 
         private static ForgotPasswordApiResponse CreateForgotPasswordApiResponse() =>
             CreateForgotPasswordApiResponseFiller().Create();
+        private static SendEmailResponse CreateSendEmailResponse() =>
+            CreateSendEmailResponseFiller().Create();
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+        private static bool GetRandomBoolean() =>
+             Randomizer<bool>.Create();
 
         private static string GetRandomNames() => new RealNames().GetValue();
 
@@ -131,17 +133,17 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             return user;
         }
 
-        private static Filler<RegisterUserApiRequest> CreateRegisterUserApiRequestFiller(DateTimeOffset date)
+        private static Filler<RegisterUserApiRequest> CreateRegisterUserApiRequestFiller(
+            DateTimeOffset date)
         {
             var filler = new Filler<RegisterUserApiRequest>();
 
             filler.Setup()
-                .OnType<object>().IgnoreIt()
-                .OnProperty(x => x.Email).Use(new EmailAddresses())
                 .OnType<DateTimeOffset>().Use(date);
 
             return filler;
         }
+
 
         private static Filler<LoginCredentialsApiRequest> CreateLoginCredentialsApiRequestFiller()
         {
@@ -184,12 +186,26 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             return filler;
         }
 
-        private static Filler<RegisterResultApiResponse> CreateRegisterResultApiResponseFiller()
+        private static Filler<SendEmailResponse> CreateSendEmailResponseFiller()
         {
-            var filler = new Filler<RegisterResultApiResponse>();
+            var filler = new Filler<SendEmailResponse>();
 
             filler.Setup()
-                .OnType<object>().IgnoreIt()
+                .OnProperty(x=> x.Errors).IgnoreIt()
+                .OnType<DateTimeOffset>().IgnoreIt();
+
+            return filler;
+        }
+
+        private static Filler<UserAccountDetailsApiResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
+        {
+            var filler = new Filler<UserAccountDetailsApiResponse>();
+
+            filler.Setup()
+                .OnProperty(x => x.Username).Use(registerUserApiRequest.Username)
+                .OnProperty(x => x.Email).Use(registerUserApiRequest.Email)
+                .OnProperty(x => x.FirstName).Use(registerUserApiRequest.FirstName)
+                .OnProperty(x => x.LastName).Use(registerUserApiRequest.LastName)
                 .OnType<DateTimeOffset>().IgnoreIt();
 
             return filler;
@@ -267,7 +283,20 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
             return roles.AsQueryable();
         }
 
-  
+
+        private ApplicationUser ConvertToUserRequest(RegisterUserApiRequest registerUserApiRequest)
+        {
+            return new ApplicationUser
+            {
+                UserName = registerUserApiRequest.Username,
+                FirstName = registerUserApiRequest.FirstName,
+                LastName = registerUserApiRequest.LastName,
+                Email = registerUserApiRequest.Email,
+                PhoneNumber = registerUserApiRequest.PhoneNumber,
+                CreatedDate = registerUserApiRequest.CreatedDate,
+                UpdatedDate = registerUserApiRequest.UpdatedDate,
+            };
+        }
 
         public static TheoryData UnauthorizedExceptions()
         {

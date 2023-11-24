@@ -6,13 +6,14 @@
 using System;
 using System.Threading.Tasks;
 using Jaunts.Core.Api.Models.Auth;
+using Jaunts.Core.Api.Models.Services.Aggregation.Account.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Microsoft.Data.SqlClient;
 using Moq;
 using Xunit;
 
-namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
+namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 {
     public partial class AccountAggregationServiceTests
     {
@@ -84,7 +85,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Auth
                 new FailedAuthServiceException(serviceException);
 
             var expectedAuthServiceException =
-                new AuthServiceException(failedAuthServiceException);
+                new AccountAggregationServiceException(failedAuthServiceException);
 
 
             this.userOrchestrationMock.Setup(broker =>
