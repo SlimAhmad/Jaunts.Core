@@ -5,8 +5,11 @@
 
 using System;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
@@ -26,10 +29,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var failedUserStorageException =
-                new FailedUserStorageException(sqlException);
+                  new FailedUserStorageException(
+                      message: "Failed User storage error occurred, contact support.",
+                      innerException: sqlException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency validation error occurred, try again.",
+                    innerException: failedUserStorageException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -43,9 +50,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserDependencyException actualUserDependencyException =
+              await Assert.ThrowsAsync<UserDependencyException>(
+                  registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                registerUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -64,6 +75,68 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.userManagementBrokerMock.VerifyNoOtherCalls();
         }
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfUserAlreadyExistsAndLogItAsync()
+        {
+            // given
+            ApplicationUser randomUser = CreateRandomUser();
+            ApplicationUser alreadyExistsUser = randomUser;
+            string randomMessage = GetRandomMessage();
+            string randomPassword = GetRandomString();
+           
+
+            var duplicateKeyException =
+                new DuplicateKeyException(randomMessage);
+
+            var alreadyExistsUserException =
+                new AlreadyExistsUserException(duplicateKeyException);
+
+            var expectedUserDependencyValidationException =
+                new UserDependencyValidationException(alreadyExistsUserException);
+
+            var failedUserStorageException =
+                new AlreadyExistsUserException(
+                    message: "User with the same id already exists.",
+                    innerException: duplicateKeyException);
+
+            var expectedUserDependencyException =
+                new UserDependencyValidationException(
+                    message: "User dependency validation occurred, please try again.",
+                    innerException: failedUserStorageException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTime())
+                    .Throws(duplicateKeyException);
+
+            // when
+            ValueTask<ApplicationUser> addUserTask =
+                this.userService.RegisterUserRequestAsync(alreadyExistsUser,randomPassword);
+
+            UserDependencyValidationException actualUserDependencyValidationException =
+                await Assert.ThrowsAsync<UserDependencyValidationException>(
+                    addUserTask.AsTask);
+
+            // then
+            actualUserDependencyValidationException.Should().BeEquivalentTo(
+                expectedUserDependencyValidationException);
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTime(),
+                    Times.Once);
+
+            this.userManagementBrokerMock.Verify(broker =>
+                broker.InsertUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedUserDependencyValidationException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
 
         [Fact]
         public async Task ShouldThrowDependencyExceptionOnCreateWhenDbExceptionOccursAndLogItAsync()
@@ -75,11 +148,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateException = new DbUpdateException();
             string password = GetRandomPassword();
 
+
             var failedUserStorageException =
-                new FailedUserStorageException(databaseUpdateException);
+                  new FailedUserStorageException(
+                      message: "Failed User storage error occurred, contact support.",
+                      innerException: databaseUpdateException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -93,9 +171,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserDependencyException actualUserDependencyException =
+                await Assert.ThrowsAsync<UserDependencyException>(
+                    registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                registerUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -126,10 +208,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var failedUserServiceException =
-                new FailedUserServiceException(serviceException);
+                  new FailedUserServiceException(
+                      message: "Failed User service occurred, please contact support",
+                      innerException: serviceException);
 
-            var expectedAssignmentServiceException =
-                new UserServiceException(failedUserServiceException);
+            var expectedUserServiceException =
+                new UserServiceException(
+                    message: "User service error occurred, contact support.",
+                    innerException: failedUserServiceException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -143,9 +229,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> registerUserTask =
                  this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserServiceException actualUserServiceException =
+              await Assert.ThrowsAsync<UserServiceException>(
+                  registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserServiceException>(() =>
-                registerUserTask.AsTask());
+            actualUserServiceException.Should().BeEquivalentTo(
+                expectedUserServiceException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -153,7 +243,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
-                    expectedAssignmentServiceException))),
+                    expectedUserServiceException))),
                         Times.Once);
 
             this.userManagementBrokerMock.Verify(broker =>
