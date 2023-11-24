@@ -5,6 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -24,10 +25,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             SqlException sqlException = GetSqlException();
 
             var failedUserStorageException =
-                new FailedUserStorageException(sqlException);
+                  new FailedUserStorageException(
+                      message: "Failed User storage error occurred, contact support.",
+                      innerException: sqlException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -37,9 +42,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> deleteUserTask =
                 this.userService.RemoveUserByIdRequestAsync(someUserId);
 
+            UserDependencyException actualUserDependencyException =
+           await Assert.ThrowsAsync<UserDependencyException>(
+               deleteUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                deleteUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -64,10 +73,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateException = new DbUpdateException();
 
             var failedUserStorageException =
-                new FailedUserStorageException(databaseUpdateException);
+                new FailedUserStorageException(
+                    message: "Failed User storage error occurred, contact support.",
+                    innerException: databaseUpdateException);
 
             var expectedUserDependencyException =
-                new UserDependencyException(failedUserStorageException);
+                new UserDependencyException(
+                    message: "User dependency error occurred, contact support.",
+                    innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -77,9 +90,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> deleteUserTask =
                 this.userService.RemoveUserByIdRequestAsync(inputUserId);
 
+            UserDependencyException actualUserDependencyException =
+                          await Assert.ThrowsAsync<UserDependencyException>(
+                              deleteUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyException>(() =>
-                deleteUserTask.AsTask());
+            actualUserDependencyException.Should().BeEquivalentTo(
+                expectedUserDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -103,10 +120,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateConcurrencyException = new DbUpdateConcurrencyException();
 
             var lockedUserException =
-                new LockedUserException(databaseUpdateConcurrencyException);
+           new LockedUserException(
+               message: "Locked User record exception, please try again later",
+               innerException: databaseUpdateConcurrencyException);
 
             var expectedUserDependencyValidationException =
-                new UserDependencyValidationException(lockedUserException);
+                new UserDependencyValidationException(
+                    message: "User dependency validation occurred, please try again.",
+                    innerException: lockedUserException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -116,9 +137,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> deleteUserTask =
                 this.userService.RemoveUserByIdRequestAsync(someUserId);
 
+            UserDependencyValidationException actualUserDependencyValidationException =
+                   await Assert.ThrowsAsync<UserDependencyValidationException>(
+                       deleteUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyValidationException>(() =>
-                deleteUserTask.AsTask());
+            actualUserDependencyValidationException.Should().BeEquivalentTo(
+                expectedUserDependencyValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -142,10 +167,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var serviceException = new Exception();
 
             var failedUserServiceException =
-                new FailedUserServiceException(serviceException);
+                new FailedUserServiceException(
+                    message: "Failed User service occurred, please contact support",
+                    innerException: serviceException);
 
             var expectedUserServiceException =
-                new UserServiceException(failedUserServiceException);
+                new UserServiceException(
+                    message: "User service error occurred, contact support.",
+                    innerException: failedUserServiceException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -155,9 +184,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> deleteUserTask =
                 this.userService.RemoveUserByIdRequestAsync(someUserId);
 
+            UserServiceException actualUserServiceException =
+                await Assert.ThrowsAsync<UserServiceException>(
+                    deleteUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserServiceException>(() =>
-                deleteUserTask.AsTask());
+            actualUserServiceException.Should().BeEquivalentTo(
+                expectedUserServiceException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
