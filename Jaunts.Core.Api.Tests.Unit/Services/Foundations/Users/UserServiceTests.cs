@@ -63,6 +63,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         private static int GetRandomNumber() => new IntRange(min: 2, max: 90).GetValue();
         private static int GetNegativeRandomNumber() => -1 * GetRandomNumber();
         private static string GetRandomMessage() => new MnemonicString().GetValue();
+        private static string GetRandomString() => new MnemonicString().GetValue();
         private static SqlException GetSqlException() =>
             (SqlException)RuntimeHelpers.GetUninitializedObject(typeof(SqlException));
 
