@@ -39,7 +39,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     innerException: failedUserStorageException);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.SelectUserByIdAsync(It.IsAny<Guid>()))
+                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
                     .ThrowsAsync(sqlException);
 
             this.dateTimeBrokerMock.Setup(broker =>
