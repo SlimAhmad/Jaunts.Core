@@ -88,18 +88,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var duplicateKeyException =
                 new DuplicateKeyException(randomMessage);
 
-            var alreadyExistsUserException =
-                new AlreadyExistsUserException(duplicateKeyException);
-
-            var expectedUserDependencyValidationException =
-                new UserDependencyValidationException(alreadyExistsUserException);
-
             var failedUserStorageException =
                 new AlreadyExistsUserException(
                     message: "User with the same id already exists.",
                     innerException: duplicateKeyException);
 
-            var expectedUserDependencyException =
+            var expectedUserDependencyValidationException =
                 new UserDependencyValidationException(
                     message: "User dependency validation occurred, please try again.",
                     innerException: failedUserStorageException);
