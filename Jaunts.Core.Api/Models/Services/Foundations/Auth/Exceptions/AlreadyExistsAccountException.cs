@@ -8,10 +8,13 @@ using Xeptions;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.Auth.Exceptions
 {
-    public class AlreadyExistsAuthException : Xeption
+    public class AlreadyExistsAccountException : Xeption
     {
-        public AlreadyExistsAuthException(Exception innerException)
+        public AlreadyExistsAccountException(Exception innerException)
             : base(message: "Auth with the same id already exists.", innerException)
         { }
+
+        public AlreadyExistsAccountException(string message,Exception innerException)
+            : base(message) { }
     }
 }

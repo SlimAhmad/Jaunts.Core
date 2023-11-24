@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public AlreadyExistsUserException(Exception innerException)
 			: base(message: "User with the same id already exists.", innerException)
 		{ }
-	}
+        public AlreadyExistsUserException(string message, Exception innerException)
+        : base(message,innerException) { }
+    }
 }

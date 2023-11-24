@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 	{
 		public LockedUserException(Exception innerException)
 			: base(message: "Locked User record exception, please try again later", innerException) { }
-	}
+        public LockedUserException(string message, Exception innerException)
+		: base(message, innerException) { }
+    }
 }

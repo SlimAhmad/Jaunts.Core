@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 			: base(message: "User validation errors occurred, please try again.",
 				  innerException)
 		{ }
-	}
+        public UserValidationException(string message, Exception innerException)
+        : base(message, innerException) { }
+    }
 }

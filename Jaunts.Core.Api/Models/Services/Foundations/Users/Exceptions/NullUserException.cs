@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public NullUserException()
 			: base(message: "User is null.")
 		{ }
-	}
+        public NullUserException(string message)
+        : base(message) { }
+
+    }
 }

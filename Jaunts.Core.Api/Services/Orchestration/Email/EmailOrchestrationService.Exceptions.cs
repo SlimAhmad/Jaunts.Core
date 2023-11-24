@@ -43,7 +43,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             catch (DuplicateKeyException duplicateKeyException)
             {
                 var alreadyExistsAuthException =
-                    new AlreadyExistsAuthException(duplicateKeyException);
+                    new AlreadyExistsAccountException(duplicateKeyException);
 
                 throw CreateAndLogDependencyValidationException(alreadyExistsAuthException);
             }
@@ -104,7 +104,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             catch (DuplicateKeyException duplicateKeyException)
             {
                 var alreadyExistsAuthException =
-                    new AlreadyExistsAuthException(duplicateKeyException);
+                    new AlreadyExistsAccountException(duplicateKeyException);
 
                 throw CreateAndLogDependencyValidationException(alreadyExistsAuthException);
             }

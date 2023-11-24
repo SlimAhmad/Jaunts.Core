@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 		public UserDependencyException(Exception innerException) :
 			base(message: "User dependency error occurred, contact support.", innerException)
 		{ }
-	}
+        public UserDependencyException(string message, Exception innerException)
+		: base(message, innerException) { }
+    }
 }

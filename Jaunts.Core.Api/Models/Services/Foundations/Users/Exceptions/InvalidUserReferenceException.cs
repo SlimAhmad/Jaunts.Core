@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.User.Exceptions
 	{
 		public InvalidUserReferenceException(Exception innerException)
 			: base(message: "Invalid User reference error occurred.", innerException) { }
-	}
+        public InvalidUserReferenceException(string message, Exception innerException)
+        : base(message, innerException) { }
+    }
 }
