@@ -110,8 +110,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                 this.userService.ModifyUserRequestAsync(someUser);
 
             UserDependencyException actualUserDependencyException =
-            await Assert.ThrowsAsync<UserDependencyException>(
-                modifyUserTask.AsTask);
+                await Assert.ThrowsAsync<UserDependencyException>(
+                    modifyUserTask.AsTask);
 
             // then
             actualUserDependencyException.Should().BeEquivalentTo(
@@ -147,10 +147,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateConcurrencyException = new DbUpdateConcurrencyException();
 
             var lockedUserException =
-                new LockedUserException(databaseUpdateConcurrencyException);
+                   new LockedUserException(
+                       message: "Locked User record exception, please try again later",
+                       innerException: databaseUpdateConcurrencyException);
 
             var expectedUserDependencyValidationException =
-                new UserDependencyValidationException(lockedUserException);
+                new UserDependencyValidationException(
+                    message: "User dependency validation occurred, please try again.",
+                    innerException: lockedUserException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -164,9 +168,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> modifyUserTask =
                 this.userService.ModifyUserRequestAsync(someUser);
 
+            UserDependencyValidationException actualUserDependencyValidationException =
+                   await Assert.ThrowsAsync<UserDependencyValidationException>(
+                       modifyUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyValidationException>(() =>
-                modifyUserTask.AsTask());
+            actualUserDependencyValidationException.Should().BeEquivalentTo(
+                expectedUserDependencyValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -198,10 +206,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var serviceException = new Exception();
 
             var failedUserServiceException =
-                new FailedUserServiceException(serviceException);
+                  new FailedUserServiceException(
+                      message: "Failed User service occurred, please contact support",
+                      innerException: serviceException);
 
             var expectedUserServiceException =
-                new UserServiceException(failedUserServiceException);
+                new UserServiceException(
+                    message: "User service error occurred, contact support.",
+                    innerException: failedUserServiceException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(It.IsAny<Guid>()))
@@ -215,9 +227,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> modifyUserTask =
                 this.userService.ModifyUserRequestAsync(someUser);
 
+            UserServiceException actualUserServiceException =
+               await Assert.ThrowsAsync<UserServiceException>(
+                   modifyUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserServiceException>(() =>
-                modifyUserTask.AsTask());
+            actualUserServiceException.Should().BeEquivalentTo(
+                expectedUserServiceException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
