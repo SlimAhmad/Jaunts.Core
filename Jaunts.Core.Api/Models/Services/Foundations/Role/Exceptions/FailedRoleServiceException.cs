@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public FailedRoleServiceException(Exception innerException)
 			: base(message: "Failed Role service occurred, please contact support", innerException)
 		{ }
-	}
+        public FailedRoleServiceException(string message, Exception innerException)
+             : base(message, innerException) { }
+    }
 }

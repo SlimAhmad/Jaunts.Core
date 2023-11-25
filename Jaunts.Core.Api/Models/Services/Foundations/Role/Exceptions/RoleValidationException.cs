@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 			: base(message: "Role validation errors occurred, please try again.",
 				  innerException)
 		{ }
-	}
+        public RoleValidationException(string message, Exception innerException)
+			 : base(message, innerException) { }
+    }
 }

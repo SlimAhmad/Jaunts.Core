@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
@@ -20,10 +21,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             SqlException sqlException = GetSqlException();
 
             var failedRoleStorageException =
-                new FailedRoleStorageException(sqlException);
+                new FailedRoleStorageException(
+                    message: "Failed Role storage error occurred, contact support.",
+                    innerException: sqlException);
 
             var expectedRoleDependencyException =
-                new RoleDependencyException(failedRoleStorageException);
+                new RoleDependencyException(
+                    message: "Role dependency error occurred, contact support.",
+                    innerException: failedRoleStorageException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectAllRoles())
@@ -33,9 +38,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             Action retrieveAllRolesAction = () =>
                 this.roleService.RetrieveAllRoles();
 
+            RoleDependencyException actualRoleDependencyException =
+               Assert.Throws<RoleDependencyException>(
+                 retrieveAllRolesAction);
+
             // then
-            Assert.Throws<RoleDependencyException>(
-                retrieveAllRolesAction);
+            actualRoleDependencyException.Should().BeEquivalentTo(
+                expectedRoleDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -62,10 +71,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             var serviceException = new Exception();
 
             var failedRoleServiceException =
-                new FailedRoleServiceException(serviceException);
+                  new FailedRoleServiceException(
+                      message: "Failed Role service occurred, please contact support",
+                      innerException: serviceException);
 
             var expectedRoleServiceException =
-                new RoleServiceException(failedRoleServiceException);
+                new RoleServiceException(
+                    message: "Role service error occurred, contact support.",
+                    innerException: failedRoleServiceException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectAllRoles())
@@ -76,9 +89,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             Action retrieveAllRolesAction = () =>
                 this.roleService.RetrieveAllRoles();
 
+            RoleServiceException actualRoleServiceException =
+                 Assert.Throws<RoleServiceException>(
+                    retrieveAllRolesAction);
+
             // then
-            Assert.Throws<RoleServiceException>(
-                retrieveAllRolesAction);
+            actualRoleServiceException.Should().BeEquivalentTo(
+                expectedRoleServiceException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(

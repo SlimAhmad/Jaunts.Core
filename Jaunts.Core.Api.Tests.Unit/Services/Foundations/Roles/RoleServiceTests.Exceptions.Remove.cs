@@ -5,6 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Microsoft.Data.SqlClient;
@@ -24,10 +25,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             SqlException sqlException = GetSqlException();
 
             var failedRoleStorageException =
-                new FailedRoleStorageException(sqlException);
+                new FailedRoleStorageException(
+                    message: "Failed Role storage error occurred, contact support.",
+                    innerException: sqlException);
 
             var expectedRoleDependencyException =
-                new RoleDependencyException(failedRoleStorageException);
+                new RoleDependencyException(
+                    message: "Role dependency error occurred, contact support.",
+                    innerException: failedRoleStorageException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectRoleByIdAsync(It.IsAny<Guid>()))
@@ -37,9 +42,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(someRoleId);
 
+            RoleDependencyException actualRoleDependencyException =
+             await Assert.ThrowsAsync<RoleDependencyException>(
+                 deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleDependencyException>(() =>
-                deleteRoleTask.AsTask());
+            actualRoleDependencyException.Should().BeEquivalentTo(
+                expectedRoleDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
@@ -64,10 +73,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             var databaseUpdateException = new DbUpdateException();
 
             var failedRoleStorageException =
-                new FailedRoleStorageException(databaseUpdateException);
+                   new FailedRoleStorageException(
+                       message: "Failed Role storage error occurred, contact support.",
+                       innerException: databaseUpdateException);
 
             var expectedRoleDependencyException =
-                new RoleDependencyException(failedRoleStorageException);
+                new RoleDependencyException(
+                    message: "Role dependency error occurred, contact support.",
+                    innerException: failedRoleStorageException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectRoleByIdAsync(It.IsAny<Guid>()))
@@ -77,9 +90,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(inputRoleId);
 
+            RoleDependencyException actualRoleDependencyException =
+                await Assert.ThrowsAsync<RoleDependencyException>(
+                    deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleDependencyException>(() =>
-                deleteRoleTask.AsTask());
+            actualRoleDependencyException.Should().BeEquivalentTo(
+                expectedRoleDependencyException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -103,10 +120,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             var databaseUpdateConcurrencyException = new DbUpdateConcurrencyException();
 
             var lockedRoleException =
-                new LockedRoleException(databaseUpdateConcurrencyException);
+                    new LockedRoleException(
+                        message: "Locked Role record exception, please try again later",
+                        innerException: databaseUpdateConcurrencyException);
 
             var expectedRoleDependencyValidationException =
-                new RoleDependencyValidationException(lockedRoleException);
+                new RoleDependencyValidationException(
+                    message: "Role dependency validation occurred, please try again.",
+                    innerException: lockedRoleException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectRoleByIdAsync(It.IsAny<Guid>()))
@@ -116,9 +137,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(someRoleId);
 
+            RoleDependencyValidationException actualRoleDependencyValidationException =
+                    await Assert.ThrowsAsync<RoleDependencyValidationException>(
+                        deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleDependencyValidationException>(() =>
-                deleteRoleTask.AsTask());
+            actualRoleDependencyValidationException.Should().BeEquivalentTo(
+                expectedRoleDependencyValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -142,10 +167,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             var serviceException = new Exception();
 
             var failedRoleServiceException =
-                new FailedRoleServiceException(serviceException);
+                   new FailedRoleServiceException(
+                       message: "Failed Role service occurred, please contact support",
+                       innerException: serviceException);
 
             var expectedRoleServiceException =
-                new RoleServiceException(failedRoleServiceException);
+                new RoleServiceException(
+                    message: "Role service error occurred, contact support.",
+                    innerException: failedRoleServiceException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectRoleByIdAsync(It.IsAny<Guid>()))
@@ -155,9 +184,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(someRoleId);
 
+            RoleServiceException actualRoleServiceException =
+                await Assert.ThrowsAsync<RoleServiceException>(
+                    deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleServiceException>(() =>
-                deleteRoleTask.AsTask());
+            actualRoleServiceException.Should().BeEquivalentTo(
+                expectedRoleServiceException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(

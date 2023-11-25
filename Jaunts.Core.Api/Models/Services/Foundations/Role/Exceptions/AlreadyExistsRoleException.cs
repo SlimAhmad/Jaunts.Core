@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public AlreadyExistsRoleException(Exception innerException)
 			: base(message: "Role with the same id already exists.", innerException)
 		{ }
+	    public AlreadyExistsRoleException(string message, Exception innerException)
+			 : base(message,innerException) { }
 	}
 }

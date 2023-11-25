@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public InvalidRoleException()
 			: base(message: "Invalid Role. Please correct the errors and try again.")
 		{ }
-	}
+        public InvalidRoleException(string message)
+           : base(message) { }
+    }
 }

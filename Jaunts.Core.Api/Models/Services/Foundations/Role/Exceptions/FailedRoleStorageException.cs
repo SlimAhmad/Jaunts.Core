@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public FailedRoleStorageException(Exception innerException)
 			: base(message: "Failed Role storage error occurred, contact support.", innerException)
 		{ }
-	}
+        public FailedRoleStorageException(string message, Exception innerException)
+			: base(message, innerException) { }
+    }
 }
