@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 	{
 		public LockedRoleException(Exception innerException)
 			: base(message: "Locked Role record exception, please try again later", innerException) { }
-	}
+        public LockedRoleException(string message, Exception innerException)
+			: base(message, innerException) { }
+    }
 }

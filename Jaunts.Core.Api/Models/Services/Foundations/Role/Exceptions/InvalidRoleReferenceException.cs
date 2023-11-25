@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 	{
 		public InvalidRoleReferenceException(Exception innerException)
 			: base(message: "Invalid Role reference error occurred.", innerException) { }
-	}
+        public InvalidRoleReferenceException(string message, Exception innerException)
+           : base(message, innerException) { }
+    }
 }

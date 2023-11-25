@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public NullRoleException()
 			: base(message: "Role is null.")
 		{ }
-	}
+        public NullRoleException(string message)
+			: base(message) { }
+    }
 }

@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public RoleDependencyException(Exception innerException) :
 			base(message: "Role dependency error occurred, contact support.", innerException)
 		{ }
-	}
+        public RoleDependencyException(string message, Exception innerException)
+			: base(message, innerException) { }
+    }
 }

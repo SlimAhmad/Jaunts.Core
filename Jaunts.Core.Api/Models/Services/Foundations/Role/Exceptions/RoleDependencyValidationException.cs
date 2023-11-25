@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public RoleDependencyValidationException(Xeption innerException)
 			: base(message: "Role dependency validation occurred, please try again.", innerException)
 		{ }
-	}
+        public RoleDependencyValidationException(string message, Exception innerException)
+			: base(message, innerException) { }
+    }
 }

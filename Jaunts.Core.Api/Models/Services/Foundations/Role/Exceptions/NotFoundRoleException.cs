@@ -13,5 +13,7 @@ namespace Jaunts.Core.Api.Models.Role.Exceptions
 		public NotFoundRoleException(Guid RoleId)
 			: base(message: $"Couldn't find Role with id: {RoleId}.")
 		{ }
-	}
+        public NotFoundRoleException(string message)
+			: base(message) { }
+    }
 }
