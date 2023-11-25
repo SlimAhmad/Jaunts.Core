@@ -142,7 +142,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var databaseUpdateException = new DbUpdateException();
             string password = GetRandomPassword();
 
-
             var failedUserStorageException =
                   new FailedUserStorageException(
                       message: "Failed User storage error occurred, contact support.",
