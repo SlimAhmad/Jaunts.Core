@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         public async Task ShouldThrowDependencyExceptionOnModifyIfSqlExceptionOccursAndLogItAsync()
         {
             // given
-            int randomNegativeNumber = GetNegativeRandomNumber();
+            int randomNegativeNumber = GetRandomNegativeNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             ApplicationUser someUser = randomUser;
@@ -80,7 +80,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         public async Task ShouldThrowDependencyExceptionOnModifyIfDbUpdateExceptionOccursAndLogItAsync()
         {
             // given
-            int randomNegativeNumber = GetNegativeRandomNumber();
+            int randomNegativeNumber = GetRandomNegativeNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(randomDateTime);
             ApplicationUser someUser = randomUser;
@@ -139,7 +139,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         public async Task ShouldThrowDependencyValidationExceptionOnModifyIfDbUpdateConcurrencyExceptionOccursAndLogItAsync()
         {
             // given
-            int randomNegativeNumber = GetNegativeRandomNumber();
+            int randomNegativeNumber = GetRandomNegativeNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(randomDateTime);
             ApplicationUser someUser = randomUser;
@@ -198,7 +198,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         public async Task ShouldThrowServiceExceptionOnModifyIfServiceExceptionOccursAndLogItAsync()
         {
             // given
-            int randomNegativeNumber = GetNegativeRandomNumber();
+            int randomNegativeNumber = GetRandomNegativeNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(randomDateTime);
             ApplicationUser someUser = randomUser;

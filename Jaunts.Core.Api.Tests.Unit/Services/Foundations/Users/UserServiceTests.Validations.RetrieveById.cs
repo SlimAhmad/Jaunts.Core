@@ -5,6 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Moq;
@@ -15,26 +16,35 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
     public partial class UserServiceTests
     {
         [Fact]
-        public async Task ShouldThrowValidatonExceptionOnRetrieveByIdWhenUserIdIsInvalidAndLogItAsync()
+        public async Task ShouldThrowValidationExceptionOnRetrieveByIdWhenUserIdIsInvalidAndLogItAsync()
         {
             // given
             Guid invalidUserId = Guid.Empty;
 
-            var invalidUserException = new InvalidUserException();
+            var invalidUserException =
+              new InvalidUserException(
+                  message: "Invalid User. Please correct the errors and try again.");
 
             invalidUserException.AddData(
                 key: nameof(ApplicationUser.Id),
                 values: "Id is required");
 
             var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
+                new UserValidationException(
+                    message: "User validation errors occurred, please try again.",
+                    innerException: invalidUserException);
 
             // when
-            ValueTask<ApplicationUser> actualUserTask =
+            ValueTask<ApplicationUser> retrieveUserTask =
                 this.userService.RetrieveUserByIdRequestAsync(invalidUserId);
 
+            UserValidationException actualUserValidationException =
+                 await Assert.ThrowsAsync<UserValidationException>(
+                     retrieveUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() => actualUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -51,7 +61,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         }
 
         [Fact]
-        public async Task ShouldThrowValidatonExceptionOnRetrieveByIdWhenStorageUserIsInvalidAndLogItAsync()
+        public async Task ShouldThrowValidationExceptionOnRetrieveByIdWhenStorageUserIsInvalidAndLogItAsync()
         {
             // given
             Guid invalidUserId = Guid.NewGuid();
@@ -59,7 +69,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             var notFoundUserException = new NotFoundUserException(invalidUserId);
 
             var expectedUserValidationException =
-                new UserValidationException(notFoundUserException);
+                new UserValidationException(
+                    message: "User validation errors occurred, please try again.",
+                    innerException: notFoundUserException);
 
             this.userManagementBrokerMock.Setup(broker =>
                 broker.SelectUserByIdAsync(invalidUserId))
@@ -69,9 +81,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> retrieveUserTask =
                 this.userService.RetrieveUserByIdRequestAsync(invalidUserId);
 
+            UserValidationException actualUserValidationException =
+                 await Assert.ThrowsAsync<UserValidationException>(
+                     retrieveUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                retrieveUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
