@@ -5,7 +5,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
 {
     public partial interface IEmailService
     {
-        ValueTask<SendEmailResponse> PostMailRequestAsync(SendEmailDetails email);
+        ValueTask<SendEmailResponse> SendEmailRequestAsync(SendEmailDetails email);
 
     }
 }

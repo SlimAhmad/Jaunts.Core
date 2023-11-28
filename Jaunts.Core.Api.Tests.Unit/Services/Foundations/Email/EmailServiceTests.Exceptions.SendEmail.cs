@@ -18,14 +18,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
     public partial class EmailServiceTests
     {
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnPostOTPVerificationMailRequestIfUrlNotFoundAsync()
+        public async Task ShouldThrowDependencyExceptionOnPostSendEmailRequestIfUrlNotFoundAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomSubject();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
 
             var httpResponseUrlNotFoundException =
@@ -41,17 +41,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     message: "Email dependency error occurred, contact support.",
                     invalidConfigurationEmailException);
 
-            this.emailTemplateSender.Setup(broker =>
-                broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                    .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(httpResponseUrlNotFoundException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-               this.emailService.PostMailRequestAsync(sendEmailDetails);
+               this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -62,27 +58,19 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyException.Should().BeEquivalentTo(
                 expectedEmailDependencyException);
 
-            this.emailTemplateSender.Verify(broker =>
-                broker.SendVerificationEmailAsync(
-                    It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>()),
-                     Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Theory]
         [MemberData(nameof(UnauthorizedExceptions))]
-        public async Task ShouldThrowDependencyExceptionOnPostOTPVerificationMailRequestIfUnauthorizedAsync(
+        public async Task ShouldThrowDependencyExceptionOnPostSendEmailRequestIfUnauthorizedAsync(
             HttpResponseException unauthorizedException)
         {
             // given
@@ -90,7 +78,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
 
 
@@ -101,17 +89,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                 new EmailDependencyException(unauthorizedEmailException);
 
 
-            this.emailTemplateSender.Setup(broker =>
-                broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                    .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(unauthorizedException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyException
                 actualEmailDependencyException =
@@ -122,33 +106,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyException.Should().BeEquivalentTo(
                 expectedEmailDependencyException);
 
-            this.emailTemplateSender.Verify(broker =>
-                 broker.SendVerificationEmailAsync(
-                     It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                     It.IsAny<string>(), It.IsAny<string>(),
-                     It.IsAny<string>(), It.IsAny<string>()),
-                      Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnPostOTPVerificationMailRequestIfNotFoundOccurredAsync()
+        public async Task ShouldThrowDependencyValidationExceptionOnPostSendEmailRequestIfNotFoundOccurredAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
 
 
@@ -166,17 +142,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     message: "Email dependency validation error occurred, contact support.",
                     notFoundEmailException);
 
-            this.emailTemplateSender.Setup(broker =>
-               broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                   .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(httpResponseNotFoundException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -187,36 +159,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyValidationException.Should().BeEquivalentTo(
                 expectedEmailDependencyValidationException);
 
-            this.emailTemplateSender.Verify(broker =>
-              broker.SendVerificationEmailAsync(
-                  It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                  It.IsAny<string>(), It.IsAny<string>(),
-                  It.IsAny<string>(), It.IsAny<string>()),
-                   Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnPostOTPVerificationMailRequestIfBadRequestOccurredAsync()
+        public async Task ShouldThrowDependencyValidationExceptionOnPostSendEmailRequestIfBadRequestOccurredAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
-
-
-
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
             var httpResponseBadRequestException =
                 new HttpResponseBadRequestException();
@@ -231,17 +192,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     message: "Email dependency validation error occurred, contact support.",
                     invalidEmailException);
 
-            this.emailTemplateSender.Setup(broker =>
-                broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                    .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(httpResponseBadRequestException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyValidationException
                 actualEmailDependencyValidationException =
@@ -252,36 +209,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyValidationException.Should().BeEquivalentTo(
                 expectedEmailDependencyValidationException);
 
-            this.emailTemplateSender.Verify(broker =>
-                  broker.SendVerificationEmailAsync(
-                      It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                      It.IsAny<string>(), It.IsAny<string>(),
-                      It.IsAny<string>(), It.IsAny<string>()),
-                       Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnPostOTPVerificationMailRequestIfTooManyRequestsOccurredAsync()
+        public async Task ShouldThrowDependencyValidationExceptionOnPostSendEmailRequestIfTooManyRequestsOccurredAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
-
-
-
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
             var httpResponseTooManyRequestsException =
                 new HttpResponseTooManyRequestsException();
@@ -296,17 +242,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     message: "Email dependency validation error occurred, contact support.",
                     excessiveCallEmailException);
 
-            this.emailTemplateSender.Setup(broker =>
-             broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                 .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(httpResponseTooManyRequestsException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyValidationException actualEmailDependencyValidationException =
                 await Assert.ThrowsAsync<EmailDependencyValidationException>(
@@ -316,34 +258,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyValidationException.Should().BeEquivalentTo(
                 expectedEmailDependencyValidationException);
 
-            this.emailTemplateSender.Verify(broker =>
-              broker.SendVerificationEmailAsync(
-                  It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                  It.IsAny<string>(), It.IsAny<string>(),
-                  It.IsAny<string>(), It.IsAny<string>()),
-                   Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnPostOTPVerificationMailRequestIfHttpResponseErrorOccurredAsync()
+        public async Task ShouldThrowDependencyExceptionOnPostSendEmailRequestIfHttpResponseErrorOccurredAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
-
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
 
             var httpResponseException =
@@ -359,17 +292,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                     message: "Email dependency error occurred, contact support.",
                     failedServerEmailException);
 
-            this.emailTemplateSender.Setup(broker =>
-              broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                  .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(httpResponseException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailDependencyException actualEmailDependencyException =
                 await Assert.ThrowsAsync<EmailDependencyException>(
@@ -379,34 +308,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailDependencyException.Should().BeEquivalentTo(
                 expectedEmailDependencyException);
 
-            this.emailTemplateSender.Verify(broker =>
-             broker.SendVerificationEmailAsync(
-                 It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                 It.IsAny<string>(), It.IsAny<string>(),
-                 It.IsAny<string>(), It.IsAny<string>()),
-                  Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
                     Times.Once);
 
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+            
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnPostOTPVerificationMailRequestIfServiceErrorOccurredAsync()
+        public async Task ShouldThrowServiceExceptionOnPostSendEmailRequestIfServiceErrorOccurredAsync()
         {
             // given
             int randomNegativeNumber = GetNegativeRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
             ApplicationUser randomUser = CreateRandomUser(dates: randomDateTime);
             var randomText = GetRandomText();
-            var sendEmailDetails = CreateSendEmailDetailRequest();
-
+            var SendEmailDetails = CreateSendEmailDetailRequest();
 
 
             var serviceException = new Exception();
@@ -417,17 +337,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             var expectedEmailServiceException =
                 new EmailServiceException(failedEmailServiceException);
 
-            this.emailTemplateSender.Setup(broker =>
-              broker.SendVerificationEmailAsync(It.IsAny<SendEmailDetails>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                  .ReturnsAsync(sendEmailDetails);
-
             this.emailBrokerMock.Setup(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()))
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()))
                     .ThrowsAsync(serviceException);
 
             // when
             ValueTask<SendEmailResponse> retrieveSendEmailResponseTask =
-                this.emailService.PostMailRequestAsync(sendEmailDetails);
+                this.emailService.SendEmailRequestAsync(SendEmailDetails);
 
             EmailServiceException actualEmailServiceException =
                 await Assert.ThrowsAsync<EmailServiceException>(
@@ -437,20 +353,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             actualEmailServiceException.Should().BeEquivalentTo(
                 expectedEmailServiceException);
 
-            this.emailTemplateSender.Verify(broker =>
-                broker.SendVerificationEmailAsync(
-                    It.IsAny<SendEmailDetails>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>(),
-                    It.IsAny<string>(), It.IsAny<string>()),
-                     Times.Once);
-
-
             this.emailBrokerMock.Verify(broker =>
-                broker.PostMailAsync(It.IsAny<SendEmailDetails>()),
-                    Times.Once);
-
-            this.emailTemplateSender.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
+                broker.SendEmailAsync(It.IsAny<SendEmailDetails>()),
+                    Times.Once);    
+            
             this.emailBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }

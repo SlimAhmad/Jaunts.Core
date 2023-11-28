@@ -3,13 +3,16 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Moq;
+using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 using Xunit;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 {
@@ -25,55 +28,21 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var expectedUserValidationException =
-                new UserValidationException(nullUserException);
+                new UserValidationException(
+                    message: "User validation errors occurred, please try again.",
+                    innerException: nullUserException);
 
             // when
             ValueTask<ApplicationUser> createUserTask =
                 this.userService.RegisterUserRequestAsync(invalidUser, password);
 
-            // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                createUserTask.AsTask());
-
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedUserValidationException))),
-                        Times.Once);
-
-            this.userManagementBrokerMock.Verify(broker =>
-                broker.SelectUserByIdAsync(It.IsAny<Guid>()),
-                    Times.Never);
-
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async void ShouldThrowValidationExceptionOnCreateWhenIdIsInvalidAndLogItAsync()
-        {
-            // given
-            ApplicationUser randomUser = CreateRandomUser();
-            ApplicationUser inputUser = randomUser;
-            inputUser.Id = default;
-            string password = GetRandomPassword();
-
-            var invalidUserInputException = new InvalidUserException();
-
-            var expectedUserValidationException =
-                new UserValidationException(invalidUserInputException);
-
-            // when
-            ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(inputUser, password);
+            UserValidationException actualUserValidationException =
+              await Assert.ThrowsAsync<UserValidationException>(
+                  createUserTask.AsTask);
 
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
-
-            this.dateTimeBrokerMock.Verify(broker =>
-               broker.GetCurrentDateTime(),
-                   Times.Once());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -93,7 +62,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         [InlineData(null, null, null, null, null, null)]
         [InlineData("", "", "", "", "", "")]
         [InlineData(" ", " ", " ", " ", " ", " ")]
-        public async Task ShouldThrowValidationExceptionOnCreateWhenUserUserNameIsInvalidAndLogItAsync(
+        public async Task ShouldThrowValidationExceptionOnCreateWhenUserAndPasswordIsInvalidAndLogItAsync(
             string invalidUserUserName, string invalidEmail, string invalidFirstName,
             string invalidLastName, string invalidPhoneNumber, string invalidPassword)
         {
@@ -105,9 +74,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             invalidUser.FirstName = invalidFirstName;
             invalidUser.LastName = invalidLastName;
             invalidUser.PhoneNumber = invalidPhoneNumber;
+            invalidUser.CreatedDate = default;
+            invalidUser.UpdatedDate = default;
             string password = invalidPassword;
 
-            var invalidUserException = new InvalidUserException();
+            var invalidUserException =
+                new InvalidUserException(
+                    message: "Invalid User. Please correct the errors and try again.");
 
             invalidUserException.AddData(
                 key: nameof(ApplicationUser.UserName),
@@ -130,10 +103,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                values: "Text is required");
 
             invalidUserException.AddData(
-               key: nameof(ApplicationUser),
-               values: "Text is required");
-
-            invalidUserException.AddData(
                key: nameof(ApplicationUser.CreatedDate),
                values: "Date is required");
 
@@ -141,16 +110,26 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                key: nameof(ApplicationUser.UpdatedDate),
                values: "Date is required");
 
+            invalidUserException.AddData(
+               key: nameof(ApplicationUser),
+               values: "Text is required");
+
             var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
+                new UserValidationException(
+                    message: "User validation errors occurred, please try again.",
+                    innerException: invalidUserException);
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(invalidUser, password);
 
+            UserValidationException actualUserValidationException =
+               await Assert.ThrowsAsync<UserValidationException>(
+                   registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -165,8 +144,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             this.userManagementBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
-
-
 
         [Fact]
         public async void ShouldThrowValidationExceptionOnCreateWhenCreatedDateIsInvalidAndLogItAsync()
@@ -177,31 +154,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             inputUser.CreatedDate = default;
             string password = GetRandomPassword();
 
-            var invalidUserException = new InvalidUserException();
-
-            invalidUserException.AddData(
-                key: nameof(ApplicationUser.UserName),
-                values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.Email),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.FirstName),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.LastName),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.PhoneNumber),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser),
-               values: "Text is required");
+            var invalidUserException =
+              new InvalidUserException(
+                  message: "Invalid User. Please correct the errors and try again.");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.CreatedDate),
@@ -209,94 +164,29 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.UpdatedDate),
-               values: "Date is required");
+               values: ["Date is not the same as CreatedDate", "Date is not recent"]);
+
 
             var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
+                new UserValidationException(
+                    message: "User validation errors occurred, please try again.",
+                    innerException: invalidUserException);
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserValidationException actualUserValidationException =
+              await Assert.ThrowsAsync<UserValidationException>(
+                  registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                broker.GetCurrentDateTime(),
                    Times.Once());
-
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedUserValidationException))),
-                        Times.Once);
-
-            this.userManagementBrokerMock.Verify(broker =>
-                broker.SelectUserByIdAsync(It.IsAny<Guid>()),
-                    Times.Never);
-
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.userManagementBrokerMock.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async void ShouldThrowValidationExceptionOnCreateWhenUpdatedDateIsInvalidAndLogItAsync()
-        {
-            // given
-            ApplicationUser randomUser = CreateRandomUser();
-            ApplicationUser inputUser = randomUser;
-            inputUser.UpdatedDate = default;
-            string password = GetRandomPassword();
-
-            var invalidUserException = new InvalidUserException();
-
-            invalidUserException.AddData(
-                key: nameof(ApplicationUser.UserName),
-                values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.Email),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.FirstName),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.LastName),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.PhoneNumber),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser),
-               values: "Text is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.CreatedDate),
-               values: "Date is required");
-
-            invalidUserException.AddData(
-               key: nameof(ApplicationUser.UpdatedDate),
-               values: "Date is required");
-
-            var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
-
-            // when
-            ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(inputUser, password);
-
-            // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
-
-            this.dateTimeBrokerMock.Verify(broker =>
-                broker.GetCurrentDateTime(),
-                    Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -322,22 +212,29 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var invalidUserException =
-                 new InvalidUserException();
+                new InvalidUserException(
+                    message: "Invalid User. Please correct the errors and try again.");
 
             invalidUserException.AddData(
             key: nameof(ApplicationUser.UpdatedDate),
-                values: $"Date is not the same as {nameof(ApplicationUser.CreatedDate)}");
+                values: [$"Date is not the same as {nameof(ApplicationUser.CreatedDate)}", "Date is not recent"]);
 
             var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
+               new UserValidationException(
+                   message: "User validation errors occurred, please try again.",
+                   innerException: invalidUserException);
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserValidationException actualUserValidationException =
+              await Assert.ThrowsAsync<UserValidationException>(
+                  registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                broker.GetCurrentDateTime(),
@@ -371,14 +268,17 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var invalidUserException =
-                 new InvalidUserException();
+               new InvalidUserException(
+                   message: "Invalid User. Please correct the errors and try again.");
 
             invalidUserException.AddData(
-                key: nameof(ApplicationUser.CreatedDate),
-                values: "Date is not recent");
+            key: nameof(ApplicationUser.UpdatedDate),
+                values:  "Date is not recent");
 
             var expectedUserValidationException =
-                new UserValidationException(invalidUserException);
+               new UserValidationException(
+                   message: "User validation errors occurred, please try again.",
+                   innerException: invalidUserException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -388,9 +288,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(inputUser, password);
 
+            UserValidationException actualUserValidationException =
+                 await Assert.ThrowsAsync<UserValidationException>(
+                     registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserValidationException>(() =>
-                registerUserTask.AsTask());
+            actualUserValidationException.Should().BeEquivalentTo(
+                expectedUserValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -424,10 +328,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             string password = GetRandomPassword();
 
             var alreadyExistsUserException =
-                new AlreadyExistsUserException(duplicateKeyException);
+               new AlreadyExistsUserException(
+                   message: "User with the same id already exists.",
+                   duplicateKeyException);
 
-            var expectedUserValidationException =
-                new UserDependencyValidationException(alreadyExistsUserException);
+            var expectedUserDependencyValidationException =
+               new UserDependencyValidationException(
+                   message: "User dependency validation occurred, please try again.",
+                   innerException: alreadyExistsUserException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -441,9 +349,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             ValueTask<ApplicationUser> registerUserTask =
                 this.userService.RegisterUserRequestAsync(alreadyExistsUser, password);
 
+            UserDependencyValidationException actualUserDependencyValidationException =
+                 await Assert.ThrowsAsync<UserDependencyValidationException>(
+                     registerUserTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<UserDependencyValidationException>(() =>
-                registerUserTask.AsTask());
+            actualUserDependencyValidationException.Should().BeEquivalentTo(
+                expectedUserDependencyValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -455,7 +367,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             this.loggingBrokerMock.Verify(broker =>
                broker.LogError(It.Is(SameExceptionAs(
-                   expectedUserValidationException))),
+                   expectedUserDependencyValidationException))),
                         Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();

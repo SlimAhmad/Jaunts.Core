@@ -58,12 +58,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
+        private static DateTimeOffset GetCurrentDateTime() =>  DateTimeOffset.UtcNow;
+
         private static string GetRandomNames() => new RealNames().GetValue();
         private static string GetRandomEmailAddresses() => new EmailAddresses().GetValue();
         private static int GetRandomNumber() => new IntRange(min: 2, max: 90).GetValue();
-        private static int GetNegativeRandomNumber() => -1 * GetRandomNumber();
+        private static int GetRandomNegativeNumber() =>
+            -1 * new IntRange(min: 2, max: 10).GetValue();
         private static string GetRandomMessage() => new MnemonicString().GetValue();
-        private static string GetRandomString() => new MnemonicString().GetValue();
+        private static string GetRandomString() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
         private static SqlException GetSqlException() =>
             (SqlException)RuntimeHelpers.GetUninitializedObject(typeof(SqlException));
 
@@ -101,7 +105,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
             return user;
         }
 
+        private static ApplicationUser CreateRandomModifyUser(DateTimeOffset dates)
+        {
+            int randomDaysInPast = GetRandomNegativeNumber();
+            ApplicationUser randomUser = CreateRandomUser(dates);
 
+            randomUser.CreatedDate =
+                randomUser.CreatedDate.AddDays(randomDaysInPast);
+
+            return randomUser;
+        }
 
         private static IQueryable<ApplicationUser> CreateRandomUsers(DateTimeOffset dates)
         {
@@ -129,7 +142,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         public static TheoryData InvalidMinuteCases()
         {
             int randomMoreThanMinuteFromNow = GetRandomNumber();
-            int randomMoreThanMinuteBeforeNow = GetNegativeRandomNumber();
+            int randomMoreThanMinuteBeforeNow = GetRandomNegativeNumber();
 
             return new TheoryData<int>
             {

@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             var expectedUserDependencyException =
                 new UserDependencyException(
-                    message: "User dependency validation error occurred, try again.",
+                    message: "User dependency error occurred, contact support.",
                     innerException: failedUserStorageException);
 
             this.dateTimeBrokerMock.Setup(broker =>
