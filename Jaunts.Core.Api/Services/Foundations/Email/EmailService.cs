@@ -32,10 +32,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
         }
 
      
-        public ValueTask<SendEmailResponse> PostMailRequestAsync(SendEmailDetails sendEmailDetails) =>
-        TryCatch(async () => {
+        public ValueTask<SendEmailResponse> SendEmailRequestAsync(SendEmailDetails sendEmailDetails) =>
+        TryCatch(async () =>
+        {
            ValidateMail(sendEmailDetails);
-            SendEmailResponse emailResponse = await sendEmailDetailsBroker.PostMailAsync(sendEmailDetails);
+            SendEmailResponse emailResponse = await sendEmailDetailsBroker.SendEmailAsync(sendEmailDetails);
             ValidateMailResponse(emailResponse);
             return emailResponse;
         });
