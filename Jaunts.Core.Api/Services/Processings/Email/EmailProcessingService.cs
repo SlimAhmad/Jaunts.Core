@@ -53,7 +53,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                verificationUrl
                );
                 ValidateMail(sendEmailDetails);
-                return await emailService.PostMailRequestAsync(sendEmailDetails);
+                return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });
 
@@ -77,7 +77,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     verificationUrl
                     );
                 ValidateMail(sendEmailDetails);
-                return await emailService.PostMailRequestAsync(sendEmailDetails);
+                return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
 
             });
@@ -103,7 +103,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     verificationUrl
                     );
                 ValidateMail(sendEmailDetails);
-                return await emailService.PostMailRequestAsync(sendEmailDetails);
+                return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });
 
