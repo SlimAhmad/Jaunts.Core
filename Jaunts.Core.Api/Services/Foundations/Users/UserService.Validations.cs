@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         private void ValidateUserOnCreate(ApplicationUser user, string password)
         {
             ValidateUserIsNull(user);
-            
+        
 
             Validate(
                 (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
@@ -25,8 +25,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 (Rule: IsNotSame(
                     firstDate: user.UpdatedDate,
                     secondDate: user.CreatedDate,
-                    secondDateName: nameof(user.CreatedDate)),
-                Parameter: nameof(user.UpdatedDate)),
+                    secondDateName: nameof(ApplicationUser.CreatedDate)),
+                Parameter: nameof(ApplicationUser.UpdatedDate)),
 
                 (Rule: IsNotRecent(user.UpdatedDate), Parameter: nameof(user.UpdatedDate)));
 
@@ -38,6 +38,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateUserIsNull(user);
 
             Validate(
+               (Rule: IsInvalid(user.Id), Parameter: nameof(ApplicationUser.Id)),
+               (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)),
                (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
                (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
                (Rule: IsInvalid(user.UserName), Parameter: nameof(ApplicationUser.UserName)),
@@ -112,8 +114,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             }
         }
 
-
-
         private static dynamic IsInvalid(object @object) => new
         {
             Condition = @object is null,
@@ -180,6 +180,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             TimeSpan oneMinute = TimeSpan.FromMinutes(1);
 
             return timeDifference.Duration() > oneMinute;
+
         }
 
         private static dynamic IsInvalid(DateTimeOffset date) => new
