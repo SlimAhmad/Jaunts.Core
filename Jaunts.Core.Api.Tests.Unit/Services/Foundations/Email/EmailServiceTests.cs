@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Castle.Core.Configuration;
@@ -26,17 +27,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
     public partial class EmailServiceTests
     {
         private readonly Mock<IEmailBroker> emailBrokerMock;
-        private readonly Mock<IUserManagementBroker> userManagementBrokerMock;
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly IEmailService emailService;
-        private readonly IConfiguration configuration;
-        private readonly Mock<IEmailTemplateSender> emailTemplateSender;
         private readonly ICompareLogic compareLogic;
         public EmailServiceTests()
         {
             this.emailBrokerMock = new Mock<IEmailBroker>();
-            this.userManagementBrokerMock = new Mock<IUserManagementBroker>();
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.compareLogic = new CompareLogic();
@@ -44,17 +41,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             this.emailService = new EmailService(
                  this.emailBrokerMock.Object,
                  this.dateTimeBrokerMock.Object,
-                 this.loggingBrokerMock.Object
-
-                );
+                 this.loggingBrokerMock.Object);
         }
-
-
-
 
         private Expression<Func<Exception, bool>> SameExceptionAs(
              Exception expectedException)
-        {
+        {   
             return actualException =>
                 this.compareLogic.Compare(
                     expectedException.InnerException.Message,
@@ -66,7 +58,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
           CreateSendEmailDetailsFiller().Create();
         private static SendEmailResponse CreateSendEmailResponse() =>
           CreateSendEmailResponseFiller().Create();
-
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
@@ -103,7 +94,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             var filler = new Filler<SendEmailResponse>();
 
             filler.Setup()
-                .OnType<object>().IgnoreIt()
+                .OnProperty(x=> x.Errors).IgnoreIt()
                 .OnType<DateTimeOffset>().IgnoreIt();
 
             return filler;
@@ -114,7 +105,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             var filler = new Filler<SendEmailDetails>();
 
             filler.Setup()
-                .OnType<object>().IgnoreIt()
+                .OnProperty(x=> x.From.Email).Use(GetRandomEmailAddresses())
                 .OnType<DateTimeOffset>().IgnoreIt();
 
             return filler;
@@ -136,7 +127,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
 
             return user;
         }
-
 
         public static TheoryData UnauthorizedExceptions()
         {
