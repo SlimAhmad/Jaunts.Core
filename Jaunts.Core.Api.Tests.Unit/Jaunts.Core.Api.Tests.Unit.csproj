@@ -33,4 +33,10 @@
     <ProjectReference Include="..\Jaunts.Core\Jaunts.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Foundations\Jwt\" />
+    <Folder Include="Services\Foundations\SignIn\" />
+    <Folder Include="Services\Processings\" />
+  </ItemGroup>
+
 </Project>
