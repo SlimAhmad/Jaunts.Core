@@ -22,8 +22,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
                 Parameter: nameof(role.UpdatedDate)),
 
                 (Rule: IsNotRecent(role.UpdatedDate), Parameter: nameof(role.UpdatedDate)));
-
-
         }
 
         private void ValidateRoleOnModify(ApplicationRole role)
