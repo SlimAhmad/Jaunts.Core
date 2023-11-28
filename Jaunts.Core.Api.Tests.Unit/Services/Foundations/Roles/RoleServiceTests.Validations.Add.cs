@@ -3,12 +3,14 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
+using Jaunts.Core.Api.Models.Role.Exceptions;
 using Moq;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
@@ -25,55 +27,21 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             string password = GetRandomPassword();
 
             var expectedRoleValidationException =
-                new RoleValidationException(nullRoleException);
+                new RoleValidationException(
+                    message: "Role validation errors occurred, please try again.",
+                    innerException: nullRoleException);
 
             // when
-            ValueTask<ApplicationRole> createRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(invalidRole);
 
-            // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                createRoleTask.AsTask());
-
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedRoleValidationException))),
-                        Times.Once);
-
-            this.roleManagementBrokerMock.Verify(broker =>
-                broker.SelectRoleByIdAsync(It.IsAny<Guid>()),
-                    Times.Never);
-
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.roleManagementBrokerMock.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async void ShouldThrowValidationExceptionOnCreateWhenIdIsInvalidAndLogItAsync()
-        {
-            // given
-            ApplicationRole randomRole = CreateRandomRole();
-            ApplicationRole inputRole = randomRole;
-            inputRole.Id = default;
-            string password = GetRandomPassword();
-
-            var invalidRoleInputException = new InvalidRoleException();
-
-            var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleInputException);
-
-            // when
-            ValueTask<ApplicationRole> registerRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+            RoleValidationException actualRoleValidationException =
+              await Assert.ThrowsAsync<RoleValidationException>(
+                  CreateRoleTask.AsTask);
 
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
-
-            this.dateTimeBrokerMock.Verify(broker =>
-               broker.GetCurrentDateTime(),
-                   Times.Once());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -97,38 +65,39 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             string invalidRoleRoleName)
         {
             // given
-            ApplicationRole randomRole = CreateRandomRole();
+            DateTimeOffset dateTime = GetRandomDateTime();
+            ApplicationRole randomRole = CreateRandomRole(dateTime);
             ApplicationRole invalidRole = randomRole;
             invalidRole.Name = invalidRoleRoleName;
 
-
-
-            var invalidRoleException = new InvalidRoleException();
-
-            invalidRoleException.AddData(
-                key: nameof(ApplicationRole.Name),
-                values: "Text is required");
-
-
+            var invalidRoleException =
+              new InvalidRoleException(
+                  message: "Invalid Role. Please correct the errors and try again.");
 
             invalidRoleException.AddData(
-               key: nameof(ApplicationRole.CreatedDate),
-               values: "Date is required");
-
-            invalidRoleException.AddData(
-               key: nameof(ApplicationRole.UpdatedDate),
-               values: "Date is required");
+               key: nameof(ApplicationRole.Name),
+               values: "Text is required");
 
             var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
+                new RoleValidationException(
+                    message: "Role validation errors occurred, please try again.",
+                    innerException: invalidRoleException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+               broker.GetCurrentDateTime())
+                   .Returns(dateTime);
 
             // when
-            ValueTask<ApplicationRole> registerRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(invalidRole);
 
+            RoleValidationException actualRoleValidationException =
+              await Assert.ThrowsAsync<RoleValidationException>(
+                  CreateRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -143,8 +112,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             this.roleManagementBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
-
-
 
         [Fact]
         public async void ShouldThrowValidationExceptionOnCreateWhenCreatedDateIsInvalidAndLogItAsync()
@@ -155,11 +122,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             inputRole.CreatedDate = default;
             string password = GetRandomPassword();
 
-            var invalidRoleException = new InvalidRoleException();
-
-            invalidRoleException.AddData(
-                key: nameof(ApplicationRole.Name),
-                values: "Text is required");
+            var invalidRoleException =
+                new InvalidRoleException(
+                    message: "Invalid Role. Please correct the errors and try again.");
 
             invalidRoleException.AddData(
                key: nameof(ApplicationRole.CreatedDate),
@@ -167,74 +132,29 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             invalidRoleException.AddData(
                key: nameof(ApplicationRole.UpdatedDate),
-               values: "Date is required");
+               values: ["Date is not the same as CreatedDate", "Date is not recent"]);
+
 
             var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
+                new RoleValidationException(
+                    message: "Role validation errors occurred, please try again.",
+                    innerException: invalidRoleException);
 
             // when
-            ValueTask<ApplicationRole> registerRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(inputRole);
 
+            RoleValidationException actualRoleValidationException =
+              await Assert.ThrowsAsync<RoleValidationException>(
+                  CreateRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                broker.GetCurrentDateTime(),
                    Times.Once());
-
-            this.loggingBrokerMock.Verify(broker =>
-                broker.LogError(It.Is(SameExceptionAs(
-                    expectedRoleValidationException))),
-                        Times.Once);
-
-            this.roleManagementBrokerMock.Verify(broker =>
-                broker.SelectRoleByIdAsync(It.IsAny<Guid>()),
-                    Times.Never);
-
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.roleManagementBrokerMock.VerifyNoOtherCalls();
-        }
-
-        [Fact]
-        public async void ShouldThrowValidationExceptionOnCreateWhenUpdatedDateIsInvalidAndLogItAsync()
-        {
-            // given
-            ApplicationRole randomRole = CreateRandomRole();
-            ApplicationRole inputRole = randomRole;
-            inputRole.UpdatedDate = default;
-            string password = GetRandomPassword();
-
-            var invalidRoleException = new InvalidRoleException();
-
-            invalidRoleException.AddData(
-                key: nameof(ApplicationRole.Name),
-                values: "Text is required");
-
-            invalidRoleException.AddData(
-               key: nameof(ApplicationRole.CreatedDate),
-               values: "Date is required");
-
-            invalidRoleException.AddData(
-               key: nameof(ApplicationRole.UpdatedDate),
-               values: "Date is required");
-
-            var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
-
-            // when
-            ValueTask<ApplicationRole> registerRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
-
-            // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
-
-            this.dateTimeBrokerMock.Verify(broker =>
-                broker.GetCurrentDateTime(),
-                    Times.Once());
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -260,22 +180,29 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             string password = GetRandomPassword();
 
             var invalidRoleException =
-                 new InvalidRoleException();
+                new InvalidRoleException(
+                    message: "Invalid Role. Please correct the errors and try again.");
 
             invalidRoleException.AddData(
             key: nameof(ApplicationRole.UpdatedDate),
-                values: $"Date is not the same as {nameof(ApplicationRole.CreatedDate)}");
+                values: [$"Date is not the same as {nameof(ApplicationRole.CreatedDate)}", "Date is not recent"]);
 
             var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
+               new RoleValidationException(
+                   message: "Role validation errors occurred, please try again.",
+                   innerException: invalidRoleException);
 
             // when
-            ValueTask<ApplicationRole> registerRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(inputRole);
 
+            RoleValidationException actualRoleValidationException =
+              await Assert.ThrowsAsync<RoleValidationException>(
+                  CreateRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                broker.GetCurrentDateTime(),
@@ -309,26 +236,33 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             string password = GetRandomPassword();
 
             var invalidRoleException =
-                 new InvalidRoleException();
+               new InvalidRoleException(
+                   message: "Invalid Role. Please correct the errors and try again.");
 
             invalidRoleException.AddData(
-                key: nameof(ApplicationRole.CreatedDate),
+            key: nameof(ApplicationRole.UpdatedDate),
                 values: "Date is not recent");
 
             var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
+               new RoleValidationException(
+                   message: "Role validation errors occurred, please try again.",
+                   innerException: invalidRoleException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
                     .Returns(dateTime);
 
             // when
-            ValueTask<ApplicationRole> registerRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(inputRole);
 
+            RoleValidationException actualRoleValidationException =
+              await Assert.ThrowsAsync<RoleValidationException>(
+                  CreateRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                registerRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -362,10 +296,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             string password = GetRandomPassword();
 
             var alreadyExistsRoleException =
-                new AlreadyExistsRoleException(duplicateKeyException);
+               new AlreadyExistsRoleException(
+                   message: "Role with the same id already exists.",
+                   duplicateKeyException);
 
-            var expectedRoleValidationException =
-                new RoleDependencyValidationException(alreadyExistsRoleException);
+            var expectedRoleDependencyValidationException =
+               new RoleDependencyValidationException(
+                   message: "Role dependency validation occurred, please try again.",
+                   innerException: alreadyExistsRoleException);
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTime())
@@ -376,12 +314,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
                     .ThrowsAsync(duplicateKeyException);
 
             // when
-            ValueTask<ApplicationRole> registerRoleTask =
+            ValueTask<ApplicationRole> CreateRoleTask =
                 this.roleService.RegisterRoleRequestAsync(alreadyExistsRole);
 
             // then
             await Assert.ThrowsAsync<RoleDependencyValidationException>(() =>
-                registerRoleTask.AsTask());
+                CreateRoleTask.AsTask());
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTime(),
@@ -393,7 +331,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             this.loggingBrokerMock.Verify(broker =>
                broker.LogError(It.Is(SameExceptionAs(
-                   expectedRoleValidationException))),
+                   expectedRoleDependencyValidationException))),
                         Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();

@@ -3,11 +3,12 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
+using FluentAssertions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Moq;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
@@ -21,22 +22,30 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             Guid randomRoleId = default;
             Guid inputRoleId = randomRoleId;
 
-            var invalidRoleException = new InvalidRoleException();
+            var invalidRoleException =
+              new InvalidRoleException(
+                  message: "Invalid Role. Please correct the errors and try again.");
 
             invalidRoleException.AddData(
                 key: nameof(ApplicationRole.Id),
                 values: "Id is required");
 
-
             var expectedRoleValidationException =
-                new RoleValidationException(invalidRoleException);
+                new RoleValidationException(
+                    message: "Role validation errors occurred, please try again.",
+                    innerException: invalidRoleException);
 
             // when
-            ValueTask<ApplicationRole> actualRoleTask =
+            ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(inputRoleId);
 
+            RoleValidationException actualRoleValidationException =
+                 await Assert.ThrowsAsync<RoleValidationException>(
+                     deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() => actualRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
@@ -66,7 +75,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             var notFoundRoleException = new NotFoundRoleException(inputRoleId);
 
             var expectedRoleValidationException =
-                new RoleValidationException(notFoundRoleException);
+                new RoleValidationException(
+                    message: "Role validation errors occurred, please try again.",
+                    innerException: notFoundRoleException);
 
             this.roleManagementBrokerMock.Setup(broker =>
                 broker.SelectRoleByIdAsync(inputRoleId))
@@ -76,9 +87,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             ValueTask<ApplicationRole> deleteRoleTask =
                 this.roleService.RemoveRoleByIdRequestAsync(inputRoleId);
 
+            RoleValidationException actualRoleValidationException =
+                 await Assert.ThrowsAsync<RoleValidationException>(
+                     deleteRoleTask.AsTask);
+
             // then
-            await Assert.ThrowsAsync<RoleValidationException>(() =>
-                deleteRoleTask.AsTask());
+            actualRoleValidationException.Should().BeEquivalentTo(
+                expectedRoleValidationException);
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(

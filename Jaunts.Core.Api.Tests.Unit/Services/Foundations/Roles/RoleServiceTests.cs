@@ -3,11 +3,6 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Brokers.RoleManagement;
@@ -16,6 +11,11 @@ using Jaunts.Core.Api.Services.Foundations.Role;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.SqlClient;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
 using Xunit;
 
@@ -59,6 +59,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+        private static DateTimeOffset GetCurrentDateTime() =>
+            DateTimeOffset.UtcNow;
 
         private static string GetRandomNames() => new RealNames().GetValue();
         private static string GetRandomEmailAddresses() => new EmailAddresses().GetValue();
@@ -94,7 +96,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             return role;
         }
 
+        private static ApplicationRole CreateRandomModifyRole(DateTimeOffset dates)
+        {
+            int randomDaysInPast = GetNegativeRandomNumber();
+            ApplicationRole randomRole = CreateRandomRole(dates);
 
+            randomRole.CreatedDate =
+                randomRole.CreatedDate.AddDays(randomDaysInPast);
+
+            return randomRole;
+        }
 
         private static IQueryable<ApplicationRole> CreateRandomRoles(DateTimeOffset dates)
         {
