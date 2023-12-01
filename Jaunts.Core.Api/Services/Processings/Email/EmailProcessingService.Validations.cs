@@ -6,7 +6,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 {
     public partial class EmailProcessingService
     {
-        private static void ValidateMail(SendEmailDetails sendEmailDetails)
+        private static void ValidateMail(SendEmailMessage sendEmailDetails)
         {
             ValidateMailNotNull(sendEmailDetails);
         }
@@ -15,7 +15,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
         {
             ValidateUserNotNull(user);
         }
-        private static void ValidateMailNotNull(SendEmailDetails sendEmailDetails)
+        private static void ValidateMailNotNull(SendEmailMessage sendEmailDetails)
         {
             if (sendEmailDetails is null)
             {
