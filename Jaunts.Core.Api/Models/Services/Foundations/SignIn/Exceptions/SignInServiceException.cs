@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.SignIn.Exceptions
 	{
 		public SignInServiceException(Exception innerException)
 			: base(message: "SignIn service error occurred, contact support.", innerException) { }
-	}
+
+        public SignInServiceException(string message,Exception innerException)
+            : base(message,innerException) { }
+
+    }
 }

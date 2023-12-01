@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.SignIn.Exceptions
 		public InvalidSignInException()
 			: base(message: "Invalid SignIn. Please correct the errors and try again.")
 		{ }
-	}
+
+        public InvalidSignInException(string message)
+            : base(message)
+        { }
+    }
 }

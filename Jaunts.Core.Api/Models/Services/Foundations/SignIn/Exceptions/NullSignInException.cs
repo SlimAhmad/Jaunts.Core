@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.SignIn.Exceptions
 		public NullSignInException()
 			: base(message: "SignIn is null.")
 		{ }
-	}
+        public NullSignInException(string message)
+            : base(message)
+        { }
+    }
 }
