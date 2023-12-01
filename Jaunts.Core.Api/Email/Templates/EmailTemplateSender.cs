@@ -6,7 +6,7 @@ namespace Jaunts.Core.Api.Email.Templates
 {
     public class EmailTemplateSender : IEmailTemplateSender
     {
-        public async ValueTask<SendEmailDetails> SendVerificationEmailAsync(SendEmailDetails details, string title, string content1, string content2, string buttonText, string buttonUrl)
+        public async ValueTask<SendEmailMessage> SendVerificationEmailAsync(SendEmailMessage details, string title, string content1, string content2, string buttonText, string buttonUrl)
         {
             var templateText = default(string);
 
