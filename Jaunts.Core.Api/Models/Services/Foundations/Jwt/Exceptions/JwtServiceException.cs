@@ -12,5 +12,7 @@ namespace Jaunts.Core.Api.Models.Jwt.Exceptions
 	{
 		public JwtServiceException(Exception innerException)
 			: base(message: "Jwt service error occurred, contact support.", innerException) { }
-	}
+        public JwtServiceException(string message,Exception innerException)
+            : base(message, innerException) { }
+    }
 }

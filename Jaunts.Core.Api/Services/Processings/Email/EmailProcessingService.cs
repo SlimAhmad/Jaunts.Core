@@ -39,12 +39,12 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                 ValidateUser(user);
                 ValidateSendMail(token);
                 string verificationUrl = GenerateConfirmationUrlAsync(user.Id.ToString(), token);
-                SendEmailDetails emailDetails = ConvertEmailDetailsRequest(
+                SendEmailMessage emailDetails = ConvertEmailDetailsRequest(
                     user,
                     "Verify Your Email - Jaunts", 
                     configuration.Value.Email,
                     configuration.Value.Name);
-                SendEmailDetails sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
+                SendEmailMessage sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
                 emailDetails,
                "Verify Email",
                $"Hi {user.FirstName + " " + user.LastName ?? "stranger"},",
@@ -65,10 +65,10 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                 ValidateUser(user);
                 ValidateSendMail(token);
                 string verificationUrl = GenerateResetPasswordUrlAsync(user.Id.ToString(), token);
-                SendEmailDetails emailDetails = ConvertEmailDetailsRequest(user,
+                SendEmailMessage emailDetails = ConvertEmailDetailsRequest(user,
                     "Forgot Password Verification Token - Jaunts",
                     configuration.Value.Email, configuration.Value.Name);
-                SendEmailDetails sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
+                SendEmailMessage sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
                       emailDetails,
                     "Verify Token",
                     $"Hi {user.FirstName + " " + user.LastName ?? "stranger"},",
@@ -89,12 +89,12 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                 ValidateUser(user);
                 ValidateSendMail(token);
                 string verificationUrl = GenerateOTPLoginUrlAsync(user.Id.ToString(), token);
-                SendEmailDetails emailDetails = ConvertEmailDetailsRequest(
+                SendEmailMessage emailDetails = ConvertEmailDetailsRequest(
                     user,
                     "Verify Token - Jaunts", 
                     configuration.Value.Email,
                     configuration.Value.Name);
-                SendEmailDetails sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
+                SendEmailMessage sendEmailDetails = await this.emailTemplateSender.SendVerificationEmailAsync(
                     emailDetails,
                     "Two Factor Authentication",
                     $"Hi {user.FirstName + " " + user.LastName ?? "stranger"},",
@@ -107,17 +107,17 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
             });
 
-            private SendEmailDetails ConvertEmailDetailsRequest(ApplicationUser user, string subject, string from, string fromName)
+            private SendEmailMessage ConvertEmailDetailsRequest(ApplicationUser user, string subject, string from, string fromName)
             {
 
-                return new SendEmailDetails
+                return new SendEmailMessage
                 {
-                    From = new SendEmailDetails.FromResponse
+                    From = new SendEmailMessage.FromResponse
                     {
                         Email = from,
                         Name = fromName,
                     },
-                    To = new List<SendEmailDetails.ToResponse> { new SendEmailDetails.ToResponse
+                    To = new List<SendEmailMessage.ToResponse> { new SendEmailMessage.ToResponse
                {
                     Name = user.FirstName + " " + user.LastName,
                     Email = user.Email,

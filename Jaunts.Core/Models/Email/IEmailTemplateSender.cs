@@ -8,8 +8,8 @@ namespace Jaunts.Core.Models.Email
 {
     public interface IEmailTemplateSender
     {
-        ValueTask<SendEmailDetails>  SendVerificationEmailAsync(
-           SendEmailDetails details, string title, string content1,
+        ValueTask<SendEmailMessage>  SendVerificationEmailAsync(
+           SendEmailMessage details, string title, string content1,
             string content2, string buttonText, string buttonUrl);
     }
 }

@@ -6,9 +6,9 @@ namespace Jaunts.Core.Api.Brokers.EmailBroker
     public partial class EmailBroker
     {
 
-        public async ValueTask<SendEmailResponse> SendEmailAsync(SendEmailDetails sendEmailDetails)
+        public async ValueTask<SendEmailResponse> SendEmailAsync(SendEmailMessage sendEmailDetails)
         {
-            return await PostAsync<SendEmailDetails, SendEmailResponse>(
+            return await PostAsync<SendEmailMessage, SendEmailResponse>(
                relativeUrl: $"api/send/2460224",
               
                content: sendEmailDetails);

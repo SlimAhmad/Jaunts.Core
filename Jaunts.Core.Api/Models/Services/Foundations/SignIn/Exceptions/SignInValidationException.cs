@@ -13,5 +13,9 @@ namespace Jaunts.Core.Api.Models.SignIn.Exceptions
 			: base(message: "SignIn validation errors occurred, please try again.",
 				  innerException)
 		{ }
-	}
+
+        public SignInValidationException(string message,Xeption innerException)
+            : base(message,innerException)
+        { }
+    }
 }

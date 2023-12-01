@@ -6,18 +6,15 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
 {
     public partial class EmailService
     {
-        private static void ValidateMail(SendEmailDetails sendEmailDetails)
+        private static void ValidateMail(SendEmailMessage sendEmailDetails)
         {
-           
-  
+            ValidateMailIsNotNull(sendEmailDetails);
+
             Validate(
-                (Rule: IsInvalid(sendEmailDetails.Subject), Parameter: nameof(SendEmailDetails.Subject)),
-                (Rule: IsInvalid(sendEmailDetails.Html), Parameter: nameof(SendEmailDetails.Html)),
-                (Rule: IsInvalid(sendEmailDetails.To), Parameter: nameof(SendEmailDetails.To)),
-                (Rule: IsInvalid(sendEmailDetails.From), Parameter: nameof(SendEmailDetails.From))
-
-                );
-
+                (Rule: IsInvalid(sendEmailDetails.Subject), Parameter: nameof(SendEmailMessage.Subject)),
+                (Rule: IsInvalid(sendEmailDetails.Html), Parameter: nameof(SendEmailMessage.Html)),
+                (Rule: IsInvalid(sendEmailDetails.To), Parameter: nameof(SendEmailMessage.To)),
+                (Rule: IsInvalid(sendEmailDetails.From), Parameter: nameof(SendEmailMessage.From)));
         }
 
         private static void ValidateMailResponse(SendEmailResponse  emailResponse)
@@ -30,7 +27,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
                         (Rule: ErrorsExist(errors), Parameter: nameof(SendEmailResponse)));
                 }
             }
-          
+        }
+
+        private static void ValidateMailIsNotNull(SendEmailMessage emailMessage)
+        {
+            if (emailMessage is null)
+            {
+               throw new NullEmailException();
+            }
         }
         private static dynamic IsInvalid(object @object) => new
         {

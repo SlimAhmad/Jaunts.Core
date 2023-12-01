@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.Jwt.Exceptions
 		public InvalidJwtException()
 			: base(message: "Invalid Jwt. Please correct the errors and try again.")
 		{ }
-	}
+
+        public InvalidJwtException(string message)
+            : base(message)
+        { }
+    }
 }

@@ -5,7 +5,7 @@ namespace Jaunts.Core.Api.Brokers.EmailBroker
 {
     public partial interface IEmailBroker
     {
-        ValueTask<SendEmailResponse> SendEmailAsync(SendEmailDetails sendEmailDetails);
+        ValueTask<SendEmailResponse> SendEmailAsync(SendEmailMessage sendEmailDetails);
 
       
     }
