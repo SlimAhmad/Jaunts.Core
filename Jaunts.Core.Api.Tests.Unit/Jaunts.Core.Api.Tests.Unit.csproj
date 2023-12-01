@@ -34,6 +34,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Services\Foundations\Jwt\" />
+    <Folder Include="Services\Foundations\SignIn\" />
     <Folder Include="Services\Processings\" />
   </ItemGroup>
 

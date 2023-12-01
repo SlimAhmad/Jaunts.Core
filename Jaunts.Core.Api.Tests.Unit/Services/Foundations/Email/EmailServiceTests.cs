@@ -54,7 +54,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
                         .AreEqual;
         }
 
-        private static SendEmailMessage CreateSendEmailDetailRequest() =>
+        private static SendEmailDetails CreateSendEmailDetailRequest() =>
           CreateSendEmailDetailsFiller().Create();
         private static SendEmailResponse CreateSendEmailResponse() =>
           CreateSendEmailResponseFiller().Create();
@@ -100,9 +100,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Emails
             return filler;
         }
 
-        private static Filler<SendEmailMessage> CreateSendEmailDetailsFiller()
+        private static Filler<SendEmailDetails> CreateSendEmailDetailsFiller()
         {
-            var filler = new Filler<SendEmailMessage>();
+            var filler = new Filler<SendEmailDetails>();
 
             filler.Setup()
                 .OnProperty(x=> x.From.Email).Use(GetRandomEmailAddresses())

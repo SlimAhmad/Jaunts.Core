@@ -29,7 +29,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Jwt
         {
             if (user is null)
             {
-                throw new NullJwtException();
+                throw new NullUserException();
             }
         }
 

@@ -5,7 +5,7 @@ namespace Jaunts.Core.Models.Email
     /// <summary>
     /// The details about the email to send
     /// </summary>
-    public class SendEmailMessage
+    public class SendEmailDetails
     {
 
 

@@ -5,7 +5,7 @@ namespace Jaunts.Core.Models.Exceptions
 {
     public class EmailServiceException : Xeption
     {
-        public EmailServiceException(Exception innerException)
+        public EmailServiceException(Xeption innerException)
             : base(message: "Email service error occurred, contact support.",
                   innerException)
         { }

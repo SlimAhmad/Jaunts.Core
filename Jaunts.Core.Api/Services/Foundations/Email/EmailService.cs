@@ -1,7 +1,14 @@
 ﻿using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.EmailBroker;
 using Jaunts.Core.Api.Brokers.Loggings;
+using Jaunts.Core.Api.Brokers.UserManagement;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Email;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.Text;
+using System.Web;
 
 namespace Jaunts.Core.Api.Services.Foundations.Email
 {
@@ -23,11 +30,12 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
             this.dateTimeBroker = dateTimeBroker;
             this.loggingBroker = loggingBroker;   
         }
+
      
-        public ValueTask<SendEmailResponse> SendEmailRequestAsync(SendEmailMessage sendEmailDetails) =>
+        public ValueTask<SendEmailResponse> SendEmailRequestAsync(SendEmailDetails sendEmailDetails) =>
         TryCatch(async () =>
         {
-            ValidateMail(sendEmailDetails);
+           ValidateMail(sendEmailDetails);
             SendEmailResponse emailResponse = await sendEmailDetailsBroker.SendEmailAsync(sendEmailDetails);
             ValidateMailResponse(emailResponse);
             return emailResponse;

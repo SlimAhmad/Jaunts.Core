@@ -1,7 +1,6 @@
 ﻿using Jaunts.Core.Models.Email;
 using Jaunts.Core.Models.Exceptions;
 using RESTFulSense.Exceptions;
-using Xeptions;
 
 namespace Jaunts.Core.Api.Services.Foundations.Email
 {
@@ -9,7 +8,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
     public partial class EmailService
     {
        
+
         private delegate ValueTask<SendEmailResponse> ReturningSendEmailResponseFunction();
+
+
         private async ValueTask<SendEmailResponse> TryCatch(ReturningSendEmailResponseFunction returningSendEmailResponseFunction)
         {
             try
@@ -18,127 +20,71 @@ namespace Jaunts.Core.Api.Services.Foundations.Email
             }
             catch (NullEmailException nullEmailException)
             {
-                throw CreateAndLogValidationException(nullEmailException);
+                throw new EmailValidationException(nullEmailException);
             }
             catch (InvalidEmailException invalidEmailException)
             {
-                throw CreateAndLogValidationException(invalidEmailException);
+                throw new EmailValidationException(invalidEmailException);
             }
             catch (HttpResponseUrlNotFoundException httpResponseUrlNotFoundException)
             {
                 var invalidConfigurationEmailException =
                     new InvalidConfigurationEmailException(httpResponseUrlNotFoundException);
 
-                throw CreateAndLogDependencyException(invalidConfigurationEmailException);
+                throw new EmailDependencyException(invalidConfigurationEmailException);
             }
             catch (HttpResponseUnauthorizedException httpResponseUnauthorizedException)
             {
                 var unauthorizedEmailException =
                     new UnauthorizedEmailException(httpResponseUnauthorizedException);
 
-                throw CreateAndLogDependencyException(unauthorizedEmailException);
+                throw new EmailDependencyException(unauthorizedEmailException);
             }
             catch (HttpResponseForbiddenException httpResponseForbiddenException)
             {
                 var unauthorizedEmailException =
                     new UnauthorizedEmailException(httpResponseForbiddenException);
 
-                throw CreateAndLogDependencyException(unauthorizedEmailException);
+                throw new EmailDependencyException(unauthorizedEmailException);
             }
             catch (HttpResponseNotFoundException httpResponseNotFoundException)
             {
                 var notFoundEmailException =
                     new NotFoundEmailException(httpResponseNotFoundException);
 
-                throw CreateAndLogDependencyValidationException(notFoundEmailException);
+                throw new EmailDependencyValidationException(notFoundEmailException);
             }
             catch (HttpResponseBadRequestException httpResponseBadRequestException)
             {
                 var invalidEmailException =
                     new InvalidEmailException(httpResponseBadRequestException);
 
-                throw CreateAndLogDependencyValidationException(invalidEmailException);
+                throw new EmailDependencyValidationException(invalidEmailException);
             }
             catch (HttpResponseTooManyRequestsException httpResponseTooManyRequestsException)
             {
                 var excessiveCallEmailException =
                     new ExcessiveCallEmailException(httpResponseTooManyRequestsException);
 
-                throw CreateAndLogDependencyValidationException(excessiveCallEmailException);
+                throw new EmailDependencyValidationException(excessiveCallEmailException);
             }
             catch (HttpResponseException httpResponseException)
             {
                 var failedServerEmailException =
                     new FailedServerEmailException(httpResponseException);
 
-                throw CreateAndLogDependencyException(failedServerEmailException);
+                throw new EmailDependencyException(failedServerEmailException);
             }
             catch (Exception exception)
             {
                 var failedEmailServiceException =
                     new FailedEmailServiceException(exception);
 
-                throw CreateAndLogServiceException(failedEmailServiceException);
+                throw new EmailServiceException(failedEmailServiceException);
             }
         }
+  
 
-        private EmailValidationException CreateAndLogValidationException(
-                    Xeption exception)
-        {
-            var EmailValidationException =
-                new EmailValidationException(exception);
-
-            this.loggingBroker.LogError(EmailValidationException);
-
-            return EmailValidationException;
-        }
-
-        private EmailDependencyException CreateAndLogCriticalDependencyException(
-            Xeption exception)
-        {
-            var EmailDependencyException = new EmailDependencyException(exception);
-            this.loggingBroker.LogCritical(EmailDependencyException);
-
-            return EmailDependencyException;
-        }
-
-        private EmailDependencyValidationException CreateAndLogDependencyValidationException(
-        Xeption exception)
-        {
-            var EmailDependencyValidationException =
-                new EmailDependencyValidationException(exception);
-
-            this.loggingBroker.LogError(EmailDependencyValidationException);
-
-            return EmailDependencyValidationException;
-        }
-
-        private EmailDependencyException CreateAndLogDependencyException(
-            Xeption exception)
-        {
-            var EmailDependencyException = new EmailDependencyException(exception);
-            this.loggingBroker.LogError(EmailDependencyException);
-
-            return EmailDependencyException;
-        }
-
-        public EmailServiceException CreateAndLogServiceException(
-            Xeption exception)
-        {
-            var EmailServiceException = new EmailServiceException(exception);
-            this.loggingBroker.LogError(EmailServiceException);
-
-            return EmailServiceException;
-        }
-
-        public EmailServiceException CreateAndLogServiceException(
-            Exception exception)
-        {
-            var EmailServiceException = new EmailServiceException(exception);
-            this.loggingBroker.LogError(EmailServiceException);
-
-            return EmailServiceException;
-        }
 
     }
 }

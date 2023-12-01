@@ -14,7 +14,7 @@ namespace Jaunts.Core.Api.Services.Foundations.SignIn
         private readonly ILoggingBroker loggingBroker;
 
         public SignInService(
-            ISignInManagementBroker signInManagementBroker,
+            SignInManagementBroker signInManagementBroker,
             IDateTimeBroker dateTimeBroker,
             ILoggingBroker loggingBroker)
         {
