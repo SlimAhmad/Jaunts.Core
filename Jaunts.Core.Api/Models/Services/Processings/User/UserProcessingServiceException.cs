@@ -11,7 +11,10 @@ namespace Jaunts.Core.Api.Models.Processings.User.Exceptions
     public class UserProcessingServiceException : Xeption
     {
         public UserProcessingServiceException(Exception innerException)
-            : base(message: "Failed external User service occurred, please contact support", innerException)
+            : base(message: "Failed user service occurred, please contact support", innerException)
+        { }
+        public UserProcessingServiceException(string message,Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

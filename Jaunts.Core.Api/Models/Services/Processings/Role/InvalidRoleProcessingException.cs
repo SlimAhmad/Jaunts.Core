@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.Role.Exceptions
         public InvalidRoleProcessingException()
             : base(message: "Invalid Role, Please correct the errors and try again.") 
         { }
+        public InvalidRoleProcessingException(string message)
+            : base(message)
+        { }
     }
 }

@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.Role.Exceptions
         public RoleProcessingDependencyException(Xeption innerException)
             : base(message: "Role dependency error occurred, please contact support", innerException)
         { }
+        public RoleProcessingDependencyException(string message,Xeption innerException)
+            : base(message, innerException)
+        { }
     }
 }

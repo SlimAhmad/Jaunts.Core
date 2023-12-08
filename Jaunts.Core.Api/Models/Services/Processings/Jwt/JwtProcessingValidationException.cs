@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.Processings.Jwts.Exceptions
         public JwtProcessingValidationException(Xeption innerException)
             : base(message: "Jwt validation error occurred, please try again.", innerException)
         { }
+
+        public JwtProcessingValidationException(string message, Xeption innerException)
+            : base(message, innerException)
+        { }
     }
 }

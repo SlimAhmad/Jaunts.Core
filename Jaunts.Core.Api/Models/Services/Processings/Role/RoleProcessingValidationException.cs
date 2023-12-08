@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.Role.Exceptions
         public RoleProcessingValidationException(Xeption innerException)
             : base(message: "Role validation error occurred, please try again.", innerException)
         { }
+        public RoleProcessingValidationException(string message,Xeption innerException)
+            : base(message, innerException)
+        { }
     }
 }
