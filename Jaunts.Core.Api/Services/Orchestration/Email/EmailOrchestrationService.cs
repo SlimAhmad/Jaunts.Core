@@ -41,7 +41,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.EmailConfirmationTokenAsync(user);
-            return await emailProcessingService.PostVerificationMailRequestAsync(user,token);
+            return await emailProcessingService.SendVerificationMailRequestAsync(user,token);
         });
 
         public ValueTask<SendEmailResponse> PasswordResetMailAsync(
@@ -49,7 +49,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.PasswordResetTokenAsync(user);
-            return await emailProcessingService.PostForgetPasswordMailRequestAsync(user, token);
+            return await emailProcessingService.SendForgetPasswordMailRequestAsync(user, token);
         });
 
         public ValueTask<UserAccountDetailsApiResponse> TwoFactorMailAsync(
@@ -57,7 +57,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.TwoFactorTokenAsync(user);
-            await emailProcessingService.PostOTPVerificationMailRequestAsync(user, token);
+            await emailProcessingService.SendOtpVerificationMailRequestAsync(user, token);
             return ConvertTo2FAResponse(user) ;
         });
 
