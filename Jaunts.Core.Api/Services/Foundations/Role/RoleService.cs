@@ -22,7 +22,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ApplicationRole> RegisterRoleRequestAsync(ApplicationRole role) =>
+        public ValueTask<ApplicationRole> AddRoleRequestAsync(ApplicationRole role) =>
          TryCatch(async () =>
          {
              ValidateRoleOnCreate(role);

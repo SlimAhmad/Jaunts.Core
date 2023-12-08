@@ -11,7 +11,11 @@ namespace Jaunts.Core.Api.Models.Processings.SignIns.Exceptions
     public class FailedSignInProcessingServiceException : Xeption
     {
         public FailedSignInProcessingServiceException(Exception innerException)
-            : base(message: "Failed post impression service occurred, please contact support", innerException)
+            : base(message: "Failed signIn service occurred, please contact support", innerException)
+        { }
+
+        public FailedSignInProcessingServiceException(string message,Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

@@ -4,7 +4,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Role
 {
     public partial interface IRoleService
     {
-        ValueTask<ApplicationRole> RegisterRoleRequestAsync(ApplicationRole role);
+        ValueTask<ApplicationRole> AddRoleRequestAsync(ApplicationRole role);
         IQueryable<ApplicationRole> RetrieveAllRoles();
         ValueTask<ApplicationRole> RetrieveRoleByIdRequestAsync(Guid roleId);
         ValueTask<ApplicationRole> ModifyRoleRequestAsync(ApplicationRole role);

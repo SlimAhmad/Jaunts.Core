@@ -13,5 +13,8 @@ namespace Jaunts.Core.Api.Models.Processings.User.Exceptions
         public FailedUserProcessingServiceException(Exception innerException)
             : base(message: "Failed user service occurred, please contact support", innerException)
         { }
+        public FailedUserProcessingServiceException(string message,Exception innerException)
+           : base(message, innerException)
+        { }
     }
 }

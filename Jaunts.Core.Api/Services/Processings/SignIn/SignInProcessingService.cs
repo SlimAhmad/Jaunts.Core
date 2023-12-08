@@ -11,12 +11,12 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
             private readonly ILoggingBroker loggingBroker;
 
             public SignInProcessingService(
-                ISignInService  SignInService,
+                ISignInService  signInService,
                 ILoggingBroker loggingBroker
 
                 )
             {
-                this.SignInService = SignInService;
+                this.SignInService = signInService;
                 this.loggingBroker = loggingBroker;
 
             }
@@ -27,8 +27,8 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
             bool isPersistent, bool lockoutOnFailure) =>
         TryCatch(async () =>
         {
-            ValidateUser(user);
-            ValidateString(password);
+           ValidateUser(user);
+           ValidateString(password);
            var response = await SignInService.PasswordSignInRequestAsync(user, password,isPersistent,lockoutOnFailure);
            return response.Succeeded;
         });

@@ -11,7 +11,10 @@ namespace Jaunts.Core.Api.Models.Processings.Emails.Exceptions
     public class FailedEmailProcessingServiceException : Xeption
     {
         public FailedEmailProcessingServiceException(Exception innerException)
-            : base(message: "Failed post impression service occurred, please contact support", innerException)
+            : base(message: "Failed email processing service occurred, please contact support", innerException)
+        { }
+        public FailedEmailProcessingServiceException(string message,Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

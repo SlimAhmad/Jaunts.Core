@@ -11,7 +11,10 @@ namespace Jaunts.Core.Api.Models.Processings.Emails.Exceptions
     public class EmailProcessingServiceException : Xeption
     {
         public EmailProcessingServiceException(Exception innerException)
-            : base(message: "Failed external Email service occurred, please contact support", innerException)
+            : base(message: "Failed email processing service occurred, please contact support", innerException)
+        { }
+        public EmailProcessingServiceException(string message, Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

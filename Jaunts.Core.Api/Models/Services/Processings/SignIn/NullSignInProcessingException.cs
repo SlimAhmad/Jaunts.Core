@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.SignIns.Exceptions
         public NullSignInProcessingException()
             : base(message: "SignIn is null.")
         { }
+        public NullSignInProcessingException(string message)
+            : base(message)
+        { }
     }
 }

@@ -53,7 +53,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 
             this.userOrchestrationMock.Setup(broker =>
                 broker.CheckPasswordValidityAsync(password,storageUser.Id))
-                    .ReturnsAsync(storageUser);
+                    .ReturnsAsync(true);
 
             this.jwtOrchestrationMock.Setup(broker =>
                 broker.JwtAccountDetailsAsync(It.IsAny<ApplicationUser>()))

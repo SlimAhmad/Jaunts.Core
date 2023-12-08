@@ -33,7 +33,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(invalidRole);
+                this.roleService.AddRoleRequestAsync(invalidRole);
 
             RoleValidationException actualRoleValidationException =
               await Assert.ThrowsAsync<RoleValidationException>(
@@ -89,7 +89,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(invalidRole);
+                this.roleService.AddRoleRequestAsync(invalidRole);
 
             RoleValidationException actualRoleValidationException =
               await Assert.ThrowsAsync<RoleValidationException>(
@@ -142,7 +142,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+                this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleValidationException actualRoleValidationException =
               await Assert.ThrowsAsync<RoleValidationException>(
@@ -194,7 +194,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+                this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleValidationException actualRoleValidationException =
               await Assert.ThrowsAsync<RoleValidationException>(
@@ -254,7 +254,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+                this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleValidationException actualRoleValidationException =
               await Assert.ThrowsAsync<RoleValidationException>(
@@ -315,7 +315,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> CreateRoleTask =
-                this.roleService.RegisterRoleRequestAsync(alreadyExistsRole);
+                this.roleService.AddRoleRequestAsync(alreadyExistsRole);
 
             // then
             await Assert.ThrowsAsync<RoleDependencyValidationException>(() =>

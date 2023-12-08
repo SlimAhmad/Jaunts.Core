@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.Processings.SignIns.Exceptions
         public SignInProcessingValidationException(Xeption innerException)
             : base(message: "SignIn validation error occurred, please try again.", innerException)
         { }
+
+        public SignInProcessingValidationException(string message,Xeption innerException)
+            : base(message, innerException)
+        { }
     }
 }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.1" />
     <PackageReference Include="Dna.Framework.AspNet" Version="1.0.8" />
     <PackageReference Include="EFxceptions.Identity" Version="0.4.5" />
     <PackageReference Include="MailKit" Version="4.3.0" />

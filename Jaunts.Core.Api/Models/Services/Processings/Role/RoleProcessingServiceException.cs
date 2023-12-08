@@ -11,7 +11,10 @@ namespace Jaunts.Core.Api.Models.Processings.Role.Exceptions
     public class RoleProcessingServiceException : Xeption
     {
         public RoleProcessingServiceException(Exception innerException)
-            : base(message: "Failed external Role service occurred, please contact support", innerException)
+            : base(message: "Failed role processing service occurred, please contact support", innerException)
+        { }
+        public RoleProcessingServiceException(string message,Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

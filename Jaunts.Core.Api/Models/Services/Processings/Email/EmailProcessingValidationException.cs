@@ -12,5 +12,9 @@ namespace Jaunts.Core.Api.Models.Processings.Emails.Exceptions
         public EmailProcessingValidationException(Xeption innerException)
             : base(message: "Email validation error occurred, please try again.", innerException)
         { }
+
+        public EmailProcessingValidationException(string message,Xeption innerException)
+           : base(message, innerException)
+        { }
     }
 }

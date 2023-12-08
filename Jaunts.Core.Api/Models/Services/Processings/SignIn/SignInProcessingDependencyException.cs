@@ -10,7 +10,11 @@ namespace Jaunts.Core.Api.Models.Processings.SignIns.Exceptions
     public class SignInProcessingDependencyException : Xeption
     {
         public SignInProcessingDependencyException(Xeption innerException)
-            : base(message: "SignIn Impression dependency error occurred, please contact support", innerException)
+            : base(message: "SignIn dependency error occurred, please contact support", innerException)
+        { }
+
+        public SignInProcessingDependencyException(string message,Xeption innerException)
+            : base(message,innerException)
         { }
     }
 }

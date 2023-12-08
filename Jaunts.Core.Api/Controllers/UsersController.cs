@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser registeredUser =
-                    await this.userService.RegisterUserRequestAsync(user, password);
+                    await this.userService.InsertUserRequestAsync(user, password);
 
                 return Created(registeredUser);
             }

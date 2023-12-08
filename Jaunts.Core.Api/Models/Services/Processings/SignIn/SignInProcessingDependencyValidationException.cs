@@ -13,5 +13,9 @@ namespace Jaunts.Core.Api.Models.Processings.SignIns.Exceptions
             : base(message: "SignIn dependency validation error occurred, please try again.",
                 innerException)
         { }
+
+        public SignInProcessingDependencyValidationException(string message,Xeption innerException)
+            : base(message,innerException)
+        { }
     }
 }

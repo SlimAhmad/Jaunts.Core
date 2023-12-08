@@ -10,7 +10,11 @@ namespace Jaunts.Core.Api.Models.Processings.Emails.Exceptions
     public class EmailProcessingDependencyException : Xeption
     {
         public EmailProcessingDependencyException(Xeption innerException)
-            : base(message: "Email Impression dependency error occurred, please contact support", innerException)
+            : base(message: "Email Processing dependency error occurred, please contact support", innerException)
+        { }
+
+        public EmailProcessingDependencyException(string message,Xeption innerException)
+            : base(message,innerException)
         { }
     }
 }

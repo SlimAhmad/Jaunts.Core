@@ -10,18 +10,24 @@ namespace Jaunts.Core.Api.Services.Processings.User
 {
     public partial interface IUserProcessingService
     {
+        ValueTask<ApplicationUser> UpsertUserAsync(
+           ApplicationUser user, string password);
         IQueryable<ApplicationUser> RetrieveAllUsers();
         ValueTask<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password);
+        ValueTask<ApplicationUser> RetrieveUserById(
+           Guid id);
+        ValueTask<bool> RemoveUserByIdAsync(
+           Guid id);
         ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
         ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(LoginCredentialsApiRequest loginCredentialsApiRequest);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
-        ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest);
+        ValueTask<bool> ResetUserPasswordByEmailAsync(ResetPasswordApiRequest resetPasswordApiRequest);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);
         ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id);
         ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);
-        ValueTask<ApplicationUser> CheckPasswordValidityAsync(string password, Guid id);
+        ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
         ValueTask<ApplicationUser> AddToRoleAsync(ApplicationUser user, string role);
     }

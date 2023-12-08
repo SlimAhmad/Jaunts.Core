@@ -13,5 +13,8 @@ namespace Jaunts.Core.Api.Models.Processings.Jwts.Exceptions
             : base(message: "Jwt dependency validation error occurred, please try again.",
                 innerException)
         { }
+        public JwtProcessingDependencyValidationException(string message , Xeption innerException)
+           : base(message,innerException)
+        { }
     }
 }

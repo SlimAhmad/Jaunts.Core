@@ -13,5 +13,9 @@ namespace Jaunts.Core.Api.Models.Processings.Emails.Exceptions
             : base(message: "Email dependency validation error occurred, please try again.",
                 innerException)
         { }
+
+        public EmailProcessingDependencyValidationException(string message,Xeption innerException)
+            : base(message,innerException)
+        { }
     }
 }

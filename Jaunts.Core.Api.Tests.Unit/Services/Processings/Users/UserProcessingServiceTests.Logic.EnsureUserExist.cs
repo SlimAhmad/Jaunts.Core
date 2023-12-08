@@ -1,0 +1,52 @@
+﻿using FluentAssertions;
+using Force.DeepCloner;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Models.Auth.LoginRegister;
+using Microsoft.AspNetCore.Identity.Data;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xunit;
+
+namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
+{
+    public partial class UserProcessingServiceTests
+    {
+        [Fact]
+        public async Task ShouldEnsureUserExistAsync()
+        {
+            // given
+            ApplicationUser randomUser = CreateRandomUser();
+            ApplicationUser inputUser = randomUser;
+            ApplicationUser addedUser = inputUser;
+            ApplicationUser expectedUser = addedUser.DeepClone();
+
+            IQueryable<ApplicationUser> randomUsers =
+                CreateRandomUsers(inputUser);
+
+            IQueryable<ApplicationUser> retrievedUsers =
+                randomUsers;
+
+            this.userServiceMock.Setup(service =>
+                service.RetrieveAllUsers())
+                    .Returns(retrievedUsers);
+
+            // when
+            bool actualUser = await this.userProcessingService
+                .EnsureUserExistAsync(inputUser);
+
+            // then
+            actualUser.Should().BeTrue();
+
+            this.userServiceMock.Verify(service =>
+                service.RetrieveAllUsers(),
+                    Times.Once);
+
+            this.userServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
+    }
+}
