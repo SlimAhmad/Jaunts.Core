@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationRole registeredRole =
-                    await this.roleService.RegisterRoleRequestAsync(role);
+                    await this.roleService.AddRoleRequestAsync(role);
 
                 return Created(registeredRole);
             }
