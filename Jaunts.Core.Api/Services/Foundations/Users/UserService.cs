@@ -23,7 +23,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ApplicationUser> RegisterUserRequestAsync(ApplicationUser user, string password) =>
+        public ValueTask<ApplicationUser> InsertUserRequestAsync(ApplicationUser user, string password) =>
         TryCatch(async () =>
         {
             ValidateUserOnCreate(user, password);
