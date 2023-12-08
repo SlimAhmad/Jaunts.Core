@@ -17,7 +17,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);
         ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id);
         ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);
-        ValueTask<ApplicationUser> CheckPasswordValidityAsync(string password, Guid id);
+        ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
         ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user, string role);
     }

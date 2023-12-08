@@ -24,7 +24,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
 
         }
 
-        public ValueTask<ApplicationUser> CheckPasswordValidityAsync(string password, Guid id) =>
+        public ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id) =>
         TryCatch(async () => await this.userProcessingService.CheckPasswordValidityAsync(password,id));
 
         public ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email) =>
@@ -46,7 +46,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         TryCatch(async () => await this.userProcessingService.RegisterUserAsync(user, password));
 
         public ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest) =>
-        TryCatch(async () => await this.userProcessingService.ResetUserPasswordByEmailOrUserNameAsync(resetPasswordApiRequest));
+        TryCatch(async () => await this.userProcessingService.ResetUserPasswordByEmailAsync(resetPasswordApiRequest));
 
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userProcessingService.RetrieveAllUsers());
