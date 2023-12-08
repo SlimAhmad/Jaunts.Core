@@ -47,7 +47,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> registerRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+                this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleDependencyException actualRoleDependencyException =
                  await Assert.ThrowsAsync<RoleDependencyException>(
@@ -102,7 +102,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> addRoleTask =
-                this.roleService.RegisterRoleRequestAsync(alreadyExistsRole);
+                this.roleService.AddRoleRequestAsync(alreadyExistsRole);
 
             RoleDependencyValidationException actualRoleDependencyValidationException =
                 await Assert.ThrowsAsync<RoleDependencyValidationException>(
@@ -160,7 +160,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> registerRoleTask =
-                this.roleService.RegisterRoleRequestAsync(inputRole);
+                this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleDependencyException actualRoleDependencyException =
             await Assert.ThrowsAsync<RoleDependencyException>(
@@ -218,7 +218,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ValueTask<ApplicationRole> registerRoleTask =
-                 this.roleService.RegisterRoleRequestAsync(inputRole);
+                 this.roleService.AddRoleRequestAsync(inputRole);
 
             RoleServiceException actualRoleServiceException =
               await Assert.ThrowsAsync<RoleServiceException>(

@@ -34,7 +34,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> createUserTask =
-                this.userService.RegisterUserRequestAsync(invalidUser, password);
+                this.userService.InsertUserRequestAsync(invalidUser, password);
 
             UserValidationException actualUserValidationException =
               await Assert.ThrowsAsync<UserValidationException>(
@@ -121,7 +121,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(invalidUser, password);
+                this.userService.InsertUserRequestAsync(invalidUser, password);
 
             UserValidationException actualUserValidationException =
                await Assert.ThrowsAsync<UserValidationException>(
@@ -174,7 +174,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(inputUser, password);
+                this.userService.InsertUserRequestAsync(inputUser, password);
 
             UserValidationException actualUserValidationException =
               await Assert.ThrowsAsync<UserValidationException>(
@@ -226,7 +226,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(inputUser, password);
+                this.userService.InsertUserRequestAsync(inputUser, password);
 
             UserValidationException actualUserValidationException =
               await Assert.ThrowsAsync<UserValidationException>(
@@ -286,7 +286,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(inputUser, password);
+                this.userService.InsertUserRequestAsync(inputUser, password);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -347,7 +347,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.RegisterUserRequestAsync(alreadyExistsUser, password);
+                this.userService.InsertUserRequestAsync(alreadyExistsUser, password);
 
             UserDependencyValidationException actualUserDependencyValidationException =
                  await Assert.ThrowsAsync<UserDependencyValidationException>(

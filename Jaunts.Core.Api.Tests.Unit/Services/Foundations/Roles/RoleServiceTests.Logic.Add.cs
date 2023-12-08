@@ -36,7 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
 
             // when
             ApplicationRole actualRole =
-                await this.roleService.RegisterRoleRequestAsync(inputRole);
+                await this.roleService.AddRoleRequestAsync(inputRole);
 
             // then
             actualRole.Should().BeEquivalentTo(expectedRole);
