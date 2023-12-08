@@ -1,39 +1,23 @@
 ﻿using Jaunts.Core.Models.Exceptions;
 using Jaunts.Core.Models.Email;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Api.Models.Processings.Emails.Exceptions;
 
 namespace Jaunts.Core.Api.Services.Processings.Email
 {
     public partial class EmailProcessingService
     {
-        private static void ValidateMail(SendEmailMessage sendEmailDetails)
-        {
-            ValidateMailNotNull(sendEmailDetails);
-        }
+        
 
         private void ValidateUser(ApplicationUser user)
         {
-            ValidateUserNotNull(user);
-        }
-        private static void ValidateMailNotNull(SendEmailMessage sendEmailDetails)
-        {
-            if (sendEmailDetails is null)
-            {
-                throw new NullEmailException();
-            }
-        }
-
-        private static void ValidateUserNotNull(ApplicationUser user)
-        {
             if (user is null)
             {
-                throw new NullEmailException();
+                throw new NullEmailProcessingException();
             }
         }
-      
 
-
-        public void ValidateSendMail(string text)=>
+        public void ValidateToken(string text)=>
             Validate((Rule: IsInvalid(text), Parameter: nameof(SendEmailResponse)));
         
 
@@ -59,19 +43,19 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidEmailException = new InvalidEmailException();
+            var invalidEmailProcessingException = new InvalidEmailProcessingException();
 
             foreach ((dynamic rule, string parameter) in validations)
             {
                 if (rule.Condition)
                 {
-                    invalidEmailException.UpsertDataList(
+                    invalidEmailProcessingException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidEmailException.ThrowIfContainsErrors();
+            invalidEmailProcessingException.ThrowIfContainsErrors();
         }
     }
 }

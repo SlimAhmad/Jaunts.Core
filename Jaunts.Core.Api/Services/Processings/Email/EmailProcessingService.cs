@@ -31,13 +31,13 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
             }
 
-            public ValueTask<SendEmailResponse> PostVerificationMailRequestAsync(
+            public ValueTask<SendEmailResponse> SendVerificationMailRequestAsync(
                 ApplicationUser user,
                 string token) =>
             TryCatch(async () =>
             {
                 ValidateUser(user);
-                ValidateSendMail(token);
+                ValidateToken(token);
                 string verificationUrl = GenerateConfirmationUrlAsync(user.Id.ToString(), token);
                 SendEmailMessage emailDetails = ConvertEmailDetailsRequest(
                     user,
@@ -52,18 +52,17 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                "Verify Email",
                verificationUrl
                );
-                ValidateMail(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });
 
-            public ValueTask<SendEmailResponse> PostForgetPasswordMailRequestAsync(
+            public ValueTask<SendEmailResponse> SendForgetPasswordMailRequestAsync(
                 ApplicationUser user,
                 string token) =>
             TryCatch(async () => {
 
                 ValidateUser(user);
-                ValidateSendMail(token);
+                ValidateToken(token);
                 string verificationUrl = GenerateResetPasswordUrlAsync(user.Id.ToString(), token);
                 SendEmailMessage emailDetails = ConvertEmailDetailsRequest(user,
                     "Forgot Password Verification Token - Jaunts",
@@ -76,18 +75,17 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     $"Verification Token",
                     verificationUrl
                     );
-                ValidateMail(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
 
             });
 
-            public ValueTask<SendEmailResponse> PostOTPVerificationMailRequestAsync(
+            public ValueTask<SendEmailResponse> SendOtpVerificationMailRequestAsync(
               ApplicationUser user, string token) =>
             TryCatch(async () =>
             {
                 ValidateUser(user);
-                ValidateSendMail(token);
+                ValidateToken(token);
                 string verificationUrl = GenerateOTPLoginUrlAsync(user.Id.ToString(), token);
                 SendEmailMessage emailDetails = ConvertEmailDetailsRequest(
                     user,
@@ -102,7 +100,6 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     $"OTP-{token}",
                     verificationUrl
                     );
-                ValidateMail(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });

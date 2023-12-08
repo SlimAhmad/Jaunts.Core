@@ -1,7 +1,6 @@
 ﻿using Jaunts.Core.Api.Models.Processings.Emails.Exceptions;
-using Jaunts.Core.Api.Models.Processings.Role.Exceptions;
-using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Models.Email;
+using Jaunts.Core.Models.Exceptions;
 using Xeptions;
 
 namespace Jaunts.Core.Api.Services.Processings.Email
@@ -20,36 +19,36 @@ namespace Jaunts.Core.Api.Services.Processings.Email
             {
                 return await returningSendEmailResponseFunction();
             }
-            catch (NullRoleProcessingException nullRoleProcessingException)
+            catch (NullEmailProcessingException nullEmailProcessingException)
             {
-                throw CreateAndLogValidationException(nullRoleProcessingException);
+                throw CreateAndLogValidationException(nullEmailProcessingException);
             }
-            catch (InvalidRoleProcessingException invalidRoleProcessingException)
+            catch (InvalidEmailException invalidEmailProcessingException)
             {
-                throw CreateAndLogValidationException(invalidRoleProcessingException);
+                throw CreateAndLogValidationException(invalidEmailProcessingException);
             }
-            catch (RoleValidationException roleValidationException)
+            catch (EmailValidationException roleValidationException)
             {
                 throw CreateAndLogDependencyValidationException(roleValidationException);
             }
-            catch (RoleDependencyValidationException roleDependencyValidationException)
+            catch (EmailDependencyValidationException roleDependencyValidationException)
             {
                 throw CreateAndLogDependencyValidationException(roleDependencyValidationException);
             }
-            catch (RoleDependencyException roleDependencyException)
+            catch (EmailDependencyException roleDependencyException)
             {
                 throw CreateAndLogDependencyException(roleDependencyException);
             }
-            catch (RoleServiceException roleServiceException)
+            catch (EmailServiceException roleServiceException)
             {
                 throw CreateAndLogDependencyException(roleServiceException);
             }
             catch (Exception exception)
             {
-                var failedRoleProcessingServiceException =
-                    new FailedRoleProcessingServiceException(exception);
+                var failedEmailProcessingServiceException =
+                    new FailedEmailProcessingServiceException(exception);
 
-                throw CreateAndLogServiceException(failedRoleProcessingServiceException);
+                throw CreateAndLogServiceException(failedEmailProcessingServiceException);
             }
         }
 

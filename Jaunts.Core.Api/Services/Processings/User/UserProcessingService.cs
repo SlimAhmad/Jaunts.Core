@@ -1,6 +1,8 @@
 ﻿using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Models.Auth;
+using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Api.Services.Foundations.Role;
 using Jaunts.Core.Api.Services.Foundations.Users;
 using Jaunts.Core.Models.Auth.LoginRegister;
 using Microsoft.EntityFrameworkCore;
@@ -22,55 +24,84 @@ namespace Jaunts.Core.Api.Services.Processings.User
             this.loggingBroker = loggingBroker;
         }
 
+        public ValueTask<ApplicationUser> UpsertUserAsync(
+           ApplicationUser user, string password) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            ApplicationUser maybeUser = RetrieveMatchingUser(user);
+
+            return maybeUser switch
+            {
+                null => await this.userService.InsertUserRequestAsync(user, password),
+                _ => await this.userService.ModifyUserRequestAsync(user)
+            };
+        });
+        public ValueTask<ApplicationUser> RetrieveUserById(
+           Guid id) =>
+        TryCatch(async () =>
+        {
+            ValidateUserId(id);
+            ApplicationUser user = await userService.RetrieveUserByIdRequestAsync(id);
+            ValidateUser(user);
+            return user;
+        });
+        public ValueTask<bool> RemoveUserByIdAsync(
+           Guid id) =>
+        TryCatch(async () =>
+        {
+            ValidateUserId(id);
+            ApplicationUser user = await userService.RemoveUserByIdRequestAsync(id);
+            ValidateUser(user);
+            return true;
+        });
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userService.RetrieveAllUsers());
         public ValueTask<ApplicationUser> RegisterUserAsync(ApplicationUser user,string password) =>
-        TryCatch(async() => await this.userService.RegisterUserRequestAsync(user,password));
+        TryCatch(async() => await this.userService.InsertUserRequestAsync(user,password));
         public ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.GenerateEmailConfirmationTokenRequestAsync(user));
         public ValueTask<string> PasswordResetTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.GeneratePasswordResetTokenRequestAsync(user));
         public ValueTask<string> TwoFactorTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.GenerateTwoFactorTokenRequestAsync(user));
-
         public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(LoginCredentialsApiRequest loginCredentialsApiRequest) =>
         TryCatch(async () =>
         {
-            Validate();
-            var user = await userService.RetrieveAllUsers().FirstOrDefaultAsync(
+            ValidateUserLoginIsNotNull(loginCredentialsApiRequest);
+            var user =  userService.RetrieveAllUsers();
+            return user.FirstOrDefault(
                 SameUserAs(loginCredentialsApiRequest.UsernameOrEmail));
-            return user;
+            
         });
         public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail) =>
         TryCatch(async () =>
         {
-            Validate();
-            var user = await userService.RetrieveAllUsers().FirstOrDefaultAsync(
+            ValidateUserEmailOrUsername(userNameOrEmail);
+            var user = userService.RetrieveAllUsers().FirstOrDefault(
                 SameUserAs(userNameOrEmail));
             return user;
         });
-        public ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest) =>
+        public ValueTask<bool> ResetUserPasswordByEmailAsync(ResetPasswordApiRequest resetPasswordApiRequest) =>
         TryCatch(async () =>
         { 
             ValidateResetPasswordIsNull(resetPasswordApiRequest);
-            var user = await userService.RetrieveAllUsers().FirstOrDefaultAsync(
+            var user =  userService.RetrieveAllUsers().FirstOrDefault(
                 SameUserAs(resetPasswordApiRequest.Email));
-            ValidateUserResponseIsNull(user);
+            ValidateUserResponseIsNotNull(user);
             var passwordReset = await userService.ResetPasswordRequestAsync(
                 user, HttpUtility.UrlDecode(resetPasswordApiRequest.Token), resetPasswordApiRequest.Password);
             var response = passwordReset != null? true : false;
             return response;
         });
-
         public ValueTask<bool> EnsureUserExistAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
             ValidateUser(user);
-            var allUsers = await userService.RetrieveAllUsers().ToListAsync();
+            var allUsers =  userService.RetrieveAllUsers().ToList();
             return allUsers.Any(retrievedUser => retrievedUser.Id == user.Id);
           
         });
-
         public ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id) =>
         TryCatch(async () =>
         {
@@ -81,8 +112,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             bool userExists = allUser.Any(retrievedStudent =>
                 retrievedStudent.Id == id);
 
-            ApplicationUser user = await userService.RetrieveAllUsers()
-                .FirstOrDefaultAsync(
+            ApplicationUser user =  allUser.FirstOrDefault(
                       SameUserAs(id));
 
            ApplicationUser enabledOrDisabledUser = userExists switch
@@ -90,37 +120,30 @@ namespace Jaunts.Core.Api.Services.Processings.User
                 false => await this.userService.SetTwoFactorEnabledRequestAsync(user, true),
                 _ => await this.userService.SetTwoFactorEnabledRequestAsync(user, false)
             };
-            return await userService.RetrieveAllUsers().FirstOrDefaultAsync(
+            return userService.RetrieveAllUsers().FirstOrDefault(
                 SameUserAs(enabledOrDisabledUser.Email));
 
         });
-
         public ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email) =>
         TryCatch(async () =>
         { 
-            var user = await userService.RetrieveAllUsers()
-                .FirstOrDefaultAsync(SameUserAs(email));
+            var user = userService.RetrieveAllUsers()
+                        .FirstOrDefault(SameUserAs(email));
             ValidateUser(user);
             return await userService.ConfirmEmailRequestAsync(user,token);
 
         });
-
-        public ValueTask<ApplicationUser> CheckPasswordValidityAsync(string password, Guid id) =>
+        public ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id) =>
         TryCatch(async () =>
         {
-            var user = await userService.RetrieveAllUsers()
-                .FirstOrDefaultAsync(SameUserAs(id.ToString()));
+            var user =  userService.RetrieveAllUsers()
+                     .FirstOrDefault(SameUserAs(id));
             ValidateUser(user);
-            return await userService.ConfirmEmailRequestAsync(user, password);
+            return await userService.CheckPasswordRequestAsync(user, password);
 
         });
-
         public ValueTask<ApplicationUser> AddToRoleAsync(ApplicationUser user, string role) =>
-        TryCatch(async () =>
-        {
-            return await userService.AddToRoleRequestAsync(user, role);
-        });
-
+        TryCatch(() => userService.AddToRoleRequestAsync(user, role));
         public ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -128,20 +151,24 @@ namespace Jaunts.Core.Api.Services.Processings.User
             return await userService.RetrieveUserRolesRequestAsync(user);
         });
 
+
         private ApplicationUser RetrieveMatchingUser(ApplicationUser user)
         {
             IQueryable<ApplicationUser> users =
             this.userService.RetrieveAllUsers();
             return users.FirstOrDefault(SameUserAs(user));
         }
-
         private static Expression<Func<ApplicationUser, bool>> SameUserAs(Guid id) =>
              retrievedUser => retrievedUser.Id == id;
         private static Expression<Func<ApplicationUser, bool>> SameUserAs(ApplicationUser user) =>
              retrievedUser => retrievedUser.Id == user.Id;
-
-        private static Expression<Func<ApplicationUser, bool>> SameUserAs(string IdOrUserNameOrEmail) =>
-             retrievedUser => retrievedUser.Id.ToString() == IdOrUserNameOrEmail || retrievedUser.UserName == IdOrUserNameOrEmail || retrievedUser.Email == IdOrUserNameOrEmail;
+        private static Expression<Func<ApplicationUser, bool>> SameUserAs(string IdOrUserNameOrEmail)
+        {
+           return retrievedUser => retrievedUser.Email == IdOrUserNameOrEmail || 
+                                   retrievedUser.Id.ToString() == IdOrUserNameOrEmail || 
+                                   retrievedUser.UserName == IdOrUserNameOrEmail;
+        }
+            
 
     }
 }

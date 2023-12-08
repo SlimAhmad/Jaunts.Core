@@ -13,7 +13,7 @@ namespace Jaunts.Core.Api.Services.Processings.SignIn
         {
             if (user == null)
             {
-                throw new NullUserProcessingException();
+                throw new NullSignInProcessingException();
             }
         }
         public void ValidateString(string text) =>

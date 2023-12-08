@@ -1,4 +1,5 @@
 ﻿using Jaunts.Core.Api.Models.Jwt.Exceptions;
+using Jaunts.Core.Api.Models.Processings.Jwts.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 
 namespace Jaunts.Core.Api.Services.Processings.Jwt
@@ -10,7 +11,7 @@ namespace Jaunts.Core.Api.Services.Processings.Jwt
         {
             if (user is null)
             {
-                throw new NullJwtException();
+                throw new NullJwtProcessingException();
             }
         }
 

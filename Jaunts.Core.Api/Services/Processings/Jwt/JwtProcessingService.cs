@@ -25,6 +25,7 @@ namespace Jaunts.Core.Api.Services.Processings.Jwt
                 ApplicationUser user,int permissions) =>
             TryCatch(async () =>
             {
+                ValidateUserNotNull(user);
                return await jwtService.GenerateJwtTokenRequestAsync(user,permissions);
         
             });

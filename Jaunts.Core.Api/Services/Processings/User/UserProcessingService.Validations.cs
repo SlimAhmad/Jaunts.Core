@@ -6,6 +6,8 @@ using Jaunts.Core.Api.Models.Processings.User.Exceptions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Models.Auth.LoginRegister;
+using Jaunts.Core.Api.Models.Services.Foundations.Role;
+using Dna;
 
 namespace Jaunts.Core.Api.Services.Processings.User
 {
@@ -20,7 +22,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
                 Parameter: nameof(ApplicationUser.Id)));
         }
 
-        private static void ValidateUserOnLoginIsNull(LoginCredentialsApiRequest request)
+        private static void ValidateUserLoginIsNotNull(LoginCredentialsApiRequest request)
         {
             if (request is null)
             {
@@ -28,7 +30,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             }
         }
 
-        private static void ValidateUserResponseIsNull(ApplicationUser user)
+        private static void ValidateUserResponseIsNotNull(ApplicationUser user)
         {
             if (user is null)
             {
@@ -52,13 +54,22 @@ namespace Jaunts.Core.Api.Services.Processings.User
             }
         }
 
+        public void ValidateUserId(Guid userId) =>
+           Validate((Rule: IsInvalid(userId), Parameter: nameof(ApplicationUser.Id)));
+        public void ValidateUserEmailOrUsername(string text) =>
+           Validate((Rule: IsInvalid(text), Parameter: nameof(ApplicationUser)));
+
         private static dynamic IsInvalid(Guid id) => new
         {
             Condition = id == Guid.Empty,
             Message = "Id is required"
         };
 
-
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = string.IsNullOrEmpty(text),
+            Message = "Value is required"
+        };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {

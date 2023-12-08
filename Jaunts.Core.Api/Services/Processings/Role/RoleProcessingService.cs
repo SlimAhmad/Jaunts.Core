@@ -32,20 +32,20 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                 Guid id) =>
             TryCatch(async () =>
             {
+                ValidateRoleId(id);
                 var userRole = await roleService.RemoveRoleByIdRequestAsync(id);
                 ValidateRole(userRole);
                 return true;
             });
-
             public ValueTask<ApplicationRole> RetrieveRoleById(
                 Guid id) =>
             TryCatch(async () =>
             {
-                var role = await roleService.RetrieveRoleByIdRequestAsync(id);
+                ValidateRoleId(id);
+                ApplicationRole role =  await roleService.RetrieveRoleByIdRequestAsync(id);
                 ValidateRole(role);
-                return role ;
+                return role;
             });
-
             public ValueTask<ApplicationRole> UpsertRoleAsync(
                 ApplicationRole  role) =>
             TryCatch(async () =>
@@ -55,21 +55,20 @@ namespace Jaunts.Core.Api.Services.Processings.Role
 
                 return maybeRole switch
                 {
-                    null => await this.roleService.RegisterRoleRequestAsync(role),
+                    null => await this.roleService.AddRoleRequestAsync(role),
                     _ => await this.roleService.ModifyRoleRequestAsync(role)
                 };
             });
-
-
             public ValueTask<int> RetrievePermissions(List<string> role) =>
             TryCatch(async () =>
             {
-                var userRoles = await roleService.RetrieveAllRoles()
-                              .Where(r => role.Contains(r.Name!)).ToListAsync();
+                ValidateRoleList(role);
+                var userRole = roleService.RetrieveAllRoles();
+                var result =  userRole.Where(roles => role.Contains(roles.Name!)).ToList();
 
                 var userPermissions = Permissions.None;
 
-                foreach (var rolePermission in userRoles)
+                foreach (var rolePermission in result)
                     userPermissions |= rolePermission.Permissions;
 
                 var permissionsValue = (int)userPermissions;

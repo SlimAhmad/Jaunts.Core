@@ -5,13 +5,13 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 {
     public partial interface IEmailProcessingService
     {
-        ValueTask<SendEmailResponse> PostVerificationMailRequestAsync(
+        ValueTask<SendEmailResponse> SendVerificationMailRequestAsync(
             ApplicationUser user,
             string token);
-        ValueTask<SendEmailResponse> PostForgetPasswordMailRequestAsync(
+        ValueTask<SendEmailResponse> SendForgetPasswordMailRequestAsync(
             ApplicationUser user,
             string token);
-        ValueTask<SendEmailResponse> PostOTPVerificationMailRequestAsync(
+        ValueTask<SendEmailResponse> SendOtpVerificationMailRequestAsync(
             ApplicationUser user,
             string token);
     }
