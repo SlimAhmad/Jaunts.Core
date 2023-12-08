@@ -74,7 +74,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             }
             var isValidPassword = await userOrchestrationService.CheckPasswordValidityAsync(
                 loginCredentialsApiRequest.Password ,user.Id);
-            return await jwtOrchestrationService.JwtAccountDetailsAsync(isValidPassword);
+            return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
         public ValueTask<bool> ResetPasswordRequestAsync(ResetPasswordApiRequest resetPassword) =>
