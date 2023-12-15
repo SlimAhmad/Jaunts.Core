@@ -56,7 +56,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         public void ValidateUserId(Guid userId) =>
            Validate((Rule: IsInvalid(userId), Parameter: nameof(ApplicationUser.Id)));
-        public void ValidateUserEmailOrUsername(string text) =>
+        public void ValidateStringIsNotNull(string text) =>
            Validate((Rule: IsInvalid(text), Parameter: nameof(ApplicationUser)));
 
         private static dynamic IsInvalid(Guid id) => new

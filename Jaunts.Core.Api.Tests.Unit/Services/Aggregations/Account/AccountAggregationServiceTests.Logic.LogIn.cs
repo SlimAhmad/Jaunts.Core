@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     randomUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest))
+                broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest.UsernameOrEmail))
                     .ReturnsAsync(storageUser);
 
             this.userOrchestrationMock.Setup(broker =>
@@ -67,7 +67,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<LoginCredentialsApiRequest>()),
+                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
                     Times.Once);
 
             this.userOrchestrationMock.Verify(broker =>
@@ -116,7 +116,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     inputUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
-             broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest))
+             broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest.UsernameOrEmail))
                  .ReturnsAsync(storageUser);
 
             this.signInOrchestrationMock.Setup(broker =>
@@ -138,7 +138,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<LoginCredentialsApiRequest>()),
+                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
                     Times.Once);
 
             this.signInOrchestrationMock.Verify(broker =>

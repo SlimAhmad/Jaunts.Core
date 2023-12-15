@@ -43,21 +43,17 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         TryCatch(async () => await this.userProcessingService.PasswordResetTokenAsync(user));
 
         public ValueTask<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password) =>
-        TryCatch(async () => await this.userProcessingService.RegisterUserAsync(user, password));
+        TryCatch(async () => await this.userProcessingService.CreateUserAsync(user, password));
 
         public ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest) =>
-        TryCatch(async () => await this.userProcessingService.ResetUserPasswordByEmailAsync(resetPasswordApiRequest));
+        TryCatch(async () => 
+        {
+           return await this.userProcessingService.ResetUserPasswordByEmailAsync(
+                resetPasswordApiRequest.Email, resetPasswordApiRequest.Token, resetPasswordApiRequest.Password);
+        });
 
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userProcessingService.RetrieveAllUsers());
-
-        public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(
-            LoginCredentialsApiRequest loginCredentialsApiRequest) =>
-        TryCatch(async () => 
-        {
-            return await this.userProcessingService.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest);         
-        });
-
         public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail) =>
         TryCatch(async () => await this.userProcessingService.RetrieveUserByEmailOrUserNameAsync(userNameOrEmail));
 

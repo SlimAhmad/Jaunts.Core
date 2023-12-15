@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.User.Exceptions
         public InvalidUserProcessingException()
             : base(message: "Invalid user, Please correct the errors and try again.") 
         { }
+        public InvalidUserProcessingException(string message)
+            : base(message)
+        { }
     }
 }

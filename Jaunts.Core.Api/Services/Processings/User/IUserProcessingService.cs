@@ -13,7 +13,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
         ValueTask<ApplicationUser> UpsertUserAsync(
            ApplicationUser user, string password);
         IQueryable<ApplicationUser> RetrieveAllUsers();
-        ValueTask<ApplicationUser> RegisterUserAsync(ApplicationUser user, string password);
+        ValueTask<ApplicationUser> CreateUserAsync(ApplicationUser user, string password);
         ValueTask<ApplicationUser> RetrieveUserById(
            Guid id);
         ValueTask<bool> RemoveUserByIdAsync(
@@ -21,9 +21,8 @@ namespace Jaunts.Core.Api.Services.Processings.User
         ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
         ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
-        ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(LoginCredentialsApiRequest loginCredentialsApiRequest);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
-        ValueTask<bool> ResetUserPasswordByEmailAsync(ResetPasswordApiRequest resetPasswordApiRequest);
+        ValueTask<bool> ResetUserPasswordByEmailAsync(string email, string token, string password);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);
         ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id);
         ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);

@@ -11,7 +11,6 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
         ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
-        ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(LoginCredentialsApiRequest loginCredentialsApiRequest);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
         ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);

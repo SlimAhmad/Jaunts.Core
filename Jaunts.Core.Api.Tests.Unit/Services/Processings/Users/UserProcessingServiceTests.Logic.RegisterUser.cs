@@ -28,7 +28,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ApplicationUser actualUser = await this.userProcessingService
-                .RegisterUserAsync(inputUser, inputPassword);
+                .CreateUserAsync(inputUser, inputPassword);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);
