@@ -61,7 +61,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
         private static DateTimeOffset GetCurrentDateTime() =>
             DateTimeOffset.UtcNow;
-
+        private static Guid GetRandomGuid() => Guid.NewGuid();
         private static string GetRandomNames() => new RealNames().GetValue();
         private static string GetRandomEmailAddresses() => new EmailAddresses().GetValue();
         private static int GetRandomNumber() => new IntRange(min: 2, max: 90).GetValue();
@@ -74,7 +74,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
         {
             var role = new ApplicationRole
             {
-                Id = Guid.NewGuid(),
+                Id = GetRandomGuid(),
                 Name = GetRandomMessage(),
                 CreatedDate = DateTimeOffset.UtcNow,
                 UpdatedDate = DateTimeOffset.UtcNow
@@ -87,7 +87,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
         {
             var role = new ApplicationRole
             {
-                Id = Guid.NewGuid(),
+                Id = GetRandomGuid(),
                 Name = GetRandomMessage(),
                 CreatedDate = dates,
                 UpdatedDate = dates
