@@ -44,22 +44,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Jwt
                         .AreEqual;
         }
 
-        private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
-        private static DateTimeOffset GetRandomDateTime() =>
-            new DateTimeRange(earliestDate: new DateTime()).GetValue();
-        private static DateTimeOffset GetCurrentDateTime() => DateTimeOffset.UtcNow;
         private static string GetRandomNames() => new RealNames().GetValue();
         private static string GetRandomEmailAddresses() => new EmailAddresses().GetValue();
         private static int GetRandomNumber() => new IntRange(min: 2, max: 90).GetValue();
         private static bool GetRandomBoolean() =>
                 Randomizer<bool>.Create();
-        private static int GetRandomNegativeNumber() =>
-            -1 * new IntRange(min: 2, max: 10).GetValue();
         private static string GetRandomMessage() => new MnemonicString().GetValue();
-        private static string GetRandomString() =>
-            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
-        private static SqlException GetSqlException() =>
-            (SqlException)RuntimeHelpers.GetUninitializedObject(typeof(SqlException));
 
         private static ApplicationUser CreateRandomUser(DateTimeOffset dates)
         {
