@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using Jaunts.Core.Api.Brokers.Loggings;
+using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Api.Services.Orchestration.Email;
@@ -57,6 +58,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
         private static SendEmailResponse CreateSendEmailResponse() =>
           CreateSendEmailResponseFiller().Create();
 
+        private static UserAccountDetailsResponse CreateUserAccountDetailsResponse() =>
+          CreateUserAccountDetailsResponseFiller().Create();
+
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
@@ -72,6 +76,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
 
             filler.Setup()
                 .OnProperty(x=> x.Errors).IgnoreIt()
+                .OnType<DateTimeOffset>().IgnoreIt();
+
+            return filler;
+        }
+
+        private static Filler<UserAccountDetailsResponse> CreateUserAccountDetailsResponseFiller()
+        {
+            var filler = new Filler<UserAccountDetailsResponse>();
+
+            filler.Setup()
                 .OnType<DateTimeOffset>().IgnoreIt();
 
             return filler;
@@ -93,6 +107,18 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
             };
 
             return user;
+        }
+
+        private UserAccountDetailsResponse ConvertToTwoFAResponse(ApplicationUser user)
+        {
+            return new UserAccountDetailsResponse
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                TwoFactorEnabled = user.TwoFactorEnabled,
+                EmailConfirmed = user.EmailConfirmed,
+            };
         }
 
         public static TheoryData DependencyValidationExceptions()
