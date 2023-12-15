@@ -41,10 +41,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             ApplicationUser inputUser = randomUser;
             ApplicationUser storageUser = inputUser;
         
-            UserAccountDetailsApiResponse randomUserProfileDetails =
+            UserAccountDetailsResponse randomUserProfileDetails =
                 CreateUserAccountDetailsApiResponse(storageUser);
 
-            UserAccountDetailsApiResponse expectedUserProfileDetails =
+            UserAccountDetailsResponse expectedUserProfileDetails =
                     randomUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
@@ -60,7 +60,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                         .ReturnsAsync(randomUserProfileDetails);
 
             // when
-            UserAccountDetailsApiResponse actualAuth =
+            UserAccountDetailsResponse actualAuth =
                 await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
 
             // then
@@ -109,10 +109,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             ApplicationUser storageUser = inputUser;
             storageUser.TwoFactorEnabled = true;
 
-            UserAccountDetailsApiResponse inputUserProfileDetails =
+            UserAccountDetailsResponse inputUserProfileDetails =
                 CreateUserAccountDetailsApiResponse(storageUser);
 
-            UserAccountDetailsApiResponse expectedUserProfileDetails =
+            UserAccountDetailsResponse expectedUserProfileDetails =
                     inputUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
@@ -131,7 +131,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     .ReturnsAsync(inputUserProfileDetails);
 
             // when
-            UserAccountDetailsApiResponse actualAuth =
+            UserAccountDetailsResponse actualAuth =
                 await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
 
             // then

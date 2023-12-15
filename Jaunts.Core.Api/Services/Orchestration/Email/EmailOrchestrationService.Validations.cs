@@ -18,7 +18,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
              Validate((Rule: IsInvalid(text), Parameter: nameof(ForgotPasswordApiResponse)));
 
         public void ValidateUserProfileDetails(string text) =>
-             Validate((Rule: IsInvalid(text), Parameter: nameof(UserAccountDetailsApiResponse)));
+             Validate((Rule: IsInvalid(text), Parameter: nameof(UserAccountDetailsResponse)));
 
         public void ValidateUserPassword(bool password) =>
             Validate((Rule: IsNotValidPassword(password), Parameter: nameof(ApplicationUser)));

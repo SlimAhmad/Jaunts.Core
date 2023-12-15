@@ -5,10 +5,10 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
 {
     public partial interface IAccountAggregationService
     {
-        ValueTask<UserAccountDetailsApiResponse> RegisterUserRequestAsync(
+        ValueTask<UserAccountDetailsResponse> RegisterUserRequestAsync(
             RegisterUserApiRequest registerCredentialsApiRequest);
 
-        ValueTask<UserAccountDetailsApiResponse> LogInRequestAsync(
+        ValueTask<UserAccountDetailsResponse> LogInRequestAsync(
              LoginCredentialsApiRequest loginCredentialsApiRequest);
 
         ValueTask<bool> ResetPasswordRequestAsync(
@@ -17,14 +17,14 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         ValueTask<bool> ForgotPasswordRequestAsync(
              string email);
 
-        ValueTask<UserAccountDetailsApiResponse> ConfirmEmailRequestAsync(
+        ValueTask<UserAccountDetailsResponse> ConfirmEmailRequestAsync(
             string token,
             string email);
 
-        ValueTask<UserAccountDetailsApiResponse> LoginWithOTPRequestAsync(
+        ValueTask<UserAccountDetailsResponse> LoginWithOTPRequestAsync(
             string code,
             string userNameOrEmail);
 
-        ValueTask<UserAccountDetailsApiResponse> EnableUser2FARequestAsync(Guid id);
+        ValueTask<UserAccountDetailsResponse> EnableUser2FARequestAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ namespace Jaunts.Core.Api.Models.Auth
     /// <summary>
     /// The result of a login request or get user profile details request via API
     /// </summary>
-    public class UserAccountDetailsApiResponse
+    public class UserAccountDetailsResponse
     {
         #region Public Properties
 
@@ -55,7 +55,7 @@ namespace Jaunts.Core.Api.Models.Auth
         /// <summary>
         /// Default constructor
         /// </summary>
-        public UserAccountDetailsApiResponse()
+        public UserAccountDetailsResponse()
         {
 
         }

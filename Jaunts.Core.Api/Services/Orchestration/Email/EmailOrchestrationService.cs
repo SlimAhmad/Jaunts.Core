@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             return await emailProcessingService.SendForgetPasswordMailRequestAsync(user, token);
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> TwoFactorMailAsync(
+        public ValueTask<UserAccountDetailsResponse> TwoFactorMailAsync(
                 ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -59,9 +59,9 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             await emailProcessingService.SendOtpVerificationMailRequestAsync(user, token);
             return ConvertTo2FAResponse(user) ;
         });
-        private UserAccountDetailsApiResponse ConvertTo2FAResponse(ApplicationUser user)
+        private UserAccountDetailsResponse ConvertTo2FAResponse(ApplicationUser user)
         {
-            return new UserAccountDetailsApiResponse
+            return new UserAccountDetailsResponse
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,

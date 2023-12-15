@@ -18,12 +18,12 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.Register)] 
-        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> RegisterAsync(
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> RegisterAsync(
             RegisterUserApiRequest registerUserApiRequest)
         {
             try
             {
-                UserAccountDetailsApiResponse registeredAccount =
+                UserAccountDetailsResponse registeredAccount =
                     await this.accountAggregationService.RegisterUserRequestAsync(registerUserApiRequest);
 
                 return Created(registeredAccount);
@@ -44,12 +44,12 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.Login)]
-        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> LoginAsync(
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> LoginAsync(
             LoginCredentialsApiRequest  loginCredentialsApiRequest)
         {
             try
             {
-                UserAccountDetailsApiResponse registeredAccount =
+                UserAccountDetailsResponse registeredAccount =
                     await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
 
                 return Created(registeredAccount);
@@ -121,11 +121,11 @@ namespace Jaunts.Core.Api.Controllers
 
             [HttpPost]
         [Route(ApiRoutes.ConfirmEmail)]
-        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> ConfirmEmailAsync(string token,string email)
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> ConfirmEmailAsync(string token,string email)
         {
             try
             {
-                UserAccountDetailsApiResponse registeredAccount =
+                UserAccountDetailsResponse registeredAccount =
                     await this.accountAggregationService.ConfirmEmailRequestAsync(token,email);
 
                 return Ok(registeredAccount);
@@ -146,11 +146,11 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.LoginWithOTP)]
-        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> LoginWithOTPAsync(string code, string userNameOrEmail)
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> LoginWithOTPAsync(string code, string userNameOrEmail)
         {
             try
             {
-                UserAccountDetailsApiResponse registeredAccount =
+                UserAccountDetailsResponse registeredAccount =
                     await this.accountAggregationService.LoginWithOTPRequestAsync(code,userNameOrEmail);
 
                 return Created(registeredAccount);
@@ -173,11 +173,11 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.Enable2FA)]
-        public async ValueTask<ActionResult<UserAccountDetailsApiResponse>> Enable2FAAsync(Guid id)
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> Enable2FAAsync(Guid id)
         {
             try
             {
-                UserAccountDetailsApiResponse registeredAccount =
+                UserAccountDetailsResponse registeredAccount =
                     await this.accountAggregationService.EnableUser2FARequestAsync(id);
 
                 return Ok(registeredAccount);

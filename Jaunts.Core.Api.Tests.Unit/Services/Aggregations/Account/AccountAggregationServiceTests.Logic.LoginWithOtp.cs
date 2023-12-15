@@ -34,10 +34,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             string InputEmail = randomEmail;
             string storageEmail = InputEmail;
 
-            UserAccountDetailsApiResponse userAccountDetailsResponse =
+            UserAccountDetailsResponse userAccountDetailsResponse =
                 CreateUserAccountDetailsApiResponse(inputUser);
 
-            UserAccountDetailsApiResponse expectedUserAccountDetailsResponse =
+            UserAccountDetailsResponse expectedUserAccountDetailsResponse =
                   userAccountDetailsResponse;
 
             this.signInOrchestrationMock.Setup(broker =>
@@ -53,7 +53,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                    .ReturnsAsync(userAccountDetailsResponse);
 
             // when
-            UserAccountDetailsApiResponse actualAuth =
+            UserAccountDetailsResponse actualAuth =
                 await this.accountAggregationService.LoginWithOTPRequestAsync(code,InputEmail);
 
             // then

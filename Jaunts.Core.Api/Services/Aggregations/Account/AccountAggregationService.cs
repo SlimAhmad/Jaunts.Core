@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
 
         }
 
-        public ValueTask<UserAccountDetailsApiResponse> RegisterUserRequestAsync(
+        public ValueTask<UserAccountDetailsResponse> RegisterUserRequestAsync(
             RegisterUserApiRequest registerCredentialsApiRequest) =>
         TryCatch(async () =>
         {
@@ -56,7 +56,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             return response;
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> LogInRequestAsync(
+        public ValueTask<UserAccountDetailsResponse> LogInRequestAsync(
             LoginCredentialsApiRequest loginCredentialsApiRequest) =>
         TryCatch(async () =>
         {
@@ -88,14 +88,14 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             return response.Successful;
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> ConfirmEmailRequestAsync(string token, string email) =>
+        public ValueTask<UserAccountDetailsResponse> ConfirmEmailRequestAsync(string token, string email) =>
         TryCatch(async () =>
         {
             var user = await userOrchestrationService.ConfirmEmailAsync(token, email);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> LoginWithOTPRequestAsync(
+        public ValueTask<UserAccountDetailsResponse> LoginWithOTPRequestAsync(
             string code, string userNameOrEmail) =>
         TryCatch(async () =>
         {
@@ -107,7 +107,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> EnableUser2FARequestAsync(Guid id) =>
+        public ValueTask<UserAccountDetailsResponse> EnableUser2FARequestAsync(Guid id) =>
         TryCatch(async () =>
         {
             var user = await userOrchestrationService.EnableOrDisable2FactorAuthenticationAsync(id);

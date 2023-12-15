@@ -13,9 +13,9 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
     {
   
         private delegate ValueTask<SendEmailResponse> ReturningEmailResponseFunction();
-        private delegate ValueTask<UserAccountDetailsApiResponse> ReturningUserAccountDetailsFunction();
+        private delegate ValueTask<UserAccountDetailsResponse> ReturningUserAccountDetailsFunction();
 
-        private async ValueTask<UserAccountDetailsApiResponse> TryCatch(ReturningUserAccountDetailsFunction returningUserAccountDetailsFunction)
+        private async ValueTask<UserAccountDetailsResponse> TryCatch(ReturningUserAccountDetailsFunction returningUserAccountDetailsFunction)
         {
             try
             {

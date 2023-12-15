@@ -26,10 +26,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             Guid randomId = GetRandomGuid();
             Guid inputId = randomId;
 
-            UserAccountDetailsApiResponse userAccountDetailsResponse =
+            UserAccountDetailsResponse userAccountDetailsResponse =
                 CreateUserAccountDetailsApiResponse(inputUser);
 
-            UserAccountDetailsApiResponse expectedUserAccountDetailsResponse =
+            UserAccountDetailsResponse expectedUserAccountDetailsResponse =
                     userAccountDetailsResponse;
 
             this.userOrchestrationMock.Setup(broker =>
@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 broker.JwtAccountDetailsAsync(storageUser))
                     .ReturnsAsync(expectedUserAccountDetailsResponse);
             // when
-            UserAccountDetailsApiResponse actualAuth =
+            UserAccountDetailsResponse actualAuth =
                 await this.accountAggregationService.EnableUser2FARequestAsync(inputId);
 
             // then

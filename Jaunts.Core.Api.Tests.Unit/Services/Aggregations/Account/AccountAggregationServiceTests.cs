@@ -77,10 +77,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
 
-        private static UserAccountDetailsApiResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
+        private static UserAccountDetailsResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
           CreateRegisterApiResponseFiller(user).Create();
 
-        private static UserAccountDetailsApiResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
+        private static UserAccountDetailsResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
           CreateUserProfileDetailsApiResponseFiller(user).Create();
 
         private static ResetPasswordApiResponse CreateResetPasswordApiResponse() =>
@@ -168,11 +168,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<UserAccountDetailsApiResponse> CreateUserProfileDetailsApiResponseFiller(
+        private static Filler<UserAccountDetailsResponse> CreateUserProfileDetailsApiResponseFiller(
             ApplicationUser user
             )
         {
-            var filler = new Filler<UserAccountDetailsApiResponse>();
+            var filler = new Filler<UserAccountDetailsResponse>();
 
             filler.Setup()
                 .OnProperty(x=> x.Username).Use(user.UserName)
@@ -197,9 +197,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<UserAccountDetailsApiResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
+        private static Filler<UserAccountDetailsResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
         {
-            var filler = new Filler<UserAccountDetailsApiResponse>();
+            var filler = new Filler<UserAccountDetailsResponse>();
 
             filler.Setup()
                 .OnProperty(x => x.Username).Use(registerUserApiRequest.Username)
