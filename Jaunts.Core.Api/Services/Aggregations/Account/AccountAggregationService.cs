@@ -62,7 +62,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         {
             ValidateUserOnLogin(loginCredentialsApiRequest);
             ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(
-                loginCredentialsApiRequest);
+                loginCredentialsApiRequest.UsernameOrEmail);
 
             if (user.TwoFactorEnabled)
             {
