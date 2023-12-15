@@ -31,11 +31,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateIdentityResultResponse(response);
             return user;
         });
-
-
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userManagementBroker.SelectAllUsers());
-
         public ValueTask<ApplicationUser> RetrieveUserByIdRequestAsync(Guid userId) =>
         TryCatch(async () =>
         {
@@ -45,7 +42,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return storageUser;
         });
-
         public ValueTask<ApplicationUser> ModifyUserRequestAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -56,7 +52,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return await this.userManagementBroker.UpdateUserAsync(user);
         });
-
         public ValueTask<ApplicationUser> RemoveUserByIdRequestAsync(Guid userId) =>
         TryCatch(async () =>
         {
@@ -66,7 +61,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return await this.userManagementBroker.DeleteUserAsync(maybeUser);
         });
-
         public ValueTask<string> GenerateEmailConfirmationTokenRequestAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -74,28 +68,24 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             string token = await this.userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
             return token;
         });
-
         public ValueTask<string> GeneratePasswordResetTokenRequestAsync(ApplicationUser user)=>
         TryCatch(async () =>
         {
             ValidateUser(user);
             return await this.userManagementBroker.GeneratePasswordResetTokenAsync(user);
         });
-
         public ValueTask<string> GenerateTwoFactorTokenRequestAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
             ValidateUser(user);
             return await this.userManagementBroker.GenerateTwoFactorTokenAsync(user);
         });
-
         public ValueTask<bool> CheckPasswordRequestAsync(ApplicationUser user, string password)=>
         TryCatch(async () =>
         {
             ValidateUser(user);
             return await this.userManagementBroker.CheckPasswordAsync(user,password);
         });
-
         public ValueTask<ApplicationUser> ResetPasswordRequestAsync(ApplicationUser user, string token, string password)=>
         TryCatch(async () =>
         {
@@ -106,7 +96,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateIdentityResultResponse(result);
             return user;
         });
-
         public ValueTask<ApplicationUser> SetTwoFactorEnabledRequestAsync(ApplicationUser user, bool enabled)=>
         TryCatch(async () =>
         {
@@ -115,7 +104,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateIdentityResultResponse(result);
             return user;
         });
-
         public ValueTask<List<string>> RetrieveUserRolesRequestAsync(ApplicationUser user)=>
         TryCatch(async () =>
         {
@@ -123,7 +111,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             var result = await this.userManagementBroker.GetRolesAsync(user);
             return result.ToList();
         });
-
         public ValueTask<ApplicationUser> AddToRoleRequestAsync(ApplicationUser user, string role)=>
         TryCatch(async () =>
         {
@@ -132,7 +119,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateIdentityResultResponse(response);
             return user ;
         });
-
         public ValueTask<ApplicationUser> ConfirmEmailRequestAsync(ApplicationUser user, string token)=>
         TryCatch(async () =>
         {

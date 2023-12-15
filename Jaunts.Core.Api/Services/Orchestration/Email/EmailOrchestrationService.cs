@@ -20,20 +20,19 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         private readonly IEmailProcessingService emailProcessingService;
         private readonly IUserProcessingService userProcessingService;
         private readonly ILoggingBroker loggingBroker;
-        private readonly IEmailService emailService;
         
 
         public EmailOrchestrationService(
             IEmailProcessingService emailProcessingService,
             IUserProcessingService userProcessingService,
-            ILoggingBroker loggingBroker,
-            IEmailService emailService
+            ILoggingBroker loggingBroker
+  
            )
         {
             this.emailProcessingService = emailProcessingService;
             this.userProcessingService = userProcessingService;
             this.loggingBroker = loggingBroker;
-            this.emailService = emailService;
+  
         }
 
         public ValueTask<SendEmailResponse> VerificationMailAsync(
@@ -60,7 +59,6 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
             await emailProcessingService.SendOtpVerificationMailRequestAsync(user, token);
             return ConvertTo2FAResponse(user) ;
         });
-
         private UserAccountDetailsApiResponse ConvertTo2FAResponse(ApplicationUser user)
         {
             return new UserAccountDetailsApiResponse
