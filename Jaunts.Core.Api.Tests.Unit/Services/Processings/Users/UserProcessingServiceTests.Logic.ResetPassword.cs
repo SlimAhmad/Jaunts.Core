@@ -41,8 +41,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .ReturnsAsync(expectedUser);
 
             // when
-            bool actualUser = await this.userProcessingService
-                .ResetUserPasswordByEmailAsync(resetPassword);
+            bool actualUser = await this.userProcessingService.ResetUserPasswordByEmailAsync(
+                                 resetPassword.Email, resetPassword.Token, resetPassword.Password);
 
             // then
             actualUser.Should().BeTrue();

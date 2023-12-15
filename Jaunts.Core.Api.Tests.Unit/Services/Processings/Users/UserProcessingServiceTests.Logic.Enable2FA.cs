@@ -13,7 +13,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
     public partial class UserProcessingServiceTests
     {
         [Fact]
-        public async Task ShouldEnableOrDisable2FAuthenticationAsync()
+        public async Task ShouldEnable2FAuthenticationAsync()
         {
             // given
             ApplicationUser randomUser = CreateRandomUser();
@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser addedUser = inputUser;
             ApplicationUser expectedUser = addedUser.DeepClone();
             bool randomBoolean = GetRandomBoolean();
-            bool inputBoolean = randomBoolean;
+            bool inputBoolean = true;
 
 
             IQueryable<ApplicationUser> randomUsers =
@@ -58,6 +58,53 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
+        [Fact]
+        public async Task ShouldDisable2FAuthenticationAsync()
+        {
+            // given
+            ApplicationUser randomUser = CreateRandomUser();
+            ApplicationUser inputUser = randomUser;
+            inputUser.TwoFactorEnabled = true;
+            ApplicationUser addedUser = inputUser;
+            ApplicationUser expectedUser = addedUser.DeepClone();
+            bool randomBoolean = GetRandomBoolean();
+            bool inputBoolean = false;
+            
+
+
+            IQueryable<ApplicationUser> randomUsers =
+                CreateRandomUsers(inputUser);
+
+            IQueryable<ApplicationUser> retrievedUsers =
+                randomUsers;
+
+            this.userServiceMock.Setup(service =>
+                service.RetrieveAllUsers())
+                    .Returns(retrievedUsers);
+
+            this.userServiceMock.Setup(service =>
+                service.SetTwoFactorEnabledRequestAsync(inputUser, inputBoolean))
+                    .ReturnsAsync(expectedUser);
+
+            // when
+            ApplicationUser actualUser = await this.userProcessingService
+                .EnableOrDisable2FactorAuthenticationAsync(inputUser.Id);
+
+            // then
+            actualUser.Should().BeEquivalentTo(expectedUser);
+
+
+            this.userServiceMock.Verify(service =>
+                service.RetrieveAllUsers(),
+                    Times.AtLeast(2));
+
+            this.userServiceMock.Verify(service =>
+                service.SetTwoFactorEnabledRequestAsync(inputUser, inputBoolean),
+                    Times.Once);
+
+            this.userServiceMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+        }
 
     }
 }
