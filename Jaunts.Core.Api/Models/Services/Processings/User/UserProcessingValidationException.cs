@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.User.Exceptions
         public UserProcessingValidationException(Xeption innerException)
             : base(message: "User validation error occurred, please try again.", innerException)
         { }
+        public UserProcessingValidationException(string message,Xeption innerException)
+            : base(message, innerException)
+        { }
     }
 }

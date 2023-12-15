@@ -12,5 +12,8 @@ namespace Jaunts.Core.Api.Models.Processings.User.Exceptions
         public NullUserProcessingException()
             : base(message: "User is null.")
         { }
+        public NullUserProcessingException(string message)
+            : base(message)
+        { }
     }
 }
