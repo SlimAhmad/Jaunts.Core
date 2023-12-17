@@ -49,7 +49,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                       Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()),
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()),
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();

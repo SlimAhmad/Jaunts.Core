@@ -24,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser expectedUser = addedUser.DeepClone();
 
             this.userServiceMock.Setup(service =>
-                service.GenerateEmailConfirmationTokenRequestAsync(inputUser))
+                service.RetrieveUserEmailConfirmationTokenAsync(inputUser))
                     .ReturnsAsync(expectedToken);
 
             // when
@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             actualToken.Should().BeEquivalentTo(expectedToken);
 
             this.userServiceMock.Verify(service =>
-                service.GenerateEmailConfirmationTokenRequestAsync(inputUser),
+                service.RetrieveUserEmailConfirmationTokenAsync(inputUser),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

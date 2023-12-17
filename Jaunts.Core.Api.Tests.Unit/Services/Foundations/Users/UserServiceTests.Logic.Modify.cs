@@ -45,7 +45,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ApplicationUser actualUser =
-                await this.userService.ModifyUserRequestAsync(inputUser);
+                await this.userService.ModifyUserAsync(inputUser);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);

@@ -19,7 +19,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser expectedUser = storageUser;
 
             this.userServiceMock.Setup(service =>
-                service.RetrieveUserByIdRequestAsync(randomUserId))
+                service.RetrieveUserByIdAsync(randomUserId))
                     .ReturnsAsync(storageUser);
 
             // when
@@ -30,7 +30,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             actualUser.Should().BeEquivalentTo(expectedUser);
 
             this.userServiceMock.Verify(service =>
-                service.RetrieveUserByIdRequestAsync(randomUserId),
+                service.RetrieveUserByIdAsync(randomUserId),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

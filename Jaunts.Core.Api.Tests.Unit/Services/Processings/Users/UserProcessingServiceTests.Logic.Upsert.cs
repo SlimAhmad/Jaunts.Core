@@ -31,7 +31,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.InsertUserRequestAsync(inputUser,inputPassword))
+                service.AddUserAsync(inputUser,inputPassword))
                     .ReturnsAsync(addedUser);
 
             // when
@@ -46,11 +46,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(inputUser,inputPassword),
+                service.AddUserAsync(inputUser,inputPassword),
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ModifyUserRequestAsync(It.IsAny<ApplicationUser>()),
+                service.ModifyUserAsync(It.IsAny<ApplicationUser>()),
                     Times.Never);
 
             this.userServiceMock.VerifyNoOtherCalls();
@@ -79,7 +79,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ModifyUserRequestAsync(inputUser))
+                service.ModifyUserAsync(inputUser))
                     .ReturnsAsync(modifiedUser);
 
             // when
@@ -94,11 +94,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ModifyUserRequestAsync(inputUser),
+                service.ModifyUserAsync(inputUser),
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Never);
 
             this.userServiceMock.VerifyNoOtherCalls();

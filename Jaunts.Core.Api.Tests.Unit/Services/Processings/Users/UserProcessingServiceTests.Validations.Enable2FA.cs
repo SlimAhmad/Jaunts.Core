@@ -53,7 +53,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Never);
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(),It.IsAny<bool>()),
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(),It.IsAny<bool>()),
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();

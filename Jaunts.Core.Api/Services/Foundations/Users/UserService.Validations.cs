@@ -7,7 +7,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 {
     public partial class UserService
     {
-        private void ValidateUserOnCreate(ApplicationUser user, string password)
+        private void ValidateUserOnAdd(ApplicationUser user, string password)
         {
             ValidateUserIsNull(user);
         
@@ -91,7 +91,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             }
         }
 
-        private void ValidateIdentityResultResponse(IdentityResult identityResult)
+        private void ValidateUserOnAddResponse(IdentityResult identityResult)
         {
             if (!identityResult.Succeeded)
             {

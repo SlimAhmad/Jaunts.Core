@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ApplicationUser actualUser =
-                await this.userService.RemoveUserByIdRequestAsync(inputUserId);
+                await this.userService.RemoveUserByIdAsync(inputUserId);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);

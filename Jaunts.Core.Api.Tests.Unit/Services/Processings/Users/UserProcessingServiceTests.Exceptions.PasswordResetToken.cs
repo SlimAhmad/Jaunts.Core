@@ -30,7 +30,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                         dependencyValidationException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()))
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()))
                     .Throws(dependencyValidationException);
 
             // when
@@ -47,7 +47,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyValidationException);
 
             this.userServiceMock.Verify(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()),
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -83,7 +83,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     dependencyException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()))
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()))
                         .Throws(dependencyException);
 
             // when
@@ -101,7 +101,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyException);
 
             this.userServiceMock.Verify(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()),
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -135,7 +135,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     innerException: failedUserProcessingServiceException);
 
             this.userServiceMock.Setup(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()))
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()))
                     .Throws(serviceException);
 
             // when
@@ -152,7 +152,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                  expectedUserProcessingServiceException);
 
             this.userServiceMock.Verify(service =>
-                service.GeneratePasswordResetTokenRequestAsync(It.IsAny<ApplicationUser>()),
+                service.RetrieveUserPasswordTokenAsync(It.IsAny<ApplicationUser>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

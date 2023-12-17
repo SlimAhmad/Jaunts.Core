@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(someUserId);
+                this.userService.RemoveUserByIdAsync(someUserId);
 
             UserDependencyException actualUserDependencyException =
            await Assert.ThrowsAsync<UserDependencyException>(
@@ -88,7 +88,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(inputUserId);
+                this.userService.RemoveUserByIdAsync(inputUserId);
 
             UserDependencyException actualUserDependencyException =
                           await Assert.ThrowsAsync<UserDependencyException>(
@@ -135,7 +135,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(someUserId);
+                this.userService.RemoveUserByIdAsync(someUserId);
 
             UserDependencyValidationException actualUserDependencyValidationException =
                    await Assert.ThrowsAsync<UserDependencyValidationException>(
@@ -182,7 +182,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(someUserId);
+                this.userService.RemoveUserByIdAsync(someUserId);
 
             UserServiceException actualUserServiceException =
                 await Assert.ThrowsAsync<UserServiceException>(

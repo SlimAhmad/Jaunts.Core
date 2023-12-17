@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.SetTwoFactorEnabledRequestAsync(inputUser,inputBoolean))
+                service.ModifyUserTwoFactorAsync(inputUser,inputBoolean))
                     .ReturnsAsync(expectedUser);
 
             // when
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.AtLeast(2));
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(inputUser,inputBoolean),
+                service.ModifyUserTwoFactorAsync(inputUser,inputBoolean),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();
@@ -83,7 +83,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.SetTwoFactorEnabledRequestAsync(inputUser, inputBoolean))
+                service.ModifyUserTwoFactorAsync(inputUser, inputBoolean))
                     .ReturnsAsync(expectedUser);
 
             // when
@@ -99,7 +99,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.AtLeast(2));
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(inputUser, inputBoolean),
+                service.ModifyUserTwoFactorAsync(inputUser, inputBoolean),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

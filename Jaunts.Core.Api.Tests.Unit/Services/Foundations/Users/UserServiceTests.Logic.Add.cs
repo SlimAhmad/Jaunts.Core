@@ -37,7 +37,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ApplicationUser actualUser =
-                await this.userService.InsertUserRequestAsync(inputUser, password);
+                await this.userService.AddUserAsync(inputUser, password);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);

@@ -45,7 +45,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                         Times.Once);
 
             this.userServiceMock.Verify(service =>
-               service.RetrieveUserRolesRequestAsync(It.IsAny<ApplicationUser>()),
+               service.RetrieveUserRolesAsync(It.IsAny<ApplicationUser>()),
                    Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
