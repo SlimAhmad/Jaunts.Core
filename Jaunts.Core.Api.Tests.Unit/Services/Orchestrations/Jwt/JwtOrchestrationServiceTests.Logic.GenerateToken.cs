@@ -6,7 +6,6 @@
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Microsoft.AspNetCore.Identity;
 using Moq;
 using System.Collections.Generic;
 using System.Threading.Tasks;

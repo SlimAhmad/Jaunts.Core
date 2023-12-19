@@ -1,8 +1,4 @@
-﻿using EFxceptions.Models.Exceptions;
-using Jaunts.Core.Api.Models.Jwt.Exceptions;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Jaunts.Core.Api.Models.Jwt.Exceptions;
 using Xeptions;
 
 namespace Jaunts.Core.Api.Services.Foundations.Jwt

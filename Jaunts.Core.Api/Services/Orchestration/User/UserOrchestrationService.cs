@@ -1,8 +1,6 @@
 ﻿using Jaunts.Core.Api.Brokers.Loggings;
-using Jaunts.Core.Api.Models.Auth;
-using Jaunts.Core.Api.Models.Services.Foundations.Role;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Jaunts.Core.Api.Services.Processings.Role;
+using Jaunts.Core.Api.Services.Orchestration.Jwt;
 using Jaunts.Core.Api.Services.Processings.User;
 using Jaunts.Core.Models.Auth.LoginRegister;
 
@@ -64,5 +62,6 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         TryCatch(async () => await this.userProcessingService.TwoFactorTokenAsync(user));
         public ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user,string role) =>
         TryCatch(async () => await this.userProcessingService.AddToRoleAsync(user,role));
+
     }
 }

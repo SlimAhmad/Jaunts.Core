@@ -26,8 +26,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             DateTimeOffset randomDateTime = GetRandomDateTime();
             DateTimeOffset dateTime = randomDateTime;
             List<string> randomRoleList = CreateRandomStringList();
-            LoginCredentialsApiRequest loginCredentialsApiRequest =
-               CreateLoginCredentialsApiRequest();
+            LoginRequest loginRequest =
+               CreateLoginRequest();
             string password = GetRandomString();
             string email = GetRandomString();
 
@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     randomUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest.UsernameOrEmail))
+                broker.RetrieveUserByEmailOrUserNameAsync(loginRequest.UsernameOrEmail))
                     .ReturnsAsync(storageUser);
 
             this.userOrchestrationMock.Setup(broker =>
@@ -61,7 +61,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 
             // when
             UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
+                await this.accountAggregationService.LogInRequestAsync(loginRequest);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);
@@ -91,8 +91,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             DateTimeOffset randomDateTime = GetRandomDateTime();
             DateTimeOffset dateTime = randomDateTime;
             List<string> randomRoleList = CreateRandomStringList();
-            LoginCredentialsApiRequest loginCredentialsApiRequest =
-               CreateLoginCredentialsApiRequest();
+            LoginRequest loginRequest =
+               CreateLoginRequest();
             SendEmailResponse sendEmailResponse = CreateSendEmailResponse();
             string password = GetRandomString();
             string email = GetRandomString();
@@ -116,7 +116,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     inputUserProfileDetails;
 
             this.userOrchestrationMock.Setup(broker =>
-             broker.RetrieveUserByEmailOrUserNameAsync(loginCredentialsApiRequest.UsernameOrEmail))
+             broker.RetrieveUserByEmailOrUserNameAsync(loginRequest.UsernameOrEmail))
                  .ReturnsAsync(storageUser);
 
             this.signInOrchestrationMock.Setup(broker =>
@@ -132,7 +132,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 
             // when
             UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
+                await this.accountAggregationService.LogInRequestAsync(loginRequest);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);

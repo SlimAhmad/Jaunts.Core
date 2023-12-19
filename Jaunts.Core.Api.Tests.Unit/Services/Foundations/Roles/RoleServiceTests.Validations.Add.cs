@@ -7,7 +7,6 @@ using EFxceptions.Models.Exceptions;
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
-using Jaunts.Core.Api.Models.Role.Exceptions;
 using Moq;
 using System;
 using System.Threading.Tasks;

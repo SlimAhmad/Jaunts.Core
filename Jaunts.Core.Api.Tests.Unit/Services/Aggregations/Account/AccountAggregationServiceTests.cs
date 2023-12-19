@@ -71,8 +71,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         private static RegisterUserApiRequest CreateRegisterUserApiRequest(DateTimeOffset date) =>
            CreateRegisterUserApiRequestFiller(date).Create();
 
-        private static LoginCredentialsApiRequest CreateLoginCredentialsApiRequest() =>
-           CreateLoginCredentialsApiRequestFiller().Create();
+        private static LoginRequest CreateLoginRequest() =>
+           CreateLoginApiRequestFiller().Create();
 
         private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
@@ -145,9 +145,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         }
 
 
-        private static Filler<LoginCredentialsApiRequest> CreateLoginCredentialsApiRequestFiller()
+        private static Filler<LoginRequest> CreateLoginApiRequestFiller()
         {
-            var filler = new Filler<LoginCredentialsApiRequest>();
+            var filler = new Filler<LoginRequest>();
 
             filler.Setup()
                 .OnType<object>().IgnoreIt()

@@ -3,7 +3,7 @@
     /// <summary>
     /// The credentials for an API client to log into the server and receive a token back
     /// </summary>
-    public class LoginCredentialsApiRequest
+    public class LoginRequest
     {
         #region Public Properties
 
@@ -24,7 +24,7 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        public LoginCredentialsApiRequest()
+        public LoginRequest()
         {
 
         }

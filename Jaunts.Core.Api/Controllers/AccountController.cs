@@ -45,12 +45,12 @@ namespace Jaunts.Core.Api.Controllers
         [HttpPost]
         [Route(ApiRoutes.Login)]
         public async ValueTask<ActionResult<UserAccountDetailsResponse>> LoginAsync(
-            LoginCredentialsApiRequest  loginCredentialsApiRequest)
+            LoginRequest  loginApiRequest)
         {
             try
             {
                 UserAccountDetailsResponse registeredAccount =
-                    await this.accountAggregationService.LogInRequestAsync(loginCredentialsApiRequest);
+                    await this.accountAggregationService.LogInRequestAsync(loginApiRequest);
 
                 return Created(registeredAccount);
             }

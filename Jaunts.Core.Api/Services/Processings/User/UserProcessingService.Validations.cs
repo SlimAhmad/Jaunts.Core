@@ -22,7 +22,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
                 Parameter: nameof(ApplicationUser.Id)));
         }
 
-        private static void ValidateUserLoginIsNotNull(LoginCredentialsApiRequest request)
+        private static void ValidateUserLoginIsNotNull(LoginCredentialsRequest request)
         {
             if (request is null)
             {

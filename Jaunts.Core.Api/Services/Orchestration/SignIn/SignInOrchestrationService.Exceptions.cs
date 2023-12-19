@@ -1,4 +1,5 @@
 ﻿using Jaunts.Core.Api.Models.Processings.SignIns.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Xeptions;
 
 namespace Jaunts.Core.Api.Services.Orchestration.SignIn
@@ -8,6 +9,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.SignIn
   
         private delegate ValueTask<bool> ReturningBooleanFunction();
         private delegate ValueTask ReturningFunction();
+        private delegate ValueTask<ApplicationUser> ReturningUserFunction();
 
         private async ValueTask<bool> TryCatch(ReturningBooleanFunction returningBooleanFunction)
         {
@@ -37,6 +39,29 @@ namespace Jaunts.Core.Api.Services.Orchestration.SignIn
             try
             {
                 return  returningFunction();
+            }
+            catch (NullSignInProcessingException nullSignInProcessingException)
+            {
+                throw CreateAndLogValidationException(nullSignInProcessingException);
+            }
+            catch (InvalidSignInProcessingException invalidSignInProcessingException)
+            {
+                throw CreateAndLogValidationException(invalidSignInProcessingException);
+            }
+            catch (Exception exception)
+            {
+                var failedSignInProcessingServiceException =
+                    new FailedSignInProcessingServiceException(exception);
+
+                throw CreateAndLogServiceException(failedSignInProcessingServiceException);
+            }
+        }
+
+        private async ValueTask<ApplicationUser> TryCatch(ReturningUserFunction returningUserFunction)
+        {
+            try
+            {
+                return await returningUserFunction();
             }
             catch (NullSignInProcessingException nullSignInProcessingException)
             {

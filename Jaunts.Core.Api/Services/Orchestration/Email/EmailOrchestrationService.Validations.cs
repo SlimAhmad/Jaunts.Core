@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
            Validate((Rule: IsInvalidCode(code), Parameter: nameof(ApplicationUser)));
 
 
-        private static void ValidateUserOnLoginIsNull(LoginCredentialsApiRequest request)
+        private static void ValidateUserOnLoginIsNull(LoginCredentialsRequest request)
         {
             if (request is null)
             {

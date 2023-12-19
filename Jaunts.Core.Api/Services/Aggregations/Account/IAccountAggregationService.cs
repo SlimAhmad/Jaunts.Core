@@ -6,10 +6,10 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
     public partial interface IAccountAggregationService
     {
         ValueTask<UserAccountDetailsResponse> RegisterUserRequestAsync(
-            RegisterUserApiRequest registerCredentialsApiRequest);
+            RegisterUserApiRequest registerApiRequest);
 
         ValueTask<UserAccountDetailsResponse> LogInRequestAsync(
-             LoginCredentialsApiRequest loginCredentialsApiRequest);
+             LoginRequest loginApiRequest);
 
         ValueTask<bool> ResetPasswordRequestAsync(
            ResetPasswordApiRequest resetPassword);

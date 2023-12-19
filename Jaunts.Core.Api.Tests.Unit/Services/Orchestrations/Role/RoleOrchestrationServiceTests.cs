@@ -3,12 +3,12 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
-using Jaunts.Core.Api.Services.Foundations.Role;
+using Jaunts.Core.Api.Services.Orchestration.Role;
 using Jaunts.Core.Api.Services.Processings.Role;
+using Jaunts.Core.Api.Services.Processings.User;
 using Jaunts.Core.Authorization;
 using KellermanSoftware.CompareNetObjects;
 using Moq;
@@ -20,24 +20,26 @@ using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
 
-namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
+namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Role
 {
-    public partial class RoleProcessingServiceTests
+    public partial class RoleOrchestrationServiceTests
     {
-        private readonly Mock<IRoleService> roleServiceMock;
-        private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
+        private readonly Mock<IUserProcessingService> userProcessingServiceMock;
+        private readonly Mock<IRoleProcessingService> roleProcessingServiceMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
-        private readonly IRoleProcessingService roleProcessingService;
+        private readonly IRoleOrchestrationService roleOrchestrationService;
         private readonly ICompareLogic compareLogic;
 
-        public RoleProcessingServiceTests()
+        public RoleOrchestrationServiceTests()
         {
-            this.roleServiceMock = new Mock<IRoleService>();
+            this.userProcessingServiceMock = new Mock<IUserProcessingService>();
+            this.roleProcessingServiceMock = new Mock<IRoleProcessingService>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
             this.compareLogic = new CompareLogic();
 
-            this.roleProcessingService = new RoleProcessingService(
-                roleService: this.roleServiceMock.Object,
+            this.roleOrchestrationService = new RoleOrchestrationService(
+                roleProcessingService: this.roleProcessingServiceMock.Object,
+                userProcessingService: this.userProcessingServiceMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 

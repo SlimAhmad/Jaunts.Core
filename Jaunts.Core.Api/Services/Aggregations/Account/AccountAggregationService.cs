@@ -41,15 +41,15 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         }
 
         public ValueTask<UserAccountDetailsResponse> RegisterUserRequestAsync(
-            RegisterUserApiRequest registerCredentialsApiRequest) =>
+            RegisterUserApiRequest registerApiRequest) =>
         TryCatch(async () =>
         {
             ApplicationUser registerUserRequest =
-                ConvertToAuthRequest(registerCredentialsApiRequest);
+                ConvertToAuthRequest(registerApiRequest);
             var registerUserResponse =
                 await userOrchestrationService.RegisterUserAsync(
                     registerUserRequest,
-                    registerCredentialsApiRequest.Password);
+                    registerApiRequest.Password);
             await userOrchestrationService.AddUserToRoleAsync(registerUserResponse, "User");
             await emailOrchestrationService.VerificationMailAsync(registerUserResponse);
             var response = await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
@@ -57,23 +57,17 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         });
 
         public ValueTask<UserAccountDetailsResponse> LogInRequestAsync(
-            LoginCredentialsApiRequest loginCredentialsApiRequest) =>
+            LoginRequest loginApiRequest) =>
         TryCatch(async () =>
         {
-            ValidateUserOnLogin(loginCredentialsApiRequest);
+            ValidateUserOnLogin(loginApiRequest);
             ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(
-                loginCredentialsApiRequest.UsernameOrEmail);
+                loginApiRequest.UsernameOrEmail);
 
             if (user.TwoFactorEnabled)
-            {
-                await signInOrchestrationService.SignOutAsync();
-                await signInOrchestrationService.PasswordSignInAsync(
-                    user, loginCredentialsApiRequest.Password, false, true);
-               return await emailOrchestrationService.TwoFactorMailAsync(user);
-
-            }
+                await signInOrchestrationService.TwoFactorLoginRequestAsync(user,loginApiRequest.Password);
             var isValidPassword = await userOrchestrationService.CheckPasswordValidityAsync(
-                loginCredentialsApiRequest.Password ,user.Id);
+                loginApiRequest.Password ,user.Id);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
@@ -101,9 +95,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         {
             ValidateUserProfileDetails(userNameOrEmail);
             ValidateUserProfileDetails(code);
-            await signInOrchestrationService.TwoFactorSignInAsync(
-                TokenOptions.DefaultPhoneProvider, code, false, false);
-            ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(userNameOrEmail);
+            ApplicationUser user = await signInOrchestrationService.LoginOtpRequestAsync(code, userNameOrEmail);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 

@@ -66,7 +66,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private void ValidateUserOnLogin(LoginCredentialsApiRequest request)
+        private void ValidateUserOnLogin(LoginRequest request)
         {
             ValidateUserOnLoginIsNull(request);
 
@@ -123,7 +123,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private static void ValidateUserOnLoginIsNull(LoginCredentialsApiRequest request)
+        private static void ValidateUserOnLoginIsNull(LoginRequest request)
         {
             if (request is null)
             {
