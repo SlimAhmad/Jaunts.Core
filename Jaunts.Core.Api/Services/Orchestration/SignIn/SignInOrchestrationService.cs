@@ -69,7 +69,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.SignIn
                 await signInProcessingService.PasswordSignInAsync(
                     user, password, false, true);
                 string token = await userProcessingService.EmailConfirmationTokenAsync(user);
-                var response = await emailProcessingService.SendOtpVerificationMailRequestAsync(user, token);
+                var response = await emailProcessingService.OtpVerificationMailRequestAsync(user, token);
                 if (response is null)
                     return false;
                 return true;

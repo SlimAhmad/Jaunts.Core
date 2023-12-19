@@ -17,6 +17,13 @@ namespace Jaunts.Core.Api.Services.Processings.Email
             }
         }
 
+        private void ValidateEmailResponse(SendEmailMessage emailMessage)
+        {
+            if (emailMessage is null)
+            {
+                throw new NullEmailProcessingException();
+            }
+        }
         public void ValidateToken(string text)=>
             Validate((Rule: IsInvalid(text), Parameter: nameof(SendEmailResponse)));
         

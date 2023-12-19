@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             SendEmailResponse actualEmail =
-                await this.emailProcessingService.SendOtpVerificationMailRequestAsync(inputUser, inputToken);
+                await this.emailProcessingService.OtpVerificationMailRequestAsync(inputUser, inputToken);
 
             // then
             actualEmail.Should().BeEquivalentTo(expectedSendEmailResponse);

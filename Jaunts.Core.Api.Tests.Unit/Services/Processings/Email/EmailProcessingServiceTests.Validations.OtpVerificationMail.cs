@@ -32,7 +32,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             ValueTask<SendEmailResponse> emailTask =
-                this.emailProcessingService.SendOtpVerificationMailRequestAsync(nullUser,nullToken);
+                this.emailProcessingService.OtpVerificationMailRequestAsync(nullUser,nullToken);
 
             EmailProcessingValidationException actualEmailProcessingValidationException =
                 await Assert.ThrowsAsync<EmailProcessingValidationException>(

@@ -31,7 +31,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
             }
 
-            public ValueTask<SendEmailResponse> SendVerificationMailRequestAsync(
+            public ValueTask<SendEmailResponse> VerificationMailRequestAsync(
                 ApplicationUser user,
                 string token) =>
             TryCatch(async () =>
@@ -52,11 +52,12 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                "Verify Email",
                verificationUrl
                );
+                ValidateEmailResponse(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });
 
-            public ValueTask<SendEmailResponse> SendForgetPasswordMailRequestAsync(
+            public ValueTask<SendEmailResponse> ForgetPasswordMailRequestAsync(
                 ApplicationUser user,
                 string token) =>
             TryCatch(async () => {
@@ -75,12 +76,13 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     $"Verification Token",
                     verificationUrl
                     );
+                ValidateEmailResponse(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
 
             });
 
-            public ValueTask<SendEmailResponse> SendOtpVerificationMailRequestAsync(
+            public ValueTask<SendEmailResponse> OtpVerificationMailRequestAsync(
               ApplicationUser user, string token) =>
             TryCatch(async () =>
             {
@@ -100,6 +102,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
                     $"OTP-{token}",
                     verificationUrl
                     );
+                ValidateEmailResponse(sendEmailDetails);
                 return await emailService.SendEmailRequestAsync(sendEmailDetails);
 
             });

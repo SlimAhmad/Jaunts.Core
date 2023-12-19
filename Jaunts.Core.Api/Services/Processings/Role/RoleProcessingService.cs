@@ -32,20 +32,20 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                 Guid id) =>
             TryCatch(async () =>
             {
-                ValidateRoleId(id);
                 var userRole = await roleService.RemoveRoleByIdRequestAsync(id);
                 ValidateRole(userRole);
                 return true;
             });
+
             public ValueTask<ApplicationRole> RetrieveRoleById(
                 Guid id) =>
             TryCatch(async () =>
             {
-                ValidateRoleId(id);
-                ApplicationRole role =  await roleService.RetrieveRoleByIdRequestAsync(id);
+                var role = await roleService.RetrieveRoleByIdRequestAsync(id);
                 ValidateRole(role);
-                return role;
+                return role ;
             });
+
             public ValueTask<ApplicationRole> UpsertRoleAsync(
                 ApplicationRole  role) =>
             TryCatch(async () =>
@@ -59,16 +59,17 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                     _ => await this.roleService.ModifyRoleRequestAsync(role)
                 };
             });
+
+
             public ValueTask<int> RetrievePermissions(List<string> role) =>
             TryCatch(async () =>
             {
-                ValidateRoleList(role);
-                var userRole = roleService.RetrieveAllRoles();
-                var result =  userRole.Where(roles => role.Contains(roles.Name!)).ToList();
+                var userRoles = await roleService.RetrieveAllRoles()
+                              .Where(r => role.Contains(r.Name!)).ToListAsync();
 
                 var userPermissions = Permissions.None;
 
-                foreach (var rolePermission in result)
+                foreach (var rolePermission in userRoles)
                     userPermissions |= rolePermission.Permissions;
 
                 var permissionsValue = (int)userPermissions;

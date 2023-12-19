@@ -3,12 +3,9 @@
 // FREE TO USE TO CONNECT THE WORLD
 // ---------------------------------------------------------------
 
-using Jaunts.Core.Api.Brokers.DateTimes;
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using Jaunts.Core.Api.Services.Foundations.Email;
-using Jaunts.Core.Api.Services.Orchestration.Email;
 using Jaunts.Core.Api.Services.Processings.Email;
 using Jaunts.Core.Api.Services.Processings.User;
 using Jaunts.Core.Models.Email;
@@ -40,7 +37,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.EmailConfirmationTokenAsync(user);
-            return await emailProcessingService.SendVerificationMailRequestAsync(user,token);
+            return await emailProcessingService.VerificationMailRequestAsync(user,token);
         });
 
         public ValueTask<SendEmailResponse> PasswordResetMailAsync(
@@ -48,7 +45,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.PasswordResetTokenAsync(user);
-            return await emailProcessingService.SendForgetPasswordMailRequestAsync(user, token);
+            return await emailProcessingService.ForgetPasswordMailRequestAsync(user, token);
         });
 
         public ValueTask<UserAccountDetailsResponse> TwoFactorMailAsync(
@@ -56,7 +53,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
         TryCatch(async () =>
         {
             string token = await userProcessingService.TwoFactorTokenAsync(user);
-            await emailProcessingService.SendOtpVerificationMailRequestAsync(user, token);
+            await emailProcessingService.OtpVerificationMailRequestAsync(user, token);
             return ConvertTo2FAResponse(user) ;
         });
         private UserAccountDetailsResponse ConvertTo2FAResponse(ApplicationUser user)

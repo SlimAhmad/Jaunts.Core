@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
                     .ReturnsAsync(expectedToken);
 
             this.emailProcessingServiceMock.Setup(template =>
-                template.SendVerificationMailRequestAsync(
+                template.VerificationMailRequestAsync(
                     inputUser, inputToken))
                     .ReturnsAsync(sendEmailResponse);
 
@@ -44,7 +44,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
                  Times.Once);
 
             this.emailProcessingServiceMock.Verify(template =>
-                template.SendVerificationMailRequestAsync(
+                template.VerificationMailRequestAsync(
                      inputUser,inputToken),
                         Times.Once());
 

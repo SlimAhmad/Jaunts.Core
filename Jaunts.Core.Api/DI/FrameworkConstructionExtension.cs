@@ -10,14 +10,17 @@ using Jaunts.Core.Api.Services.Aggregations.Account;
 using Jaunts.Core.Api.Services.Foundations.Email;
 using Jaunts.Core.Api.Services.Foundations.Jwt;
 using Jaunts.Core.Api.Services.Foundations.Role;
+using Jaunts.Core.Api.Services.Foundations.SignIn;
 using Jaunts.Core.Api.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Orchestration.Email;
 using Jaunts.Core.Api.Services.Orchestration.Jwt;
 using Jaunts.Core.Api.Services.Orchestration.Role;
+using Jaunts.Core.Api.Services.Orchestration.SignIn;
 using Jaunts.Core.Api.Services.Orchestration.User;
 using Jaunts.Core.Api.Services.Processings.Email;
 using Jaunts.Core.Api.Services.Processings.Jwt;
 using Jaunts.Core.Api.Services.Processings.Role;
+using Jaunts.Core.Api.Services.Processings.SignIn;
 using Jaunts.Core.Api.Services.Processings.User;
 using Jaunts.Core.Models.Email;
 
@@ -49,6 +52,7 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ISignInService, SignInService>();
             services.AddTransient<IJwtService, JwtService>();
          
 
@@ -60,6 +64,7 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IEmailProcessingService, EmailProcessingService>();
             services.AddTransient<IUserProcessingService, UserProcessingService>();
             services.AddTransient<IJwtProcessingService, JwtProcessingService>();
+            services.AddTransient<ISignInProcessingService, SignInProcessingService>();
             services.AddTransient<IRoleProcessingService, RoleProcessingService>();
 
             return services;
@@ -70,6 +75,7 @@ namespace Jaunts.Core.Api.DI
             services.AddTransient<IEmailOrchestrationService, EmailOrchestrationService>();
             services.AddTransient<IRoleOrchestrationService, RoleOrchestrationService>();
             services.AddTransient<IUserOrchestrationService, UserOrchestrationService>();
+            services.AddTransient<ISignInOrchestrationService, SignInOrchestrationService>();
             services.AddTransient<IJwtOrchestrationService, JwtOrchestrationService>();
 
             return services;

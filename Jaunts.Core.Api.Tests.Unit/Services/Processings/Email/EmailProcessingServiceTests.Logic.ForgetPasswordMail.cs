@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             SendEmailResponse actualEmail =
-                await this.emailProcessingService.SendForgetPasswordMailRequestAsync(inputUser,inputToken);
+                await this.emailProcessingService.ForgetPasswordMailRequestAsync(inputUser,inputToken);
 
 
             // then

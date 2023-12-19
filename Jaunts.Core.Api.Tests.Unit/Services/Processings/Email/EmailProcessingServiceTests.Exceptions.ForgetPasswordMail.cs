@@ -43,7 +43,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             ValueTask<SendEmailResponse> actualEmailResponseTask =
-                this.emailProcessingService.SendForgetPasswordMailRequestAsync(someUser,someToken);
+                this.emailProcessingService.ForgetPasswordMailRequestAsync(someUser,someToken);
 
             EmailProcessingDependencyValidationException
                actualEmailProcessingDependencyValidationException =
@@ -101,7 +101,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             ValueTask<SendEmailResponse> actualEmailResponseTask =
-                this.emailProcessingService.SendForgetPasswordMailRequestAsync(someUser,someToken);
+                this.emailProcessingService.ForgetPasswordMailRequestAsync(someUser,someToken);
 
 
             EmailProcessingDependencyException
@@ -165,7 +165,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Email
 
             // when
             ValueTask<SendEmailResponse> actualEmailResponseTask =
-                this.emailProcessingService.SendForgetPasswordMailRequestAsync(someUser,someToken);
+                this.emailProcessingService.ForgetPasswordMailRequestAsync(someUser,someToken);
 
             EmailProcessingServiceException
                actualEmailProcessingServiceException =
