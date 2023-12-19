@@ -42,7 +42,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<string> actualUserResponseTask =
-                this.userProcessingService.TwoFactorTokenAsync(inputUser);
+                this.userProcessingService.RetrieveTwoFactorTokenAsync(inputUser);
 
             UserProcessingDependencyValidationException
                actualUserProcessingDependencyValidationException =
@@ -92,7 +92,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<string> actualUserResponseTask =
-                this.userProcessingService.TwoFactorTokenAsync(inputUser);
+                this.userProcessingService.RetrieveTwoFactorTokenAsync(inputUser);
 
 
             UserProcessingDependencyException
@@ -149,7 +149,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<string> actualUserResponseTask =
-                this.userProcessingService.TwoFactorTokenAsync(inputUser);
+                this.userProcessingService.RetrieveTwoFactorTokenAsync(inputUser);
 
             UserProcessingServiceException
                actualUserProcessingServiceException =

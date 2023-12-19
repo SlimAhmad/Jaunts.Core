@@ -41,12 +41,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .Throws(dependencyValidationException);
 
             // when
             ValueTask<ApplicationUser> actualUserResponseTask =
-                this.userProcessingService.ConfirmEmailAsync(someToken,inputUser.Email);
+                this.userProcessingService.ValidateEmailTokenAsync(someToken,inputUser.Email);
 
             UserProcessingDependencyValidationException
                actualUserProcessingDependencyValidationException =
@@ -62,7 +62,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -102,12 +102,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                         .Throws(dependencyException);
 
             // when
             ValueTask<ApplicationUser> actualUserResponseTask =
-                this.userProcessingService.ConfirmEmailAsync(someToken,inputUser.Email);
+                this.userProcessingService.ValidateEmailTokenAsync(someToken,inputUser.Email);
 
 
             UserProcessingDependencyException
@@ -124,7 +124,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -169,12 +169,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .Throws(serviceException);
 
             // when
             ValueTask<ApplicationUser> actualUserResponseTask =
-                this.userProcessingService.ConfirmEmailAsync(someToken,inputUser.Email);
+                this.userProcessingService.ValidateEmailTokenAsync(someToken,inputUser.Email);
 
             UserProcessingServiceException
                actualUserProcessingServiceException =
@@ -190,7 +190,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ConfirmEmailRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidateEmailTokenAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

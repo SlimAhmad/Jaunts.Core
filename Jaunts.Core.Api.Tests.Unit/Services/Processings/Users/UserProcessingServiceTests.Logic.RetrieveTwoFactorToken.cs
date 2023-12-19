@@ -29,7 +29,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             string actualToken = await this.userProcessingService
-                .TwoFactorTokenAsync(inputUser);
+                .RetrieveTwoFactorTokenAsync(inputUser);
 
             // then
             actualToken.Should().BeEquivalentTo(expectedToken);

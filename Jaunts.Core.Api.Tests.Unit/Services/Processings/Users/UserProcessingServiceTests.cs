@@ -4,25 +4,21 @@
 // ---------------------------------------------------------------
 
 using Jaunts.Core.Api.Brokers.Loggings;
-using Jaunts.Core.Api.Models.User.Exceptions;
+using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Api.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Processings.User;
+using Jaunts.Core.Models.Auth.LoginRegister;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Data.SqlClient;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
-using Jaunts.Core.Api.Models.Services.Foundations.Role;
-using Jaunts.Core.Authorization;
-using Jaunts.Core.Api.Models.Auth;
-using Jaunts.Core.Models.Auth.LoginRegister;
 
 namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 {
