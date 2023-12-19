@@ -26,7 +26,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.SignIn
     public partial class SignInProcessingServiceTests
     {
         private readonly Mock<ISignInService> signInServiceMock;
-        private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
         private readonly ISignInProcessingService signInProcessingService;
         private readonly ICompareLogic compareLogic;

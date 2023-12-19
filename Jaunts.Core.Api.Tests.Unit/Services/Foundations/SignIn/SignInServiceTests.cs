@@ -7,11 +7,6 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Data.SqlClient;
 using Moq;
 using RESTFulSense.Exceptions;
-// ---------------------------------------------------------------
-// Copyright (c) Coalition of the Good-Hearted Engineers
-// FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
-// ---------------------------------------------------------------
-
 using System;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;

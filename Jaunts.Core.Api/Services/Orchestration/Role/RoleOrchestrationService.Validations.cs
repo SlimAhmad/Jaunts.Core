@@ -66,7 +66,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private void ValidateUserOnLogin(LoginCredentialsApiRequest request)
+        private void ValidateUserOnLogin(LoginRequest request)
         {
             ValidateUserOnLoginIsNull(request);
 
@@ -83,7 +83,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
              Validate((Rule: IsInvalid(text), Parameter: nameof(ForgotPasswordApiResponse)));
 
         public void ValidateUserProfileDetails(string text) =>
-             Validate((Rule: IsInvalid(text), Parameter: nameof(UserAccountDetailsApiResponse)));
+             Validate((Rule: IsInvalid(text), Parameter: nameof(UserAccountDetailsResponse)));
 
         public void ValidateUserPassword(bool password) =>
             Validate((Rule: IsNotValidPassword(password), Parameter: nameof(ApplicationUser)));
@@ -123,7 +123,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private static void ValidateUserOnLoginIsNull(LoginCredentialsApiRequest request)
+        private static void ValidateUserOnLoginIsNull(LoginRequest request)
         {
             if (request is null)
             {

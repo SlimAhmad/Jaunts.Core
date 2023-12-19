@@ -25,8 +25,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser inputUser = randomUser;
             ApplicationUser addedUser = inputUser;
             ApplicationUser expectedUser = addedUser.DeepClone();
-            LoginCredentialsApiRequest randomLoginUser = CreateRandomCredentialsRequest(inputUser);
-            LoginCredentialsApiRequest inputLoginUser = randomLoginUser;
+            LoginRequest randomLoginUser = CreateRandomLoginRequest(inputUser);
+            LoginRequest inputLoginUser = randomLoginUser;
 
             IQueryable<ApplicationUser> randomUsers =
                 CreateRandomUsers(inputUser);
@@ -78,8 +78,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser randomUser = CreateRandomUser();
             ApplicationUser inputUser = randomUser;
             ApplicationUser addedUser = inputUser;
-            LoginCredentialsApiRequest randomLoginUser = CreateRandomCredentialsRequest(inputUser);
-            LoginCredentialsApiRequest inputLoginUser = randomLoginUser;ApplicationUser expectedUser = addedUser.DeepClone();
+            LoginRequest randomLoginUser = CreateRandomLoginRequest(inputUser);
+            LoginRequest inputLoginUser = randomLoginUser;ApplicationUser expectedUser = addedUser.DeepClone();
 
             IQueryable<ApplicationUser> randomUsers =
                 CreateRandomUsers(inputUser);
@@ -130,8 +130,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser randomUser = CreateRandomUser();
             ApplicationUser inputUser = randomUser;
             ApplicationUser addedUser = inputUser;
-            LoginCredentialsApiRequest randomLoginUser = CreateRandomCredentialsRequest(inputUser);
-            LoginCredentialsApiRequest inputLoginUser = randomLoginUser;ApplicationUser expectedUser = addedUser.DeepClone();
+            LoginRequest randomLoginUser = CreateRandomLoginRequest(inputUser);
+            LoginRequest inputLoginUser = randomLoginUser;ApplicationUser expectedUser = addedUser.DeepClone();
 
             IQueryable<ApplicationUser> randomUsers =
                 CreateRandomUsers(inputUser);

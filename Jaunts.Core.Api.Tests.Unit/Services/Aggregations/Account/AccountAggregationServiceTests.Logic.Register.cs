@@ -39,10 +39,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             IQueryable<ApplicationRole> randomRoles =
                 CreateRandomRoles(dateTime, randomRoleList);
         
-            UserAccountDetailsApiResponse randomUserProfileDetails =
+            UserAccountDetailsResponse randomUserProfileDetails =
                 CreateRegisterUserResponse(registerUserApiRequest);
 
-            UserAccountDetailsApiResponse expectedUserProfileDetails =
+            UserAccountDetailsResponse expectedUserProfileDetails =
                     randomUserProfileDetails;
 
             this.userOrchestrationMock.Setup(orchestration =>
@@ -62,7 +62,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                         .ReturnsAsync(randomUserProfileDetails);
 
             // when
-            UserAccountDetailsApiResponse actualAuth =
+            UserAccountDetailsResponse actualAuth =
                 await this.accountAggregationService.RegisterUserRequestAsync(registerUserApiRequest);
 
             // then

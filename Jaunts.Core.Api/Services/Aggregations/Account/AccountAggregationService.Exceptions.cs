@@ -6,9 +6,9 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
 {
     public partial class AccountAggregationService
     {
-        private delegate ValueTask<UserAccountDetailsApiResponse> ReturningAccountFunction();
+        private delegate ValueTask<UserAccountDetailsResponse> ReturningAccountFunction();
         private delegate ValueTask<Boolean> ReturningBooleanFunction();
-        private async ValueTask<UserAccountDetailsApiResponse> TryCatch(
+        private async ValueTask<UserAccountDetailsResponse> TryCatch(
             ReturningAccountFunction returningAccountFunction)
         {
             try

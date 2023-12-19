@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<UserAccountDetailsApiResponse> JwtAccountDetailsAsync(
+        public ValueTask<UserAccountDetailsResponse> JwtAccountDetailsAsync(
                 ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -45,12 +45,12 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
 
             return ConvertToAccountDetailsResponse(user,token,userRoles);
         });
+        
 
-
-        private UserAccountDetailsApiResponse ConvertToAccountDetailsResponse(ApplicationUser user,string token,List<string> role)
+        private UserAccountDetailsResponse ConvertToAccountDetailsResponse(ApplicationUser user,string token,List<string> role)
         {
 
-            return new UserAccountDetailsApiResponse
+            return new UserAccountDetailsResponse
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,

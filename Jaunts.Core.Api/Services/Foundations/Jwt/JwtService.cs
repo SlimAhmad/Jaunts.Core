@@ -20,12 +20,12 @@ namespace Jaunts.Core.Api.Services.Foundations.Jwt
 
         public ValueTask<string> GenerateJwtTokenRequestAsync(
             ApplicationUser user, int permission) =>
-        TryCatch(async () =>
+        TryCatch( async () =>
         {
             ValidateUser(user);
             string token = user.GenerateJwtToken(permission);
-            return  token;
-            
+            return token;
+
         });
 
     

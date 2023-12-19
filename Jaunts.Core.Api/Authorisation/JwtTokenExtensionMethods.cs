@@ -13,7 +13,7 @@ namespace Jaunts.Core.Api;
 /// </summary>
 public static class JwtTokenExtensionMethods
 {
-    private static readonly IOptions<Jwt> jwtConfiguration;
+
     /// <summary>
     /// Generates a Jwt bearer token containing the users username
     /// </summary>

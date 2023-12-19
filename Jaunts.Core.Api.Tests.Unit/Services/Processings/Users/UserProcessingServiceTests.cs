@@ -71,8 +71,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             new MnemonicString().GetValue();
         private static List<string> CreateRandomStringList() =>
             new Filler<List<string>>().Create();
-        private static LoginCredentialsApiRequest CreateRandomCredentialsRequest(ApplicationUser user) =>
-            CreateLoginCredentialsFiller(user).Create();
+        private static LoginRequest CreateRandomLoginRequest(ApplicationUser user) =>
+            CreateLoginFiller(user).Create();
         private static ResetPasswordApiRequest CreateRandomResetPasswordRequest(ApplicationUser user) =>
             CreateResetPasswordFiller(user).Create();
 
@@ -154,9 +154,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             return randomUsers.AsQueryable();
         }
 
-        private static Filler<LoginCredentialsApiRequest> CreateLoginCredentialsFiller(ApplicationUser user)
+        private static Filler<LoginRequest> CreateLoginFiller(ApplicationUser user)
         {
-            var filler = new Filler<LoginCredentialsApiRequest>();
+            var filler = new Filler<LoginRequest>();
 
             filler.Setup()
                 .OnProperty(x => x.UsernameOrEmail).Use(user.Email)

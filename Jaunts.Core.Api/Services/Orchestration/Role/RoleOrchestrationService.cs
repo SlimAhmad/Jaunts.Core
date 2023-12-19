@@ -37,7 +37,8 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
         public ValueTask<int> RetrievePermissions(ApplicationUser user) =>
         TryCatch(async () => 
         {
-            var userRoles = await userProcessingService.RetrieveUserRolesAsync(user);
+            var userRoles = 
+                await userProcessingService.RetrieveUserRolesAsync(user);
             return await this.roleProcessingService.RetrievePermissions(userRoles);  
         });
         public ValueTask<ApplicationRole> RetrieveRoleById(Guid id) =>

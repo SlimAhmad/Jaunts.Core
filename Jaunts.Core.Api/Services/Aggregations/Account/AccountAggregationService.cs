@@ -40,40 +40,34 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
 
         }
 
-        public ValueTask<UserAccountDetailsApiResponse> RegisterUserRequestAsync(
-            RegisterUserApiRequest registerCredentialsApiRequest) =>
+        public ValueTask<UserAccountDetailsResponse> RegisterUserRequestAsync(
+            RegisterUserApiRequest registerApiRequest) =>
         TryCatch(async () =>
         {
             ApplicationUser registerUserRequest =
-                ConvertToAuthRequest(registerCredentialsApiRequest);
+                ConvertToAuthRequest(registerApiRequest);
             var registerUserResponse =
                 await userOrchestrationService.RegisterUserAsync(
                     registerUserRequest,
-                    registerCredentialsApiRequest.Password);
+                    registerApiRequest.Password);
             await userOrchestrationService.AddUserToRoleAsync(registerUserResponse, "User");
             await emailOrchestrationService.VerificationMailAsync(registerUserResponse);
             var response = await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
             return response;
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> LogInRequestAsync(
-            LoginCredentialsApiRequest loginCredentialsApiRequest) =>
+        public ValueTask<UserAccountDetailsResponse> LogInRequestAsync(
+            LoginRequest loginApiRequest) =>
         TryCatch(async () =>
         {
-            ValidateUserOnLogin(loginCredentialsApiRequest);
+            ValidateUserOnLogin(loginApiRequest);
             ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(
-                loginCredentialsApiRequest.UsernameOrEmail);
+                loginApiRequest.UsernameOrEmail);
 
             if (user.TwoFactorEnabled)
-            {
-                await signInOrchestrationService.SignOutAsync();
-                await signInOrchestrationService.PasswordSignInAsync(
-                    user, loginCredentialsApiRequest.Password, false, true);
-               return await emailOrchestrationService.TwoFactorMailAsync(user);
-
-            }
+                await signInOrchestrationService.TwoFactorLoginRequestAsync(user,loginApiRequest.Password);
             var isValidPassword = await userOrchestrationService.CheckPasswordValidityAsync(
-                loginCredentialsApiRequest.Password ,user.Id);
+                loginApiRequest.Password ,user.Id);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
@@ -88,26 +82,24 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             return response.Successful;
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> ConfirmEmailRequestAsync(string token, string email) =>
+        public ValueTask<UserAccountDetailsResponse> ConfirmEmailRequestAsync(string token, string email) =>
         TryCatch(async () =>
         {
             var user = await userOrchestrationService.ConfirmEmailAsync(token, email);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> LoginWithOTPRequestAsync(
+        public ValueTask<UserAccountDetailsResponse> LoginWithOTPRequestAsync(
             string code, string userNameOrEmail) =>
         TryCatch(async () =>
         {
             ValidateUserProfileDetails(userNameOrEmail);
             ValidateUserProfileDetails(code);
-            await signInOrchestrationService.TwoFactorSignInAsync(
-                TokenOptions.DefaultPhoneProvider, code, false, false);
-            ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(userNameOrEmail);
+            ApplicationUser user = await signInOrchestrationService.LoginOtpRequestAsync(code, userNameOrEmail);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
-        public ValueTask<UserAccountDetailsApiResponse> EnableUser2FARequestAsync(Guid id) =>
+        public ValueTask<UserAccountDetailsResponse> EnableUser2FARequestAsync(Guid id) =>
         TryCatch(async () =>
         {
             var user = await userOrchestrationService.EnableOrDisable2FactorAuthenticationAsync(id);

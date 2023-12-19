@@ -6,7 +6,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
 {
     public interface IJwtOrchestrationService
     {
-        ValueTask<UserAccountDetailsApiResponse> JwtAccountDetailsAsync(
+        ValueTask<UserAccountDetailsResponse> JwtAccountDetailsAsync(
                 ApplicationUser user);
     }
 }

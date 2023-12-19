@@ -71,16 +71,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         private static RegisterUserApiRequest CreateRegisterUserApiRequest(DateTimeOffset date) =>
            CreateRegisterUserApiRequestFiller(date).Create();
 
-        private static LoginCredentialsApiRequest CreateLoginCredentialsApiRequest() =>
-           CreateLoginCredentialsApiRequestFiller().Create();
+        private static LoginRequest CreateLoginRequest() =>
+           CreateLoginApiRequestFiller().Create();
 
         private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
 
-        private static UserAccountDetailsApiResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
+        private static UserAccountDetailsResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
           CreateRegisterApiResponseFiller(user).Create();
 
-        private static UserAccountDetailsApiResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
+        private static UserAccountDetailsResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
           CreateUserProfileDetailsApiResponseFiller(user).Create();
 
         private static ResetPasswordApiResponse CreateResetPasswordApiResponse() =>
@@ -145,9 +145,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         }
 
 
-        private static Filler<LoginCredentialsApiRequest> CreateLoginCredentialsApiRequestFiller()
+        private static Filler<LoginRequest> CreateLoginApiRequestFiller()
         {
-            var filler = new Filler<LoginCredentialsApiRequest>();
+            var filler = new Filler<LoginRequest>();
 
             filler.Setup()
                 .OnType<object>().IgnoreIt()
@@ -168,11 +168,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<UserAccountDetailsApiResponse> CreateUserProfileDetailsApiResponseFiller(
+        private static Filler<UserAccountDetailsResponse> CreateUserProfileDetailsApiResponseFiller(
             ApplicationUser user
             )
         {
-            var filler = new Filler<UserAccountDetailsApiResponse>();
+            var filler = new Filler<UserAccountDetailsResponse>();
 
             filler.Setup()
                 .OnProperty(x=> x.Username).Use(user.UserName)
@@ -197,9 +197,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<UserAccountDetailsApiResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
+        private static Filler<UserAccountDetailsResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
         {
-            var filler = new Filler<UserAccountDetailsApiResponse>();
+            var filler = new Filler<UserAccountDetailsResponse>();
 
             filler.Setup()
                 .OnProperty(x => x.Username).Use(registerUserApiRequest.Username)
