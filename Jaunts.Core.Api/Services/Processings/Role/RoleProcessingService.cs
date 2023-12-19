@@ -32,6 +32,7 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                 Guid id) =>
             TryCatch(async () =>
             {
+                ValidateRoleId(id);
                 var userRole = await roleService.RemoveRoleByIdRequestAsync(id);
                 ValidateRole(userRole);
                 return true;
@@ -41,6 +42,7 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                 Guid id) =>
             TryCatch(async () =>
             {
+                ValidateRoleId(id);
                 var role = await roleService.RetrieveRoleByIdRequestAsync(id);
                 ValidateRole(role);
                 return role ;
@@ -64,8 +66,9 @@ namespace Jaunts.Core.Api.Services.Processings.Role
             public ValueTask<int> RetrievePermissions(List<string> role) =>
             TryCatch(async () =>
             {
-                var userRoles = await roleService.RetrieveAllRoles()
-                              .Where(r => role.Contains(r.Name!)).ToListAsync();
+                ValidateRoleList(role);
+                var userRoles =  roleService.RetrieveAllRoles()
+                              .Where(r => role.Contains(r.Name!)).ToList();
 
                 var userPermissions = Permissions.None;
 

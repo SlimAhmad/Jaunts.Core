@@ -37,12 +37,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.CheckPasswordRequestAsync(inputUser,inputPassword))
+                service.ValidatePasswordAsync(inputUser,inputPassword))
                     .ReturnsAsync(expectedBoolean);
 
             // when
             bool actualUser = await this.userProcessingService
-                .CheckPasswordValidityAsync(inputPassword,inputUser.Id);
+                .ValidatePasswordAsync(inputPassword,inputUser.Id);
 
             // then
             actualUser.Should().Be(expectedBoolean);
@@ -52,7 +52,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.CheckPasswordRequestAsync(inputUser,inputPassword),
+                service.ValidatePasswordAsync(inputUser,inputPassword),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

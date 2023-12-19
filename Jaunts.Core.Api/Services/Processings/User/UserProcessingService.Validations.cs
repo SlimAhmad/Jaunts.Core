@@ -1,18 +1,15 @@
-﻿using Jaunts.Core.Models.Exceptions;
-using Jaunts.Core.Models.Email;
-using Jaunts.Core.Api.Models.Services.Foundations.Users;
-using System.Diagnostics.Metrics;
+﻿using Jaunts.Core.Api.Models.Auth;
 using Jaunts.Core.Api.Models.Processings.User.Exceptions;
-using Jaunts.Core.Api.Models.Auth;
-using Jaunts.Core.Api.Models.User.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Jaunts.Core.Api.Models.Services.Foundations.Role;
-using Dna;
 
 namespace Jaunts.Core.Api.Services.Processings.User
 {
     public partial class UserProcessingService
     {
+
+
+
         private static void ValidateUser(ApplicationUser user)
         {
             ValidateUserIsNotNull(user);
@@ -50,6 +47,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
         {
             if (user is null)
             {
+                
                 throw new NullUserProcessingException();
             }
         }

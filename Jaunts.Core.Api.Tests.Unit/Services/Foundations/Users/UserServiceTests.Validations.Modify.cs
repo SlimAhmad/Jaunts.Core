@@ -137,23 +137,23 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             invalidUserException.AddData(
                 key: nameof(ApplicationUser.UserName),
-                values: "Text is required");
+                values: "Value is required");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.Email),
-               values: "Text is required");
+               values: "Value is required");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.FirstName),
-               values: "Text is required");
+               values: "Value is required");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.LastName),
-               values: "Text is required");
+               values: "Value is required");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.PhoneNumber),
-               values: "Text is required");
+               values: "Value is required");
 
             invalidUserException.AddData(
                key: nameof(ApplicationUser.CreatedDate),

@@ -1,17 +1,37 @@
 ﻿using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Api.Models.Services.Foundations.Users.Exceptions;
 using Jaunts.Core.Api.Models.User.Exceptions;
-using Jaunts.Core.Models.Exceptions;
 using Microsoft.AspNetCore.Identity;
 
 namespace Jaunts.Core.Api.Services.Foundations.Users
 {
     public partial class UserService
     {
+
+        public ValueTask<bool> ValidatePasswordAsync(ApplicationUser user, string password) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            ValidateText(password);
+            bool response = await this.userManagementBroker.CheckPasswordAsync(user, password);
+            ValidateUserPassword(response);
+            return response;
+        });
+
+        public ValueTask<ApplicationUser> ValidateEmailTokenAsync(ApplicationUser user, string token) =>
+          TryCatch(async () =>
+          {
+              ValidateUser(user);
+              ValidateText(token);
+              var response =
+                  await this.userManagementBroker.ConfirmEmailTokenAsync(user, token);
+              ValidateUserOnAddResponse(response);
+              return await this.userManagementBroker.SelectUserByIdAsync(user.Id);
+          });
+
         private void ValidateUserOnAdd(ApplicationUser user, string password)
         {
             ValidateUserIsNull(user);
-        
-
             Validate(
                 (Rule: IsInvalid(user.FirstName), Parameter: nameof(ApplicationUser.FirstName)),
                 (Rule: IsInvalid(user.LastName), Parameter: nameof(ApplicationUser.LastName)),
@@ -29,8 +49,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 Parameter: nameof(ApplicationUser.UpdatedDate)),
 
                 (Rule: IsNotRecent(user.UpdatedDate), Parameter: nameof(user.UpdatedDate)));
-
-
         }
 
         private void ValidateUserOnModify(ApplicationUser user)
@@ -53,11 +71,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                     secondDateName: nameof(user.CreatedDate)),
                 Parameter: nameof(user.UpdatedDate)),
 
-                (Rule: IsNotRecent(user.UpdatedDate), Parameter: nameof(user.UpdatedDate)));
-
-           
+                (Rule: IsNotRecent(user.UpdatedDate), Parameter: nameof(user.UpdatedDate)));    
         }
-
 
         private void ValidateUser(ApplicationUser user)
         {
@@ -71,9 +86,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                (Rule: IsInvalid(user.Email), Parameter: nameof(ApplicationUser.Email)),
                (Rule: IsInvalid(user.CreatedDate), Parameter: nameof(ApplicationUser.CreatedDate)),
                (Rule: IsInvalid(user.UpdatedDate), Parameter: nameof(ApplicationUser.UpdatedDate)));
-
-            
-
 
         }
 
@@ -103,7 +115,14 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 }
             }
 
+        }
 
+        private void ValidateUserPassword(bool password)
+        {
+            if (!password)
+            {
+                throw new UserPasswordValidationException();
+            }
         }
 
         private static void ValidateUserIsNull(ApplicationUser user)
@@ -124,7 +143,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         private static dynamic IsInvalid(string text) => new
         {
             Condition = String.IsNullOrWhiteSpace(text),
-            Message = "Text is required"
+            Message = "Value is required"
         };
 
         private static dynamic IsInvalid(double number) => new

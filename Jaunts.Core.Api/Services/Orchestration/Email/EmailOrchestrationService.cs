@@ -52,7 +52,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Email
                 ApplicationUser user) =>
         TryCatch(async () =>
         {
-            string token = await userProcessingService.TwoFactorTokenAsync(user);
+            string token = await userProcessingService.RetrieveTwoFactorTokenAsync(user);
             await emailProcessingService.OtpVerificationMailRequestAsync(user, token);
             return ConvertTo2FAResponse(user) ;
         });

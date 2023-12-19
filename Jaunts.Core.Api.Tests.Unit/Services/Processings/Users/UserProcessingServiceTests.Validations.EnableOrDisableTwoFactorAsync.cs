@@ -3,6 +3,7 @@ using Jaunts.Core.Api.Models.Processings.User.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -10,22 +11,20 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 {
     public partial class UserProcessingServiceTests
     {
-
+        
         [Fact]
-        public async Task ShouldThrowValidationExceptionOnCheckPasswordValidityIfParametersIsInvalidAndLogItAsync()
+        public async Task ShouldThrowValidationExceptionOnEnable2FAIfUserIdIsInvalidAndLogItAsync()
         {
             // given
-            string somePassword = null;
-            Guid someUserId =  Guid.Empty;
+           Guid userId = Guid.Empty;
 
             var invalidUserProcessingException =
                 new InvalidUserProcessingException(
                     message: "Invalid user, Please correct the errors and try again.");
 
-
             invalidUserProcessingException.AddData(
-                key: nameof(ApplicationUser),
-                values: "Value is required");
+                key: nameof(ApplicationUser.Id),
+                values: "Id is required");
 
             var expectedUserProcessingValidationException =
                 new UserProcessingValidationException(
@@ -33,8 +32,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     innerException: invalidUserProcessingException);
 
             // when
-            ValueTask<bool> retrievePermissionsTask =
-                this.userProcessingService.CheckPasswordValidityAsync(somePassword,someUserId);
+            ValueTask<ApplicationUser> retrievePermissionsTask =
+                this.userProcessingService.EnableOrDisableTwoFactorAsync(userId);
 
             UserProcessingValidationException actualUserProcessingValidationException =
                 await Assert.ThrowsAsync<UserProcessingValidationException>(
@@ -51,6 +50,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             this.userServiceMock.Verify(service =>
                 service.RetrieveAllUsers(),
+                    Times.Never);
+
+            this.userServiceMock.Verify(service =>
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(),It.IsAny<bool>()),
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();

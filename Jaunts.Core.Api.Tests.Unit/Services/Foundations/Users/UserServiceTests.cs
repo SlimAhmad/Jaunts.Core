@@ -54,6 +54,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         }
 
         private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
+        private static bool GetRandomBoolean() => Randomizer<bool>.Create();
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
         private static DateTimeOffset GetCurrentDateTime() =>  DateTimeOffset.UtcNow;
@@ -65,6 +66,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
         private static string GetRandomMessage() => new MnemonicString().GetValue();
         private static string GetRandomString() =>
             new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+        private static List<string> CreateRandomStringList() =>
+            new Filler<List<string>>().Create();
         private static SqlException GetSqlException() =>
             (SqlException)RuntimeHelpers.GetUninitializedObject(typeof(SqlException));
 

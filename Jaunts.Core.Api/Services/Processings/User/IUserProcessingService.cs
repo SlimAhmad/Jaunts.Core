@@ -20,13 +20,13 @@ namespace Jaunts.Core.Api.Services.Processings.User
            Guid id);
         ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
-        ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
+        ValueTask<string> RetrieveTwoFactorTokenAsync(ApplicationUser user);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
         ValueTask<bool> ResetUserPasswordByEmailAsync(string email, string token, string password);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);
-        ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id);
-        ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);
-        ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id);
+        ValueTask<ApplicationUser> EnableOrDisableTwoFactorAsync(Guid id);
+        ValueTask<ApplicationUser> ValidateEmailTokenAsync(string token, string email);
+        ValueTask<bool> ValidatePasswordAsync(string password, Guid id);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
         ValueTask<ApplicationUser> AddToRoleAsync(ApplicationUser user, string role);
     }
