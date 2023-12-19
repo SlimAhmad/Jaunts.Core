@@ -5,6 +5,7 @@
 
 using FluentAssertions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
     public partial class UserServiceTests
     {
         [Fact]
-        private async Task ShouldRetrieveUserTwoFactorTokenAsync()
+        private async Task ShouldRetrieveUserEmailAsync()
         {
             // given
             DateTimeOffset randomDateTime = GetRandomDateTime();
@@ -33,12 +34,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     .Returns(dateTime);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.GenerateTwoFactorTokenAsync(inputUser))
+                broker.GenerateEmailConfirmationTokenAsync(inputUser))
                     .ReturnsAsync(expectedToken);
 
             // when
             string actualToken =
-                await this.userService.RetrieveUserTwoFactorTokenAsync(inputUser);
+                await this.userService.RetrieveUserEmailConfirmationTokenAsync(inputUser);
 
             // then
             actualToken.Should().BeEquivalentTo(expectedToken);
@@ -48,7 +49,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     Times.Never);
 
             this.userManagementBrokerMock.Verify(broker =>
-                broker.GenerateTwoFactorTokenAsync(inputUser),
+                broker.GenerateEmailConfirmationTokenAsync(inputUser),
                     Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();

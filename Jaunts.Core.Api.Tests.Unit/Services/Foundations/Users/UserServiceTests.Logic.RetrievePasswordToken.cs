@@ -15,7 +15,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
     public partial class UserServiceTests
     {
         [Fact]
-        private async Task ShouldRetrieveUserTwoFactorTokenAsync()
+        private async Task ShouldRetrieveUserPasswordAsync()
         {
             // given
             DateTimeOffset randomDateTime = GetRandomDateTime();
@@ -33,12 +33,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     .Returns(dateTime);
 
             this.userManagementBrokerMock.Setup(broker =>
-                broker.GenerateTwoFactorTokenAsync(inputUser))
+                broker.GeneratePasswordResetTokenAsync(inputUser))
                     .ReturnsAsync(expectedToken);
 
             // when
             string actualToken =
-                await this.userService.RetrieveUserTwoFactorTokenAsync(inputUser);
+                await this.userService.RetrieveUserPasswordTokenAsync(inputUser);
 
             // then
             actualToken.Should().BeEquivalentTo(expectedToken);
@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     Times.Never);
 
             this.userManagementBrokerMock.Verify(broker =>
-                broker.GenerateTwoFactorTokenAsync(inputUser),
+                broker.GeneratePasswordResetTokenAsync(inputUser),
                     Times.Once);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
