@@ -71,7 +71,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
         public ValueTask<string> PasswordResetTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.RetrieveUserPasswordTokenAsync(user));
         
-        public ValueTask<string> RetrieveTwoFactorTokenAsync(ApplicationUser user) =>
+        public ValueTask<string> TwoFactorTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.RetrieveUserTwoFactorTokenAsync(user));
         
         public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail) =>
@@ -110,7 +110,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         });
         
-        public ValueTask<ApplicationUser> EnableOrDisableTwoFactorAsync(Guid id) =>
+        public ValueTask<ApplicationUser> ModifyTwoFactorAsync(Guid id) =>
         TryCatch(async () =>
         {
             ValidateUserId(id);
@@ -131,7 +131,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         });
         
-        public ValueTask<ApplicationUser> ValidateEmailTokenAsync(string token, string email) =>
+        public ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email) =>
         TryCatch(async () =>
         {
             ValidateStringIsNotNull(token);
@@ -139,7 +139,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             var user = userService.RetrieveAllUsers().FirstOrDefault(SameUserAs(email));
             ValidateUser(user);
             
-            return await userService.ValidateEmailTokenAsync(user, token);
+            return await userService.ConfirmEmailRequestAsync(user, token);
 
         });
         
@@ -153,7 +153,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
                      .FirstOrDefault(SameUserAs(id));
             ValidateUser(user);
             
-            return await userService.ValidatePasswordAsync(user, password);
+            return await userService.CheckPasswordRequestAsync(user, password);
 
         });
         
