@@ -37,7 +37,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(inputUserId);
+                this.userService.RemoveUserByIdAsync(inputUserId);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -85,7 +85,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> deleteUserTask =
-                this.userService.RemoveUserByIdRequestAsync(inputUserId);
+                this.userService.RemoveUserByIdAsync(inputUserId);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(

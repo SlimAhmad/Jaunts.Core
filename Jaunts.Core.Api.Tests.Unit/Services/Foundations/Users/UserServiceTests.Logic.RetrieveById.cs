@@ -30,7 +30,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                 .ReturnsAsync(inputUser);
 
             //when 
-            ApplicationUser actualUser = await this.userService.RetrieveUserByIdRequestAsync(inputUserId);
+            ApplicationUser actualUser = await this.userService.RetrieveUserByIdAsync(inputUserId);
 
             //then
             actualUser.Should().BeEquivalentTo(expectedUser);

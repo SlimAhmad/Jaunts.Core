@@ -24,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                         dependencyValidationException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()))
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()))
                     .Throws(dependencyValidationException);
 
             // when
@@ -41,7 +41,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyValidationException);
 
             this.userServiceMock.Verify(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()),
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -67,7 +67,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     dependencyException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()))
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()))
                         .Throws(dependencyException);
 
             // when
@@ -85,7 +85,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyException);
 
             this.userServiceMock.Verify(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()),
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -116,7 +116,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     innerException: failedUserProcessingServiceException);
 
             this.userServiceMock.Setup(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()))
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()))
                     .Throws(serviceException);
 
             // when
@@ -133,7 +133,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                  expectedUserProcessingServiceException);
 
             this.userServiceMock.Verify(service =>
-                service.RemoveUserByIdRequestAsync(It.IsAny<Guid>()),
+                service.RemoveUserByIdAsync(It.IsAny<Guid>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser registeredUser =
-                    await this.userService.InsertUserRequestAsync(user, password);
+                    await this.userService.AddUserAsync(user, password);
 
                 return Created(registeredUser);
             }
@@ -74,7 +74,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser storageUser =
-                    await this.userService.RetrieveUserByIdRequestAsync(userId);
+                    await this.userService.RetrieveUserByIdAsync(userId);
 
                 return Ok(storageUser);
             }
@@ -107,7 +107,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser registeredUser =
-                    await this.userService.ModifyUserRequestAsync(user);
+                    await this.userService.ModifyUserAsync(user);
 
                 return Ok(registeredUser);
             }
@@ -147,7 +147,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser storageUser =
-                    await this.userService.RemoveUserByIdRequestAsync(userId);
+                    await this.userService.RemoveUserByIdAsync(userId);
 
                 return Ok(storageUser);
             }

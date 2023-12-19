@@ -23,7 +23,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser expectedUser = addedUser.DeepClone();
 
             this.userServiceMock.Setup(service =>
-                service.InsertUserRequestAsync(inputUser, inputPassword))
+                service.AddUserAsync(inputUser, inputPassword))
                     .ReturnsAsync(addedUser);
 
             // when
@@ -34,7 +34,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             actualUser.Should().BeEquivalentTo(expectedUser);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(inputUser, inputPassword),
+                service.AddUserAsync(inputUser, inputPassword),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

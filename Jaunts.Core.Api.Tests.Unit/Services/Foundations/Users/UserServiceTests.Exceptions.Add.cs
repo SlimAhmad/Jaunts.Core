@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.InsertUserRequestAsync(inputUser, password);
+                this.userService.AddUserAsync(inputUser, password);
 
             UserDependencyException actualUserDependencyException =
               await Assert.ThrowsAsync<UserDependencyException>(
@@ -104,7 +104,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> addUserTask =
-                this.userService.InsertUserRequestAsync(alreadyExistsUser,randomPassword);
+                this.userService.AddUserAsync(alreadyExistsUser,randomPassword);
 
             UserDependencyValidationException actualUserDependencyValidationException =
                 await Assert.ThrowsAsync<UserDependencyValidationException>(
@@ -162,7 +162,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                this.userService.InsertUserRequestAsync(inputUser, password);
+                this.userService.AddUserAsync(inputUser, password);
 
             UserDependencyException actualUserDependencyException =
                 await Assert.ThrowsAsync<UserDependencyException>(
@@ -220,7 +220,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> registerUserTask =
-                 this.userService.InsertUserRequestAsync(inputUser, password);
+                 this.userService.AddUserAsync(inputUser, password);
 
             UserServiceException actualUserServiceException =
               await Assert.ThrowsAsync<UserServiceException>(

@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(someUser);
+                this.userService.ModifyUserAsync(someUser);
 
             UserDependencyException actualUserDependencyException =
              await Assert.ThrowsAsync<UserDependencyException>(
@@ -107,7 +107,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(someUser);
+                this.userService.ModifyUserAsync(someUser);
 
             UserDependencyException actualUserDependencyException =
                 await Assert.ThrowsAsync<UserDependencyException>(
@@ -166,7 +166,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(someUser);
+                this.userService.ModifyUserAsync(someUser);
 
             UserDependencyValidationException actualUserDependencyValidationException =
                    await Assert.ThrowsAsync<UserDependencyValidationException>(
@@ -225,7 +225,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(someUser);
+                this.userService.ModifyUserAsync(someUser);
 
             UserServiceException actualUserServiceException =
                await Assert.ThrowsAsync<UserServiceException>(

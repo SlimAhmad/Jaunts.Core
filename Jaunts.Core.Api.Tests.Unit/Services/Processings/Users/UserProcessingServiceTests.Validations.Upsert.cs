@@ -49,11 +49,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Never);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()),
                     Times.Never);
 
             this.userServiceMock.Verify(service =>
-                service.ModifyUserRequestAsync(It.IsAny<ApplicationUser>()),
+                service.ModifyUserAsync(It.IsAny<ApplicationUser>()),
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
@@ -102,11 +102,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Never);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Never);
 
             this.userServiceMock.Verify(service =>
-                service.ModifyUserRequestAsync(It.IsAny<ApplicationUser>()),
+                service.ModifyUserAsync(It.IsAny<ApplicationUser>()),
                     Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();

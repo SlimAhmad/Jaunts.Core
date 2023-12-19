@@ -31,7 +31,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(nullUser);
+                this.userService.ModifyUserAsync(nullUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -82,7 +82,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
                     .Returns(dateTime);
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(inputUser);
+                this.userService.ModifyUserAsync(inputUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -174,7 +174,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(invalidUser);
+                this.userService.ModifyUserAsync(invalidUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -227,7 +227,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(inputUser);
+                this.userService.ModifyUserAsync(inputUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -284,7 +284,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(inputUser);
+                this.userService.ModifyUserAsync(inputUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -336,7 +336,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(inputUser);
+                this.userService.ModifyUserAsync(inputUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -399,7 +399,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(inputUser);
+                this.userService.ModifyUserAsync(inputUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -459,7 +459,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(nonExistentUser);
+                this.userService.ModifyUserAsync(nonExistentUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -529,7 +529,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(invalidUser);
+                this.userService.ModifyUserAsync(invalidUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -595,7 +595,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> modifyUserTask =
-                this.userService.ModifyUserRequestAsync(invalidUser);
+                this.userService.ModifyUserAsync(invalidUser);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(

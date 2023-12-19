@@ -43,7 +43,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
                     .Throws(dependencyValidationException);
 
             // when
@@ -64,7 +64,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()),
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()),
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
@@ -108,7 +108,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
                         .Throws(dependencyException);
 
             // when
@@ -130,7 +130,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()),
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()),
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
@@ -179,7 +179,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(), It.IsAny<bool>()))
                     .Throws(serviceException);
 
             // when
@@ -200,7 +200,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.SetTwoFactorEnabledRequestAsync(It.IsAny<ApplicationUser>(),It.IsAny<bool>()),
+                service.ModifyUserTwoFactorAsync(It.IsAny<ApplicationUser>(),It.IsAny<bool>()),
                     Times.Once);
 
             this.userServiceMock.Verify(service =>

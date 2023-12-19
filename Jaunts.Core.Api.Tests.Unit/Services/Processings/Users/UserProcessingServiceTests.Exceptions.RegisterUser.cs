@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                         dependencyValidationException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                         .ThrowsAsync(dependencyValidationException);
             // when
             ValueTask<ApplicationUser> actualUserResponseTask =
@@ -43,7 +43,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyValidationException);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -72,7 +72,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     dependencyException.InnerException as Xeption);
 
             this.userServiceMock.Setup(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
+                service.AddUserAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>()))
                         .ThrowsAsync(dependencyException);
 
             // when
@@ -90,7 +90,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                 expectedUserProcessingDependencyException);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -123,7 +123,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     innerException: failedUserProcessingServiceException);
 
             this.userServiceMock.Setup(service =>
-               service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+               service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                        .ThrowsAsync(serviceException);
 
             // when
@@ -140,7 +140,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                  expectedUserProcessingServiceException);
 
             this.userServiceMock.Verify(service =>
-                service.InsertUserRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.AddUserAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

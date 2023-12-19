@@ -36,7 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ResetPasswordRequestAsync(
+                service.ModifyUserPasswordAsync(
                     It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>()))
                     .ReturnsAsync(expectedUser);
 
@@ -52,7 +52,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ResetPasswordRequestAsync(
+                service.ModifyUserPasswordAsync(
                     It.IsAny<ApplicationUser>(),It.IsAny<string>(),It.IsAny<string>()),
                     Times.Once);
 

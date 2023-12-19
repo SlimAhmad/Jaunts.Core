@@ -36,7 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> retrieveUserTask =
-                this.userService.RetrieveUserByIdRequestAsync(invalidUserId);
+                this.userService.RetrieveUserByIdAsync(invalidUserId);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
@@ -79,7 +79,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> retrieveUserTask =
-                this.userService.RetrieveUserByIdRequestAsync(invalidUserId);
+                this.userService.RetrieveUserByIdAsync(invalidUserId);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(

@@ -24,7 +24,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             string inputRole = randomRole;
 
             this.userServiceMock.Setup(service =>
-                service.AddToRoleRequestAsync(inputUser,inputRole))
+                service.AddUserRolesAsync(inputUser,inputRole))
                     .ReturnsAsync(expectedUser);
 
             // when
@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             actualUser.Should().BeEquivalentTo(expectedUser);
 
             this.userServiceMock.Verify(service =>
-                service.AddToRoleRequestAsync(inputUser,inputRole),
+                service.AddUserRolesAsync(inputUser,inputRole),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();
