@@ -94,29 +94,22 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUser(user);
-
             string token =
                 await this.userManagementBroker.GenerateEmailConfirmationTokenAsync(user);
-
             return token;
         });
-
         public ValueTask<string> RetrieveUserPasswordTokenAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
             ValidateUser(user);
-
             return await this.userManagementBroker.GeneratePasswordResetTokenAsync(user);
         });
-
         public ValueTask<string> RetrieveUserTwoFactorTokenAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
             ValidateUser(user);
-
             return await this.userManagementBroker.GenerateTwoFactorTokenAsync(user);
         });
-
         public ValueTask<ApplicationUser> ModifyUserPasswordAsync(
             ApplicationUser user, string token, string password) =>
         TryCatch(async () =>
@@ -126,7 +119,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateText(password);
 
             var result =
-            await this.userManagementBroker.ResetPasswordAsync(user, token, password);
+                await this.userManagementBroker.ResetPasswordAsync(user, token, password);
 
             ValidateUserOnAddResponse(result);
 
@@ -150,10 +143,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUser(user);
-
             var result =
             await this.userManagementBroker.GetRolesAsync(user);
-
             return result.ToList();
         });
 
@@ -161,7 +152,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         TryCatch(async () =>
         {
             ValidateUser(user);
-
+            ValidateText(role);
             var response =
                 await this.userManagementBroker.AddToRoleAsync(user, role);
 
@@ -172,34 +163,5 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
         #endregion
 
-        #region Refactor to be part of user validations
-
-        // I believe these two functions most likely belong in the user validations
-        // If they do not pass the validation test throw a UserPasswordValidationException,
-        // UserEmailValidationException
-        // FOOD FOR THOUGHT
-
-        public ValueTask<bool> CheckPasswordRequestAsync(ApplicationUser user, string password) =>
-        TryCatch(async () =>
-        {
-            ValidateUser(user);
-
-            return await this.userManagementBroker.CheckPasswordAsync(user, password);
-        });
-
-        public ValueTask<ApplicationUser> ConfirmEmailRequestAsync(ApplicationUser user, string token) =>
-        TryCatch(async () =>
-        {
-            ValidateUser(user);
-
-            var result =
-                await this.userManagementBroker.ConfirmEmailAsync(user, token);
-
-            ValidateUserOnAddResponse(result);
-
-            return await this.userManagementBroker.SelectUserByIdAsync(user.Id);
-        });
-
-        #endregion
     }
 }

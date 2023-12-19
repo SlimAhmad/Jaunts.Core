@@ -1,6 +1,7 @@
 ﻿using EFxceptions.Models.Exceptions;
 using Jaunts.Core.Api.Models.Processings.User.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
+using Jaunts.Core.Api.Models.Services.Foundations.Users.Exceptions;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             catch (NullUserProcessingException nullUserProcessingException)
             {
                 throw CreateAndLogValidationException(nullUserProcessingException);
+            
             }
             catch (InvalidUserProcessingException invalidUserProcessingException)
             {
@@ -68,6 +70,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             catch (NullUserProcessingException nullUserProcessingException)
             {
                 throw CreateAndLogValidationException(nullUserProcessingException);
+            
             }
             catch (InvalidUserProcessingException invalidUserProcessingException)
             {
@@ -107,6 +110,10 @@ namespace Jaunts.Core.Api.Services.Processings.User
             {
                 throw CreateAndLogValidationException(nullUserProcessingException);
             }
+            catch (UserPasswordValidationException userPasswordValidationException)
+            {
+                throw CreateAndLogValidationException(userPasswordValidationException);
+            }
             catch (InvalidUserProcessingException invalidUserProcessingException)
             {
                 throw CreateAndLogValidationException(invalidUserProcessingException);
@@ -144,6 +151,11 @@ namespace Jaunts.Core.Api.Services.Processings.User
             catch (NullUserProcessingException nullUserProcessingException)
             {
                 throw CreateAndLogValidationException(nullUserProcessingException);
+            
+            }
+            catch (UserPasswordValidationException userPasswordValidationException)
+            {
+                throw CreateAndLogValidationException(userPasswordValidationException);
             }
             catch (InvalidUserProcessingException invalidUserProcessingException)
             {
@@ -182,6 +194,11 @@ namespace Jaunts.Core.Api.Services.Processings.User
             catch (NullUserProcessingException nullUserProcessingException)
             {
                 throw CreateAndLogValidationException(nullUserProcessingException);
+            
+            }
+            catch (UserPasswordValidationException userPasswordValidationException)
+            {
+                throw CreateAndLogValidationException(userPasswordValidationException);
             }
             catch (InvalidUserProcessingException invalidUserProcessingException)
             {

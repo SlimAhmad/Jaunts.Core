@@ -21,7 +21,7 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
         ValueTask<IList<string>> GetRolesAsync(ApplicationUser user);
         ValueTask<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         ValueTask<ApplicationUser> FindByIdAsync(string id);
-        ValueTask<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token);
+        ValueTask<IdentityResult> ConfirmEmailTokenAsync(ApplicationUser user, string token);
 
     }
 }

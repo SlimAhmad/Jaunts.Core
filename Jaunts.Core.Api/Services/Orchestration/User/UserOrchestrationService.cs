@@ -23,16 +23,16 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         }
 
         public ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id) =>
-        TryCatch(async () => await this.userProcessingService.CheckPasswordValidityAsync(password,id));
+        TryCatch(async () => await this.userProcessingService.ValidatePasswordAsync(password,id));
 
         public ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email) =>
-        TryCatch(async () => await this.userProcessingService.ConfirmEmailAsync(token,email));
+        TryCatch(async () => await this.userProcessingService.ValidateEmailTokenAsync(token,email));
 
         public ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userProcessingService.EmailConfirmationTokenAsync(user));
 
         public ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id) =>
-        TryCatch(async () => await this.userProcessingService.EnableOrDisable2FactorAuthenticationAsync(id));
+        TryCatch(async () => await this.userProcessingService.EnableOrDisableTwoFactorAsync(id));
 
         public ValueTask<bool> EnsureUserExistAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userProcessingService.EnsureUserExistAsync(user));
@@ -59,7 +59,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         TryCatch(async () => await this.userProcessingService.RetrieveUserRolesAsync(user));
 
         public ValueTask<string> TwoFactorTokenAsync(ApplicationUser user) =>
-        TryCatch(async () => await this.userProcessingService.TwoFactorTokenAsync(user));
+        TryCatch(async () => await this.userProcessingService.RetrieveTwoFactorTokenAsync(user));
         public ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user,string role) =>
         TryCatch(async () => await this.userProcessingService.AddToRoleAsync(user,role));
 

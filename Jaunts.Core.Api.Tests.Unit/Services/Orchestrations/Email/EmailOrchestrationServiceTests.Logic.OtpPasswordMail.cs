@@ -31,7 +31,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
             SendEmailResponse expectedSendEmailResponse = sendEmailResponse;
 
             this.userProcessingServiceMock.Setup(service =>
-                service.TwoFactorTokenAsync(inputUser))
+                service.RetrieveTwoFactorTokenAsync(inputUser))
                     .ReturnsAsync(expectedToken);
 
             this.emailProcessingServiceMock.Setup(template =>
@@ -47,7 +47,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Email
             actualEmail.Should().BeEquivalentTo(expectedAccountDetailsResponse);
 
             this.userProcessingServiceMock.Verify(broker =>
-             broker.TwoFactorTokenAsync(inputUser),
+             broker.RetrieveTwoFactorTokenAsync(inputUser),
                  Times.Once);
 
             this.emailProcessingServiceMock.Verify(template =>

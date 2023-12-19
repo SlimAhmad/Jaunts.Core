@@ -120,7 +120,7 @@ namespace Jaunts.Core.Api.Brokers.UserManagement
             return await broker.userManagement.FindByIdAsync(id);
         }
 
-        public async ValueTask<IdentityResult> ConfirmEmailAsync(ApplicationUser user,string token)
+        public async ValueTask<IdentityResult> ConfirmEmailTokenAsync(ApplicationUser user,string token)
         {
             var broker = new UserManagementBroker(this.userManagement);
 

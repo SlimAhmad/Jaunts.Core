@@ -71,7 +71,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
         public ValueTask<string> PasswordResetTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.RetrieveUserPasswordTokenAsync(user));
         
-        public ValueTask<string> TwoFactorTokenAsync(ApplicationUser user) =>
+        public ValueTask<string> RetrieveTwoFactorTokenAsync(ApplicationUser user) =>
         TryCatch(async () => await this.userService.RetrieveUserTwoFactorTokenAsync(user));
         
         public ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail) =>
@@ -110,7 +110,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         });
         
-        public ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id) =>
+        public ValueTask<ApplicationUser> EnableOrDisableTwoFactorAsync(Guid id) =>
         TryCatch(async () =>
         {
             ValidateUserId(id);
@@ -131,7 +131,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
 
         });
         
-        public ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email) =>
+        public ValueTask<ApplicationUser> ValidateEmailTokenAsync(string token, string email) =>
         TryCatch(async () =>
         {
             ValidateStringIsNotNull(token);
@@ -139,11 +139,11 @@ namespace Jaunts.Core.Api.Services.Processings.User
             var user = userService.RetrieveAllUsers().FirstOrDefault(SameUserAs(email));
             ValidateUser(user);
             
-            return await userService.ConfirmEmailRequestAsync(user, token);
+            return await userService.ValidateEmailTokenAsync(user, token);
 
         });
         
-        public ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id) =>
+        public ValueTask<bool> ValidatePasswordAsync(string password, Guid id) =>
         TryCatch(async () =>
         {
             ValidateStringIsNotNull(password);
@@ -153,7 +153,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
                      .FirstOrDefault(SameUserAs(id));
             ValidateUser(user);
             
-            return await userService.CheckPasswordRequestAsync(user, password);
+            return await userService.ValidatePasswordAsync(user, password);
 
         });
         
