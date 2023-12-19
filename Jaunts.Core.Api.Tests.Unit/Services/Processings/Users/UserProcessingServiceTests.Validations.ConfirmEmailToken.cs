@@ -32,7 +32,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<ApplicationUser> retrievePermissionsTask =
-                this.userProcessingService.ValidateEmailTokenAsync(token,email);
+                this.userProcessingService.ConfirmEmailAsync(token,email);
 
             UserProcessingValidationException actualUserProcessingValidationException =
                 await Assert.ThrowsAsync<UserProcessingValidationException>(

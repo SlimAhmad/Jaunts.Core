@@ -126,7 +126,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 UserAccountDetailsResponse registeredAccount =
-                    await this.accountAggregationService.ConfirmEmailRequestAsync(token,email);
+                    await this.accountAggregationService.ConfirmEmailAsync(token,email);
 
                 return Ok(registeredAccount);
             }

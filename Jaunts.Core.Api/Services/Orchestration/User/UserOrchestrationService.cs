@@ -73,7 +73,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         TryCatch(async () => await this.userProcessingService.RetrieveUserRolesAsync(user));
 
         public ValueTask<string> TwoFactorTokenAsync(ApplicationUser user) =>
-        TryCatch(async () => await this.userProcessingService.TwoFactorTokenAsync(user));
+        TryCatch(async () => await this.userProcessingService.RetrieveTwoFactorTokenAsync(user));
         public ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user,string role) =>
         TryCatch(async () => await this.userProcessingService.AddToRoleAsync(user,role));
 

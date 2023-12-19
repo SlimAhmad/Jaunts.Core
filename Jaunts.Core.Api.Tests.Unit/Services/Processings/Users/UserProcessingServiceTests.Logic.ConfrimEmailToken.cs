@@ -35,12 +35,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.ValidateEmailTokenAsync(inputUser,inputToken))
+                service.ConfirmEmailAsync(inputUser,inputToken))
                     .ReturnsAsync(expectedUser);
 
             // when
             ApplicationUser actualUser = await this.userProcessingService
-                .ValidateEmailTokenAsync(inputToken,inputUser.Email);
+                .ConfirmEmailAsync(inputToken,inputUser.Email);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.ValidateEmailTokenAsync(inputUser,inputToken),
+                service.ConfirmEmailAsync(inputUser,inputToken),
                     Times.Once);
 
             this.userServiceMock.VerifyNoOtherCalls();

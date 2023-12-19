@@ -40,7 +40,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ApplicationUser actualUser = await this.userProcessingService
-                .EnableOrDisableTwoFactorAsync(inputUser.Id);
+                .ModifyTwoFactorAsync(inputUser.Id);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);
@@ -88,7 +88,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ApplicationUser actualUser = await this.userProcessingService
-                .EnableOrDisableTwoFactorAsync(inputUser.Id);
+                .ModifyTwoFactorAsync(inputUser.Id);
 
             // then
             actualUser.Should().BeEquivalentTo(expectedUser);

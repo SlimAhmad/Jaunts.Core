@@ -25,6 +25,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         ValueTask<ApplicationUser> AddUserRolesAsync(ApplicationUser user, string role);
         
         ValueTask<bool> ValidatePasswordAsync(ApplicationUser user, string password);
-        ValueTask<ApplicationUser> ValidateEmailTokenAsync(ApplicationUser user, string token);
+        ValueTask<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token);
     }
 }

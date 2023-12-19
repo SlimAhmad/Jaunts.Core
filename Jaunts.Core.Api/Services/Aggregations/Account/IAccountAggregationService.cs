@@ -17,7 +17,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         ValueTask<bool> ForgotPasswordRequestAsync(
              string email);
 
-        ValueTask<UserAccountDetailsResponse> ConfirmEmailRequestAsync(
+        ValueTask<UserAccountDetailsResponse> ConfirmEmailAsync(
             string token,
             string email);
 

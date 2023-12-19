@@ -77,7 +77,7 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
             return response.Successful;
         });
 
-        public ValueTask<UserAccountDetailsResponse> ConfirmEmailRequestAsync(string token, string email) =>
+        public ValueTask<UserAccountDetailsResponse> ConfirmEmailAsync(string token, string email) =>
         TryCatch(async () =>
         {
             var user = await userOrchestrationService.ConfirmEmailAsync(token, email);

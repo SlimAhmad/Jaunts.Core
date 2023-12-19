@@ -18,7 +18,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             return response;
         });
 
-        public ValueTask<ApplicationUser> ValidateEmailTokenAsync(ApplicationUser user, string token) =>
+        public ValueTask<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token) =>
           TryCatch(async () =>
           {
               ValidateUser(user);

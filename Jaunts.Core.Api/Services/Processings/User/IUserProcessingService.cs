@@ -20,7 +20,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
            Guid id);
         ValueTask<string> EmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
-        ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
+        ValueTask<string> RetrieveTwoFactorTokenAsync(ApplicationUser user);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
         ValueTask<bool> ResetUserPasswordByEmailAsync(string email, string token, string password);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);

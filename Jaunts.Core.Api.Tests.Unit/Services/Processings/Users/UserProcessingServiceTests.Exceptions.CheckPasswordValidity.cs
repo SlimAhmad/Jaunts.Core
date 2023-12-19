@@ -41,7 +41,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .Throws(dependencyValidationException);
 
             // when
@@ -62,7 +62,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -102,7 +102,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                         .Throws(dependencyException);
 
             // when
@@ -124,7 +124,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -169,7 +169,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                    .Returns(retrievedUsers);
 
             this.userServiceMock.Setup(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                     .Throws(serviceException);
 
             // when
@@ -190,7 +190,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
                     Times.Once);
 
             this.userServiceMock.Verify(service =>
-                service.CheckPasswordRequestAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
+                service.ValidatePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>

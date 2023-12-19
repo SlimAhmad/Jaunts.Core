@@ -48,7 +48,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<ApplicationUser > actualTokenTask =
-                this.userProcessingService.EnableOrDisableTwoFactorAsync(inputUser.Id);
+                this.userProcessingService.ModifyTwoFactorAsync(inputUser.Id);
 
             UserProcessingDependencyValidationException
                actualUserProcessingDependencyValidationException =
@@ -113,7 +113,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<ApplicationUser> actualTokenTask =
-                this.userProcessingService.EnableOrDisableTwoFactorAsync(inputUser.Id);
+                this.userProcessingService.ModifyTwoFactorAsync(inputUser.Id);
 
 
             UserProcessingDependencyException
@@ -184,7 +184,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
 
             // when
             ValueTask<ApplicationUser> actualTokenTask =
-                this.userProcessingService.EnableOrDisableTwoFactorAsync(inputUser.Id);
+                this.userProcessingService.ModifyTwoFactorAsync(inputUser.Id);
 
             UserProcessingServiceException
                actualUserProcessingServiceException =

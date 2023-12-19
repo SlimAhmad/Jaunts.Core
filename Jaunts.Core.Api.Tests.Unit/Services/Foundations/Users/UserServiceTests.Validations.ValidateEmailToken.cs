@@ -32,7 +32,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> userTask =
-                this.userService.ValidateEmailTokenAsync(invalidUser,inputToken);
+                this.userService.ConfirmEmailAsync(invalidUser,inputToken);
 
             UserValidationException actualUserValidationException =
               await Assert.ThrowsAsync<UserValidationException>(
@@ -78,7 +78,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Users
 
             // when
             ValueTask<ApplicationUser> retrieveUserTask =
-                this.userService.ValidateEmailTokenAsync(user,invalidToken);
+                this.userService.ConfirmEmailAsync(user,invalidToken);
 
             UserValidationException actualUserValidationException =
                  await Assert.ThrowsAsync<UserValidationException>(
