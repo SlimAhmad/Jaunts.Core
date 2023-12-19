@@ -61,18 +61,23 @@ namespace Jaunts.Core.Api.Services.Orchestration.SignIn
         });
 
 
-        public ValueTask<bool> TwoFactorLoginRequestAsync(
-            ApplicationUser user, string password) =>
+        public ValueTask<bool> LoginRequestAsync(
+            string userNameOrEmail, string password) =>
         TryCatch(async () =>
         {
+           
+            ApplicationUser user = await userProcessingService.RetrieveUserByEmailOrUserNameAsync(
+                userNameOrEmail);
+            if (user.TwoFactorEnabled)
+            {
                 await signInProcessingService.SignOutAsync();
                 await signInProcessingService.PasswordSignInAsync(
                     user, password, false, true);
                 string token = await userProcessingService.EmailConfirmationTokenAsync(user);
                 var response = await emailProcessingService.OtpVerificationMailRequestAsync(user, token);
-                if (response is null)
-                    return false;
-                return true;
+            }
+            return await userProcessingService.ValidatePasswordAsync(password, user.Id);
+
         });
 
         public ValueTask<ApplicationUser> LoginOtpRequestAsync(

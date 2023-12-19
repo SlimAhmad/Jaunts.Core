@@ -50,8 +50,6 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
                 await userOrchestrationService.RegisterUserAsync(
                     registerUserRequest,
                     registerApiRequest.Password);
-            await userOrchestrationService.AddUserToRoleAsync(registerUserResponse, "User");
-            await emailOrchestrationService.VerificationMailAsync(registerUserResponse);
             var response = await jwtOrchestrationService.JwtAccountDetailsAsync(registerUserResponse);
             return response;
         });
@@ -62,12 +60,9 @@ namespace Jaunts.Core.Api.Services.Aggregations.Account
         {
             ValidateUserOnLogin(loginApiRequest);
             ApplicationUser user = await userOrchestrationService.RetrieveUserByEmailOrUserNameAsync(
-                loginApiRequest.UsernameOrEmail);
-
-            if (user.TwoFactorEnabled)
-                await signInOrchestrationService.TwoFactorLoginRequestAsync(user,loginApiRequest.Password);
-            var isValidPassword = await userOrchestrationService.CheckPasswordValidityAsync(
-                loginApiRequest.Password ,user.Id);
+                 loginApiRequest.UsernameOrEmail);
+                await signInOrchestrationService.LoginRequestAsync(
+                    loginApiRequest.UsernameOrEmail,loginApiRequest.Password);
             return await jwtOrchestrationService.JwtAccountDetailsAsync(user);
         });
 
