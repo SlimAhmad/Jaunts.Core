@@ -33,8 +33,4 @@
     <ProjectReference Include="..\Jaunts.Core\Jaunts.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Orchestrations\Users\" />
-  </ItemGroup>
-
 </Project>

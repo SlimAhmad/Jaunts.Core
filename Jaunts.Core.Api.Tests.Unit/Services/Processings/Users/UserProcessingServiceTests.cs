@@ -69,7 +69,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             new Filler<List<string>>().Create();
         private static LoginRequest CreateRandomLoginRequest(ApplicationUser user) =>
             CreateLoginFiller(user).Create();
-        private static ResetPasswordApiRequest CreateRandomResetPasswordRequest(ApplicationUser user) =>
+        private static ResetPasswordRequest CreateRandomResetPasswordRequest(ApplicationUser user) =>
             CreateResetPasswordFiller(user).Create();
 
         private static ApplicationUser CreateRandomUser()
@@ -161,9 +161,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             return filler;
         }
 
-        private static Filler<ResetPasswordApiRequest> CreateResetPasswordFiller(ApplicationUser user)
+        private static Filler<ResetPasswordRequest> CreateResetPasswordFiller(ApplicationUser user)
         {
-            var filler = new Filler<ResetPasswordApiRequest>();
+            var filler = new Filler<ResetPasswordRequest>();
 
             filler.Setup()
                 .OnProperty(x => x.Email).Use(user.Email)

@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
 {
     public partial class JwtOrchestrationService
     {
-        private void ValidateUserOnRegister(RegisterUserApiRequest apiRequest)
+        private void ValidateUserOnRegister(UserCredentialsRequest apiRequest)
         {
             ValidateRegisterUserIsNull(apiRequest);
 
@@ -25,7 +25,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Jwt
            Validate((Rule: IsInvalidCode(code), Parameter: nameof(ApplicationUser)));
 
 
-        private static void ValidateRegisterUserIsNull(RegisterUserApiRequest apiRequest)
+        private static void ValidateRegisterUserIsNull(UserCredentialsRequest apiRequest)
         {
             if (apiRequest is null)
             {

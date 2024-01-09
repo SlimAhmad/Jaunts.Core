@@ -17,7 +17,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         private async Task ShouldResetPasswordAsync()
         {
             // given
-            ResetPasswordApiRequest resetPasswordApiRequest =
+            ResetPasswordRequest resetPasswordApiRequest =
                CreateResetPasswordApiRequest();
              
             bool randomBoolean = GetRandomBoolean();
@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             actualAuth.Should().Be(storageBoolean);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.ResetUserPasswordByEmailOrUserNameAsync(It.IsAny<ResetPasswordApiRequest>()),
+                broker.ResetUserPasswordByEmailOrUserNameAsync(It.IsAny<ResetPasswordRequest>()),
                     Times.Once);
  
             this.userOrchestrationMock.VerifyNoOtherCalls();

@@ -3,6 +3,7 @@ using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Services.Foundations.Role;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
+using Jaunts.Core.Api.Services.Processings.Role;
 
 namespace Jaunts.Core.Api.Controllers
 {
@@ -10,10 +11,10 @@ namespace Jaunts.Core.Api.Controllers
     [Route("api/[controller]")]
     public class RoleController : RESTFulController
     {
-        private readonly IRoleService roleService;
+        private readonly IRoleProcessingService roleProcessingService;
 
-        public RoleController(IRoleService roleService) =>
-            this.roleService = roleService;
+        public RoleController(IRoleProcessingService roleProcessingService) =>
+            this.roleProcessingService = roleProcessingService;
 
         [HttpPost]
         public async ValueTask<ActionResult<ApplicationRole>> PostRoleAsync(ApplicationRole role)
@@ -21,7 +22,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationRole registeredRole =
-                    await this.roleService.AddRoleRequestAsync(role);
+                    await this.roleProcessingService.UpsertRoleAsync(role);
 
                 return Created(registeredRole);
             }
@@ -42,19 +43,18 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(roleDependencyException.Message);
             }
-            catch (RoleServiceException roleServiceException)
+            catch (RoleServiceException roleProcessingServiceException)
             {
-                return Problem(roleServiceException.Message);
+                return Problem(roleProcessingServiceException.Message);
             }
         }
-
         [HttpGet]
         public ActionResult<IQueryable<ApplicationRole>> GetAllRole()
         {
             try
             {
                 IQueryable storageRole =
-                    this.roleService.RetrieveAllRoles();
+                    this.roleProcessingService.RetrieveAllRoles();
 
                 return Ok(storageRole);
             }
@@ -62,19 +62,18 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(roleDependencyException.Message);
             }
-            catch (RoleServiceException roleServiceException)
+            catch (RoleServiceException roleProcessingServiceException)
             {
-                return Problem(roleServiceException.Message);
+                return Problem(roleProcessingServiceException.Message);
             }
         }
-
         [HttpGet("{roleId}")]
         public async ValueTask<ActionResult<ApplicationRole>> GetRoleByIdAsync(Guid roleId)
         {
             try
             {
                 ApplicationRole storageRole =
-                    await this.roleService.RetrieveRoleByIdRequestAsync(roleId);
+                    await this.roleProcessingService.RetrieveRoleById(roleId);
 
                 return Ok(storageRole);
             }
@@ -95,61 +94,20 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(roleDependencyException.Message);
             }
-            catch (RoleServiceException roleServiceException)
+            catch (RoleServiceException roleProcessingServiceException)
             {
-                return Problem(roleServiceException.Message);
+                return Problem(roleProcessingServiceException.Message);
             }
         }
-
-        [HttpPut]
-        public async ValueTask<ActionResult<ApplicationRole>> PutRoleAsync(ApplicationRole role)
-        {
-            try
-            {
-                ApplicationRole registeredRole =
-                    await this.roleService.ModifyRoleRequestAsync(role);
-
-                return Ok(registeredRole);
-            }
-            catch (RoleValidationException roleValidationException)
-                when (roleValidationException.InnerException is NotFoundRoleException)
-            {
-                Exception innerMessage = GetInnerMessage(roleValidationException);
-
-                return NotFound(innerMessage);
-            }
-            catch (RoleValidationException roleValidationException)
-            {
-                Exception innerMessage = GetInnerMessage(roleValidationException);
-
-                return BadRequest(innerMessage);
-            }
-            catch (RoleDependencyException roleDependencyException)
-                when (roleDependencyException.InnerException is LockedRoleException)
-            {
-                Exception innerMessage = GetInnerMessage(roleDependencyException);
-
-                return Locked(innerMessage);
-            }
-            catch (RoleDependencyException roleDependencyException)
-            {
-                return Problem(roleDependencyException.Message);
-            }
-            catch (RoleServiceException roleServiceException)
-            {
-                return Problem(roleServiceException.Message);
-            }
-        }
-
         [HttpDelete("{roleId}")]
-        public async ValueTask<ActionResult<ApplicationRole>> DeleteRoleAsync(Guid roleId)
+        public async ValueTask<ActionResult<bool>> DeleteRoleAsync(Guid roleId)
         {
             try
             {
-                ApplicationRole storageRole =
-                    await this.roleService.RemoveRoleByIdRequestAsync(roleId);
+                bool response =
+                    await this.roleProcessingService.RemoveRoleByIdAsync(roleId);
 
-                return Ok(storageRole);
+                return Ok(response);
             }
             catch (RoleValidationException roleValidationException)
                 when (roleValidationException.InnerException is NotFoundRoleException)
@@ -173,9 +131,9 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(roleDependencyException.Message);
             }
-            catch (RoleServiceException roleServiceException)
+            catch (RoleServiceException roleProcessingServiceException)
             {
-                return Problem(roleServiceException.Message);
+                return Problem(roleProcessingServiceException.Message);
             }
         }
 

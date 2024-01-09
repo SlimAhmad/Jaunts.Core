@@ -29,10 +29,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             {
                 throw CreateAndLogValidationException(nullUserException);
             }
-            catch (UserPasswordValidationException userPasswordValidationException)
-            {
-                throw CreateAndLogValidationException(userPasswordValidationException);
-            }
             catch (InvalidUserException invalidUserException)
             {
                 throw CreateAndLogValidationException(invalidUserException);
@@ -92,10 +88,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             catch (NullUserException nullUserException)
             {
                 throw CreateAndLogValidationException(nullUserException);
-            }
-            catch (UserPasswordValidationException userPasswordValidationException)
-            {
-                throw CreateAndLogValidationException(userPasswordValidationException);
             }
             catch (InvalidUserException invalidUserException)
             {
@@ -157,10 +149,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             {
                 throw CreateAndLogValidationException(nullUserException);
             }
-            catch (UserPasswordValidationException userPasswordValidationException)
-            {
-                throw CreateAndLogValidationException(userPasswordValidationException);
-            }
             catch (InvalidUserException invalidUserException)
             {
                 throw CreateAndLogValidationException(invalidUserException);
@@ -221,10 +209,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             {
                 throw CreateAndLogValidationException(nullUserException);
             }
-            catch (UserPasswordValidationException userPasswordValidationException)
-            {
-                throw CreateAndLogValidationException(userPasswordValidationException);
-            }
             catch (InvalidUserException invalidUserException)
             {
                 throw CreateAndLogValidationException(invalidUserException);
@@ -284,10 +268,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             catch (NullUserException nullUserException)
             {
                 throw CreateAndLogValidationException(nullUserException);
-            }
-            catch (UserPasswordValidationException userPasswordValidationException)
-            {
-                throw CreateAndLogValidationException(userPasswordValidationException);
             }
             catch (InvalidUserException invalidUserException)
             {

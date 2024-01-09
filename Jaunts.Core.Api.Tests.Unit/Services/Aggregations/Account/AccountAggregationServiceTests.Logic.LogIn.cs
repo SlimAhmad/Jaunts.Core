@@ -51,8 +51,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 broker.RetrieveUserByEmailOrUserNameAsync(loginRequest.UsernameOrEmail))
                     .ReturnsAsync(storageUser);
 
-            this.userOrchestrationMock.Setup(broker =>
-                broker.CheckPasswordValidityAsync(password,storageUser.Id))
+            this.signInOrchestrationMock.Setup(broker =>
+                broker.LoginRequestAsync(loginRequest.UsernameOrEmail,loginRequest.Password))
                     .ReturnsAsync(true);
 
             this.jwtOrchestrationMock.Setup(broker =>
@@ -67,11 +67,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
+                broker.RetrieveUserByEmailOrUserNameAsync(loginRequest.UsernameOrEmail),
                     Times.Once);
 
-            this.userOrchestrationMock.Verify(broker =>
-                 broker.CheckPasswordValidityAsync(It.IsAny<string>(), It.IsAny<Guid>()),
+            this.signInOrchestrationMock.Verify(broker =>
+                 broker.LoginRequestAsync(loginRequest.UsernameOrEmail,loginRequest.Password),
                        Times.Once);
 
             this.jwtOrchestrationMock.Verify(broker =>
@@ -84,79 +84,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
 
-        [Fact]
-        private async Task ShouldLoginWithOtpTokenAsync() 
-        {
-            // given
-            DateTimeOffset randomDateTime = GetRandomDateTime();
-            DateTimeOffset dateTime = randomDateTime;
-            List<string> randomRoleList = CreateRandomStringList();
-            LoginRequest loginRequest =
-               CreateLoginRequest();
-            SendEmailResponse sendEmailResponse = CreateSendEmailResponse();
-            string password = GetRandomString();
-            string email = GetRandomString();
-            bool randomBoolean = GetRandomBoolean();
 
-
-            ApplicationUser randomUser =
-                    CreateRandomUser(dateTime);
-
-            IQueryable<ApplicationRole> randomRoles =
-                CreateRandomRoles(dateTime, randomRoleList);
-
-            ApplicationUser inputUser = randomUser;
-            ApplicationUser storageUser = inputUser;
-            storageUser.TwoFactorEnabled = true;
-
-            UserAccountDetailsResponse inputUserProfileDetails =
-                CreateUserAccountDetailsApiResponse(storageUser);
-
-            UserAccountDetailsResponse expectedUserProfileDetails =
-                    inputUserProfileDetails;
-
-            this.userOrchestrationMock.Setup(broker =>
-             broker.RetrieveUserByEmailOrUserNameAsync(loginRequest.UsernameOrEmail))
-                 .ReturnsAsync(storageUser);
-
-            this.signInOrchestrationMock.Setup(broker =>
-                broker.SignOutAsync());
-
-            this.signInOrchestrationMock.Setup(broker =>
-               broker.PasswordSignInAsync(storageUser, password,randomBoolean,randomBoolean))
-                   .ReturnsAsync(randomBoolean);
-
-            this.emailOrchestrationMock.Setup(broker =>
-                broker.TwoFactorMailAsync(storageUser))
-                    .ReturnsAsync(inputUserProfileDetails);
-
-            // when
-            UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.LogInRequestAsync(loginRequest);
-
-            // then
-            actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);
-
-            this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
-                    Times.Once);
-
-            this.signInOrchestrationMock.Verify(broker =>
-             broker.SignOutAsync(),
-                 Times.Once);
-
-            this.signInOrchestrationMock.Verify(broker =>
-             broker.PasswordSignInAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>(),It.IsAny<bool>(),It.IsAny<bool>()),
-                 Times.Once);
-
-            this.emailOrchestrationMock.Verify(broker =>
-                 broker.TwoFactorMailAsync(It.IsAny<ApplicationUser>()),
-                       Times.Once);
-
-            this.userOrchestrationMock.VerifyNoOtherCalls();
-            this.signInOrchestrationMock.VerifyNoOtherCalls();
-            this.emailOrchestrationMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
-        }
     }
 }

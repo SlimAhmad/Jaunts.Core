@@ -41,10 +41,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             //Why do we need to return the user
             return user;
         });
-
         public IQueryable<ApplicationUser> RetrieveAllUsers() =>
         TryCatch(() => this.userManagementBroker.SelectAllUsers());
-
         public ValueTask<ApplicationUser> RetrieveUserByIdAsync(Guid userId) =>
         TryCatch(async () =>
         {
@@ -57,7 +55,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return maybeUser;
         });
-
         public ValueTask<ApplicationUser> ModifyUserAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -73,7 +70,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return await this.userManagementBroker.UpdateUserAsync(user);
         });
-
         public ValueTask<ApplicationUser> RemoveUserByIdAsync(Guid userId) =>
         TryCatch(async () =>
         {
@@ -86,6 +82,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return await this.userManagementBroker.DeleteUserAsync(maybeUser);
         });
+
         #endregion
 
         #region FINISH FOUNDATION
@@ -125,7 +122,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return user;
         });
-
         public ValueTask<ApplicationUser> ModifyUserTwoFactorAsync(ApplicationUser user, bool enabled) =>
         TryCatch(async () =>
         {
@@ -138,7 +134,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
 
             return user;
         });
-
         public ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user) =>
         TryCatch(async () =>
         {
@@ -147,7 +142,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             await this.userManagementBroker.GetRolesAsync(user);
             return result.ToList();
         });
-
         public ValueTask<ApplicationUser> AddUserRolesAsync(ApplicationUser user, string role) =>
         TryCatch(async () =>
         {
@@ -159,6 +153,25 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             ValidateUserOnAddResponse(response);
 
             return user;
+        });
+        public ValueTask<bool> ValidatePasswordAsync(ApplicationUser user, string password) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            ValidateText(password);
+            bool response = await this.userManagementBroker.CheckPasswordAsync(user, password);
+            ValidateUserPassword(response);
+            return response;
+        });
+        public ValueTask<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token) =>
+        TryCatch(async () =>
+        {
+            ValidateUser(user);
+            ValidateText(token);
+            var response =
+                await this.userManagementBroker.ConfirmEmailTokenAsync(user, token);
+            ValidateUserOnAddResponse(response);
+            return await this.userManagementBroker.SelectUserByIdAsync(user.Id);
         });
 
         #endregion

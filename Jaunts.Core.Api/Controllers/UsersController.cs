@@ -1,6 +1,8 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.Users;
+﻿using Jaunts.Core.Api.Models.Processings.User.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Models.User.Exceptions;
 using Jaunts.Core.Api.Services.Foundations.Users;
+using Jaunts.Core.Api.Services.Processings.User;
 using Microsoft.AspNetCore.Mvc;
 using RESTFulSense.Controllers;
 
@@ -10,10 +12,10 @@ namespace Jaunts.Core.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : RESTFulController
     {
-        private readonly IUserService userService;
+        private readonly IUserProcessingService userProcessingService;
 
-        public UsersController(IUserService userService) =>
-            this.userService = userService;
+        public UsersController(IUserProcessingService userProcessingService) =>
+            this.userProcessingService = userProcessingService;
 
         [HttpPost]
         public async ValueTask<ActionResult<ApplicationUser>> PostUserAsync(ApplicationUser user, string password = "Test123@eri")
@@ -21,7 +23,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser registeredUser =
-                    await this.userService.AddUserAsync(user, password);
+                    await this.userProcessingService.UpsertUserAsync(user, password);
 
                 return Created(registeredUser);
             }
@@ -42,9 +44,9 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(userDependencyException.Message);
             }
-            catch (UserServiceException userServiceException)
+            catch (UserServiceException userProcessingServiceException)
             {
-                return Problem(userServiceException.Message);
+                return Problem(userProcessingServiceException.Message);
             }
         }
 
@@ -54,7 +56,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 IQueryable storageUsers =
-                    this.userService.RetrieveAllUsers();
+                    this.userProcessingService.RetrieveAllUsers();
 
                 return Ok(storageUsers);
             }
@@ -62,9 +64,9 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(userDependencyException.Message);
             }
-            catch (UserServiceException userServiceException)
+            catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userServiceException.Message);
+                return Problem(userProcessingServiceException.Message);
             }
         }
 
@@ -74,7 +76,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationUser storageUser =
-                    await this.userService.RetrieveUserByIdAsync(userId);
+                    await this.userProcessingService.RetrieveUserById(userId);
 
                 return Ok(storageUser);
             }
@@ -95,59 +97,19 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(userDependencyException.Message);
             }
-            catch (UserServiceException userServiceException)
+            catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userServiceException.Message);
-            }
-        }
-
-        [HttpPut]
-        public async ValueTask<ActionResult<ApplicationUser>> PutUserAsync(ApplicationUser user)
-        {
-            try
-            {
-                ApplicationUser registeredUser =
-                    await this.userService.ModifyUserAsync(user);
-
-                return Ok(registeredUser);
-            }
-            catch (UserValidationException userValidationException)
-                when (userValidationException.InnerException is NotFoundUserException)
-            {
-                string innerMessage = GetInnerMessage(userValidationException);
-
-                return NotFound(innerMessage);
-            }
-            catch (UserValidationException userValidationException)
-            {
-                string innerMessage = GetInnerMessage(userValidationException);
-
-                return BadRequest(innerMessage);
-            }
-            catch (UserDependencyException userDependencyException)
-                when (userDependencyException.InnerException is LockedUserException)
-            {
-                string innerMessage = GetInnerMessage(userDependencyException);
-
-                return Locked(innerMessage);
-            }
-            catch (UserDependencyException userDependencyException)
-            {
-                return Problem(userDependencyException.Message);
-            }
-            catch (UserServiceException userServiceException)
-            {
-                return Problem(userServiceException.Message);
+                return Problem(userProcessingServiceException.Message);
             }
         }
 
         [HttpDelete("{userId}")]
-        public async ValueTask<ActionResult<ApplicationUser>> DeleteUserAsync(Guid userId)
+        public async ValueTask<ActionResult<bool>> DeleteUserAsync(Guid userId)
         {
             try
             {
-                ApplicationUser storageUser =
-                    await this.userService.RemoveUserByIdAsync(userId);
+                bool storageUser =
+                    await this.userProcessingService.RemoveUserByIdAsync(userId);
 
                 return Ok(storageUser);
             }
@@ -173,9 +135,9 @@ namespace Jaunts.Core.Api.Controllers
             {
                 return Problem(userDependencyException.Message);
             }
-            catch (UserServiceException userServiceException)
+            catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userServiceException.Message);
+                return Problem(userProcessingServiceException.Message);
             }
         }
 

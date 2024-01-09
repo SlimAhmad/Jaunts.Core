@@ -8,26 +8,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
     public partial class UserService
     {
 
-        public ValueTask<bool> ValidatePasswordAsync(ApplicationUser user, string password) =>
-        TryCatch(async () =>
-        {
-            ValidateUser(user);
-            ValidateText(password);
-            bool response = await this.userManagementBroker.CheckPasswordAsync(user, password);
-            ValidateUserPassword(response);
-            return response;
-        });
-
-        public ValueTask<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token) =>
-          TryCatch(async () =>
-          {
-              ValidateUser(user);
-              ValidateText(token);
-              var response =
-                  await this.userManagementBroker.ConfirmEmailTokenAsync(user, token);
-              ValidateUserOnAddResponse(response);
-              return await this.userManagementBroker.SelectUserByIdAsync(user.Id);
-          });
+      
 
         private void ValidateUserOnAdd(ApplicationUser user, string password)
         {
@@ -110,7 +91,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
                 foreach (var errors in identityResult.Errors)
                 {
                     Validate(
-                         (Rule: IsInvalid(errors), Parameter: nameof(IdentityError))
+                         (Rule: IsInvalidIdentity(errors), Parameter: nameof(IdentityError))
                         );
                 }
             }
@@ -139,7 +120,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
             Message = "Value is required"
         };
 
-
+        private static dynamic IsInvalidIdentity(IdentityError @object) => new
+        {
+            Condition = @object is not null,
+            Message = @object.Description
+        };
         private static dynamic IsInvalid(string text) => new
         {
             Condition = String.IsNullOrWhiteSpace(text),

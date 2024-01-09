@@ -23,7 +23,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Users
             ApplicationUser inputUser = randomUser;
             ApplicationUser addedUser = inputUser;
             ApplicationUser expectedUser = addedUser.DeepClone();
-            ResetPasswordApiRequest resetPassword = CreateRandomResetPasswordRequest(inputUser);
+            Core.Models.Auth.LoginRegister.ResetPasswordRequest resetPassword = CreateRandomResetPasswordRequest(inputUser);
 
             IQueryable<ApplicationUser> randomUsers =
                 CreateRandomUsers(inputUser);

@@ -24,15 +24,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             ApplicationUser inputUser = randomUser;
             ApplicationUser storageUser = inputUser;
 
-            string provider = GetRandomString();
             string code = GetRandomString();
-            bool isPersistent = GetRandomBoolean();
-            bool rememberClient = GetRandomBoolean();
             bool randomBoolean = GetRandomBoolean();
 
-            string randomEmail = GetRandomEmailAddresses();
-            string InputEmail = randomEmail;
-            string storageEmail = InputEmail;
+
 
             UserAccountDetailsResponse userAccountDetailsResponse =
                 CreateUserAccountDetailsApiResponse(inputUser);
@@ -40,39 +35,30 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             UserAccountDetailsResponse expectedUserAccountDetailsResponse =
                   userAccountDetailsResponse;
 
-            this.signInOrchestrationMock.Setup(broker =>
-                broker.TwoFactorSignInAsync(provider,code,isPersistent,rememberClient))
-                    .ReturnsAsync(randomBoolean);
-
-            this.userOrchestrationMock.Setup(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(InputEmail))
+            this.signInOrchestrationMock.Setup(orchestration =>
+                orchestration.LoginOtpRequestAsync(code,inputUser.Email))
                     .ReturnsAsync(storageUser);
 
-            this.jwtOrchestrationMock.Setup(broker =>
-               broker.JwtAccountDetailsAsync(storageUser))
+            this.jwtOrchestrationMock.Setup(orchestration =>
+               orchestration.JwtAccountDetailsAsync(storageUser))
                    .ReturnsAsync(userAccountDetailsResponse);
 
             // when
             UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.LoginWithOTPRequestAsync(code,InputEmail);
+                await this.accountAggregationService.OtpLoginRequestAsync(code,inputUser.Email);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUserAccountDetailsResponse);
 
-            this.signInOrchestrationMock.Verify(broker =>
-              broker.TwoFactorSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()),
+            this.signInOrchestrationMock.Verify(orchestration =>
+              orchestration.LoginOtpRequestAsync(code,inputUser.Email),
                   Times.Once);
 
-            this.userOrchestrationMock.Verify(broker =>
-                broker.RetrieveUserByEmailOrUserNameAsync(It.IsAny<string>()),
-                    Times.Once);
-
-            this.jwtOrchestrationMock.Verify(broker =>
-              broker.JwtAccountDetailsAsync(It.IsAny<ApplicationUser>()),
+            this.jwtOrchestrationMock.Verify(orchestration =>
+              orchestration.JwtAccountDetailsAsync(storageUser),
                   Times.Once);
 
             this.signInOrchestrationMock.VerifyNoOtherCalls();
-            this.userOrchestrationMock.VerifyNoOtherCalls();
             this.jwtOrchestrationMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }

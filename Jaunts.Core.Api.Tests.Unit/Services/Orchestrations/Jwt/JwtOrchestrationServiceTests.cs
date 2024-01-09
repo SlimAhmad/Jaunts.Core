@@ -98,7 +98,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Jwt
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Id = user.Id.ToString(),
+                Id = user.Id,
                 Token = token,
                 Role = role,
                 TwoFactorEnabled = user.TwoFactorEnabled,

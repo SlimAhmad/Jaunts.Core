@@ -15,7 +15,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         ValueTask<ApplicationUser> RetrieveUserByIdAsync(Guid userId);
         ValueTask<ApplicationUser> ModifyUserAsync(ApplicationUser user);
         ValueTask<ApplicationUser> RemoveUserByIdAsync(Guid userId);
-
         ValueTask<string> RetrieveUserEmailConfirmationTokenAsync(ApplicationUser user);
         ValueTask<string> RetrieveUserPasswordTokenAsync(ApplicationUser user);
         ValueTask<string> RetrieveUserTwoFactorTokenAsync(ApplicationUser user);
@@ -23,7 +22,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Users
         ValueTask<ApplicationUser> ModifyUserTwoFactorAsync(ApplicationUser user, bool enabled);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
         ValueTask<ApplicationUser> AddUserRolesAsync(ApplicationUser user, string role);
-        
         ValueTask<bool> ValidatePasswordAsync(ApplicationUser user, string password);
         ValueTask<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token);
     }
