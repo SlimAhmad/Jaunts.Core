@@ -12,9 +12,6 @@ namespace Jaunts.Core.Api.Brokers.RoleManagement
             this.roleManagement = roleManager;
 
         }
-
-      
-
         public IQueryable<ApplicationRole> SelectAllRoles() => this.roleManagement.Roles;
 
         public async ValueTask<ApplicationRole> SelectRoleByIdAsync(Guid roleId)
