@@ -17,9 +17,9 @@ namespace Jaunts.Core.Api.Controllers
             this.accountAggregationService = accountAggregationService;
 
         [HttpPost]
-        [Route(ApiRoutes.Register)] 
+        [Route(ApiRoutes.Register)]
         public async ValueTask<ActionResult<UserAccountDetailsResponse>> RegisterAsync(
-            RegisterUserApiRequest registerUserApiRequest)
+            [FromBody] UserCredentialsRequest registerUserApiRequest)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace Jaunts.Core.Api.Controllers
         [HttpPost]
         [Route(ApiRoutes.Login)]
         public async ValueTask<ActionResult<UserAccountDetailsResponse>> LoginAsync(
-            LoginRequest  loginApiRequest)
+           [FromBody] LoginRequest loginApiRequest)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Jaunts.Core.Api.Controllers
 
         [HttpPost]
         [Route(ApiRoutes.ResetPassword)]
-        public async ValueTask<ActionResult<bool>> ResetPasswordAsync(ResetPasswordApiRequest resetPasswordApiRequest)
+        public async ValueTask<ActionResult<bool>> ResetPasswordAsync([FromBody]ResetPasswordRequest resetPasswordApiRequest)
         {
             try
             {
@@ -93,9 +93,9 @@ namespace Jaunts.Core.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route(ApiRoutes.ForgotPassword)]
-        public async ValueTask<ActionResult<bool>> ForgotPasswordAsync(string email)
+        public async ValueTask<ActionResult<bool>> ForgotPasswordAsync([FromQuery]string email)
         {
             try
             {
@@ -119,14 +119,14 @@ namespace Jaunts.Core.Api.Controllers
 
          }
 
-            [HttpPost]
+        [HttpPut]
         [Route(ApiRoutes.ConfirmEmail)]
-        public async ValueTask<ActionResult<UserAccountDetailsResponse>> ConfirmEmailAsync(string token,string email)
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> PostEmailConfirmationAsync([FromQuery]string token,string email)
         {
             try
             {
                 UserAccountDetailsResponse registeredAccount =
-                    await this.accountAggregationService.ConfirmEmailAsync(token,email);
+                    await this.accountAggregationService.EmailConfirmationAsync(token,email);
 
                 return Ok(registeredAccount);
             }
@@ -144,14 +144,14 @@ namespace Jaunts.Core.Api.Controllers
             }
         }
 
-        [HttpPost]
-        [Route(ApiRoutes.LoginWithOTP)]
-        public async ValueTask<ActionResult<UserAccountDetailsResponse>> LoginWithOTPAsync(string code, string userNameOrEmail)
+        [HttpPut]
+        [Route(ApiRoutes.OtpLogin)]
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> OtpLoginAsync([FromQuery]string code, string userNameOrEmail)
         {
             try
             {
                 UserAccountDetailsResponse registeredAccount =
-                    await this.accountAggregationService.LoginWithOTPRequestAsync(code,userNameOrEmail);
+                    await this.accountAggregationService.OtpLoginRequestAsync(code,userNameOrEmail);
 
                 return Created(registeredAccount);
             }
@@ -171,14 +171,14 @@ namespace Jaunts.Core.Api.Controllers
 
         }
 
-        [HttpPost]
-        [Route(ApiRoutes.Enable2FA)]
-        public async ValueTask<ActionResult<UserAccountDetailsResponse>> Enable2FAAsync(Guid id)
+        [HttpPut]
+        [Route(ApiRoutes.EnableTwoFactor)]
+        public async ValueTask<ActionResult<UserAccountDetailsResponse>> EnableTwoFactorAsync([FromQuery]Guid id)
         {
             try
             {
                 UserAccountDetailsResponse registeredAccount =
-                    await this.accountAggregationService.EnableUser2FARequestAsync(id);
+                    await this.accountAggregationService.EnableUserTwoFactorAsync(id);
 
                 return Ok(registeredAccount);
             }

@@ -68,16 +68,16 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                         .AreEqual;
         }
 
-        private static RegisterUserApiRequest CreateRegisterUserApiRequest(DateTimeOffset date) =>
-           CreateRegisterUserApiRequestFiller(date).Create();
+        private static UserCredentialsRequest CreateRegisterUserApiRequest() =>
+           CreateRegisterUserApiRequestFiller().Create();
 
         private static LoginRequest CreateLoginRequest() =>
            CreateLoginApiRequestFiller().Create();
 
-        private static ResetPasswordApiRequest CreateResetPasswordApiRequest() =>
+        private static ResetPasswordRequest CreateResetPasswordApiRequest() =>
            CreateResetPasswordApiRequestFiller().Create();
 
-        private static UserAccountDetailsResponse CreateRegisterUserResponse(RegisterUserApiRequest user) =>
+        private static UserAccountDetailsResponse CreateRegisterUserResponse(UserCredentialsRequest user) =>
           CreateRegisterApiResponseFiller(user).Create();
 
         private static UserAccountDetailsResponse CreateUserAccountDetailsApiResponse(ApplicationUser user) =>
@@ -133,15 +133,14 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return user;
         }
 
-        private static Filler<RegisterUserApiRequest> CreateRegisterUserApiRequestFiller(
-            DateTimeOffset date)
+        private static Filler<UserCredentialsRequest> CreateRegisterUserApiRequestFiller()
         {
-            var filler = new Filler<RegisterUserApiRequest>();
+            var filler = new Filler<UserCredentialsRequest>();
 
             filler.Setup()
-                .OnType<DateTimeOffset>().Use(date);
+                .OnType<DateTimeOffset>().IgnoreIt();
 
-            return filler;
+            return filler; 
         }
 
 
@@ -156,9 +155,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<ResetPasswordApiRequest> CreateResetPasswordApiRequestFiller()
+        private static Filler<ResetPasswordRequest> CreateResetPasswordApiRequestFiller()
         {
-            var filler = new Filler<ResetPasswordApiRequest>();
+            var filler = new Filler<ResetPasswordRequest>();
 
             filler.Setup()
                 .OnType<object>().IgnoreIt()
@@ -179,7 +178,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 .OnProperty(x => x.Email).Use(user.Email)
                 .OnProperty(x => x.FirstName).Use(user.FirstName)
                 .OnProperty(x => x.LastName).Use(user.LastName)
-                .OnProperty(x => x.Id).Use(user.Id.ToString())
+                .OnProperty(x => x.Id).Use(user.Id)
                 .OnProperty(x => x.TwoFactorEnabled).Use(user.TwoFactorEnabled)
                 .OnType<DateTimeOffset>().IgnoreIt();
 
@@ -197,7 +196,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             return filler;
         }
 
-        private static Filler<UserAccountDetailsResponse> CreateRegisterApiResponseFiller(RegisterUserApiRequest registerUserApiRequest)
+        private static Filler<UserAccountDetailsResponse> CreateRegisterApiResponseFiller(UserCredentialsRequest registerUserApiRequest)
         {
             var filler = new Filler<UserAccountDetailsResponse>();
 
@@ -284,7 +283,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
         }
 
 
-        private ApplicationUser ConvertToUserRequest(RegisterUserApiRequest registerUserApiRequest)
+        private ApplicationUser MapToUserRequest(UserCredentialsRequest registerUserApiRequest)
         {
             return new ApplicationUser
             {
@@ -294,7 +293,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                 Email = registerUserApiRequest.Email,
                 PhoneNumber = registerUserApiRequest.PhoneNumber,
                 CreatedDate = registerUserApiRequest.CreatedDate,
-                UpdatedDate = registerUserApiRequest.UpdatedDate,
+                UpdatedDate = registerUserApiRequest.UpdatedDate,  
+            
             };
         }
 

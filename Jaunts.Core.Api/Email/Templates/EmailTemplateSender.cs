@@ -12,7 +12,7 @@ namespace Jaunts.Core.Api.Email.Templates
 
             // Read the general template from file
             // TODO: Replace with IoC Flat data provider
-            using (var reader = new StreamReader(Assembly.GetEntryAssembly().GetManifestResourceStream("Jaunts.Core.Api.Email.Templates.GeneralTemplate.htm"), Encoding.UTF8))
+            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Jaunts.Core.Api.Email.Templates.GeneralTemplate.htm"), Encoding.UTF8))
             {
                 // Read file contents
                 templateText = await reader.ReadToEndAsync();

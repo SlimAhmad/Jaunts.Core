@@ -13,7 +13,7 @@ namespace Jaunts.Core.Api.Models.Auth
         /// <summary>
         /// 
         /// </summary>
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// The authentication token used to stay authenticated through future requests

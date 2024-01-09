@@ -12,12 +12,15 @@ namespace Jaunts.Core.Api.Services.Orchestration.User
         ValueTask<string> PasswordResetTokenAsync(ApplicationUser user);
         ValueTask<string> TwoFactorTokenAsync(ApplicationUser user);
         ValueTask<ApplicationUser> RetrieveUserByEmailOrUserNameAsync(string userNameOrEmail);
-        ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordApiRequest resetPasswordApiRequest);
+        ValueTask<ApplicationUser> RetrieveUserByIdAsync(Guid userId);
+        ValueTask<bool> ResetUserPasswordByEmailOrUserNameAsync(ResetPasswordRequest resetPasswordApiRequest);
         ValueTask<bool> EnsureUserExistAsync(ApplicationUser user);
-        ValueTask<ApplicationUser> EnableOrDisable2FactorAuthenticationAsync(Guid id);
+        ValueTask<ApplicationUser> EnableOrDisableTwoFactorAsync(Guid id);
         ValueTask<ApplicationUser> ConfirmEmailAsync(string token, string email);
         ValueTask<bool> CheckPasswordValidityAsync(string password, Guid id);
         ValueTask<List<string>> RetrieveUserRolesAsync(ApplicationUser user);
         ValueTask<ApplicationUser> AddUserToRoleAsync(ApplicationUser user, string role);
+        ValueTask<bool> RemoveUserByIdAsync(Guid id);
+        ValueTask<ApplicationUser> UpsertUserAsync(ApplicationUser user, string password);
     }
 }

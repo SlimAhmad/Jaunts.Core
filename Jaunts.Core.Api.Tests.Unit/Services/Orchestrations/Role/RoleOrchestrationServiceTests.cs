@@ -6,6 +6,7 @@
 using Jaunts.Core.Api.Brokers.Loggings;
 using Jaunts.Core.Api.Models.Role.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Role;
+using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Api.Services.Orchestration.Role;
 using Jaunts.Core.Api.Services.Processings.Role;
 using Jaunts.Core.Api.Services.Processings.User;
@@ -56,8 +57,8 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Role
         }
 
 
-        private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
-
+        private static string GetRandomPassword() => new MnemonicString().GetValue();
+        private static string GetRandomString() => new MnemonicString().GetValue();
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
         private static DateTimeOffset GetCurrentDateTime() =>
@@ -72,6 +73,25 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Role
             CreateRoleFiller(role).Create(count: GetRandomNumber()).AsQueryable();
         private static ApplicationRole CreateRandomRole() =>
             CreateRoleFiller().Create();
+
+
+        private static ApplicationUser CreateRandomUser()
+        {
+            var user = new ApplicationUser
+            {
+                Id = Guid.NewGuid(),
+                Email = GetRandomString(),
+                LastName = GetRandomString(),
+                FirstName = GetRandomString(),
+                UserName = GetRandomString(),
+                PhoneNumber = GetRandomString(),
+                CreatedDate = DateTimeOffset.UtcNow,
+                UpdatedDate = DateTimeOffset.UtcNow
+
+            };
+
+            return user;
+        }
 
         private static IQueryable<ApplicationRole> CreateRandomRoles(ApplicationRole roles)
         {

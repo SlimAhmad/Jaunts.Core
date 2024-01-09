@@ -24,17 +24,17 @@
         ///     Pass the userId and emailToken as get parameters.
         ///     i.e. /api/verify/email?userId=...&emailToken=...
         /// </remarks>
-        public const string VerifyEmail = "api/verify/email";
+        public const string VerifyEmail = "api/account/verify/";
 
-        public const string ResetPassword = "api/password/reset";
+        public const string ResetPassword = "api/account/password/reset";
 
-        public const string ForgotPassword = "api/password/forgotten";
+        public const string ForgotPassword = "api/account/password/forgotten";
 
-        public const string ConfirmEmail = "api/confirm/email";
+        public const string ConfirmEmail = "api/account/confirm/";
 
-        public const string Enable2FA = "api/enable/2fa";
+        public const string EnableTwoFactor = "api/account/enable/2fa";
 
-        public const string LoginWithOTP = "api/login/otp";
+        public const string OtpLogin = "api/account/login/otp";
 
         #endregion
 

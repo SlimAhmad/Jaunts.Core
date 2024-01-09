@@ -54,7 +54,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
 
             // when
             UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.ConfirmEmailAsync(token, email);
+                await this.accountAggregationService.EmailConfirmationAsync(token, email);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUserProfileDetails);

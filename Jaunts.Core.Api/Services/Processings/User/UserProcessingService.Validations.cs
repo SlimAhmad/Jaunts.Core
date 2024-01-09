@@ -35,7 +35,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
             }
         }
 
-        private static void ValidateResetPasswordIsNull(ResetPasswordApiRequest  request)
+        private static void ValidateResetPasswordIsNull(ResetPasswordRequest  request)
         {
             if (request is null)
             {

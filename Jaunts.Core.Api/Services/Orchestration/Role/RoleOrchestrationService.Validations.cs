@@ -10,28 +10,28 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
 {
     public partial class RoleOrchestrationService
     {
-        private void ValidateUserOnRegister(RegisterUserApiRequest apiRequest)
+        private void ValidateUserOnRegister(UserCredentialsRequest apiRequest)
         {
             ValidateRegisterUserIsNull(apiRequest);
 
             Validate(
-                (Rule: IsInvalid(apiRequest.FirstName), Parameter: nameof(RegisterUserApiRequest.FirstName)),
-                (Rule: IsInvalid(apiRequest.LastName), Parameter: nameof(RegisterUserApiRequest.LastName)),
-                (Rule: IsInvalid(apiRequest.PhoneNumber), Parameter: nameof(RegisterUserApiRequest.PhoneNumber)),
-                (Rule: IsInvalid(apiRequest.Username), Parameter: nameof(RegisterUserApiRequest.Username)),
-                (Rule: IsInvalid(apiRequest.Email), Parameter: nameof(RegisterUserApiRequest.Email)));
+                (Rule: IsInvalid(apiRequest.FirstName), Parameter: nameof(UserCredentialsRequest.FirstName)),
+                (Rule: IsInvalid(apiRequest.LastName), Parameter: nameof(UserCredentialsRequest.LastName)),
+                (Rule: IsInvalid(apiRequest.PhoneNumber), Parameter: nameof(UserCredentialsRequest.PhoneNumber)),
+                (Rule: IsInvalid(apiRequest.Username), Parameter: nameof(UserCredentialsRequest.Username)),
+                (Rule: IsInvalid(apiRequest.Email), Parameter: nameof(UserCredentialsRequest.Email)));
         }
 
-        private void ValidateResetPassword(ResetPasswordApiRequest resetPassword)
+        private void ValidateResetPassword(ResetPasswordRequest resetPassword)
         {
             ValidateResetPasswordIsNull(resetPassword);
 
             Validate(
-               (Rule: IsInvalid(resetPassword.Password), Parameter: nameof(ResetPasswordApiRequest.Password)),
-               (Rule: IsInvalid(resetPassword.ConfirmPassword), Parameter: nameof(ResetPasswordApiRequest.ConfirmPassword)),
-               (Rule: IsInvalid(resetPassword.Token), Parameter: nameof(ResetPasswordApiRequest.Token)),
+               (Rule: IsInvalid(resetPassword.Password), Parameter: nameof(ResetPasswordRequest.Password)),
+               (Rule: IsInvalid(resetPassword.ConfirmPassword), Parameter: nameof(ResetPasswordRequest.ConfirmPassword)),
+               (Rule: IsInvalid(resetPassword.Token), Parameter: nameof(ResetPasswordRequest.Token)),
 
-               (Rule: IsNotValidEmail(resetPassword.Email), Parameter: nameof(ResetPasswordApiRequest.Email)));
+               (Rule: IsNotValidEmail(resetPassword.Email), Parameter: nameof(ResetPasswordRequest.Email)));
         }
 
         private void ValidateUserResponse(ApplicationUser user)
@@ -99,7 +99,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private static void ValidateRegisterUserIsNull(RegisterUserApiRequest apiRequest)
+        private static void ValidateRegisterUserIsNull(UserCredentialsRequest apiRequest)
         {
             if (apiRequest is null)
             {
@@ -115,7 +115,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             }
         }
 
-        private static void ValidateResetPasswordIsNull(ResetPasswordApiRequest resetPassword)
+        private static void ValidateResetPasswordIsNull(ResetPasswordRequest resetPassword)
         {
             if (resetPassword is null)
             {

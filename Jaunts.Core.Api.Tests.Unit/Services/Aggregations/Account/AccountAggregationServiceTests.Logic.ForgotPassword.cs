@@ -23,7 +23,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
             ApplicationUser randomUser = CreateRandomUser();
             ApplicationUser inputUser = randomUser;
             ApplicationUser storageUser = inputUser;
-            ResetPasswordApiRequest resetPasswordApiRequest =
+            ResetPasswordRequest resetPasswordApiRequest =
                CreateResetPasswordApiRequest();
              
             string randomEmail = GetRandomEmailAddresses();

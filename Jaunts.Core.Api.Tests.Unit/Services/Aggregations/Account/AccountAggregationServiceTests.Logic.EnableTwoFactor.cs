@@ -33,7 +33,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     userAccountDetailsResponse;
 
             this.userOrchestrationMock.Setup(broker =>
-                broker.EnableOrDisable2FactorAuthenticationAsync(inputId))
+                broker.EnableOrDisableTwoFactorAsync(inputId))
                     .ReturnsAsync(randomUser);
 
             this.jwtOrchestrationMock.Setup(broker =>
@@ -41,13 +41,13 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Aggregation.Account
                     .ReturnsAsync(expectedUserAccountDetailsResponse);
             // when
             UserAccountDetailsResponse actualAuth =
-                await this.accountAggregationService.EnableUser2FARequestAsync(inputId);
+                await this.accountAggregationService.EnableUserTwoFactorAsync(inputId);
 
             // then
             actualAuth.Should().BeEquivalentTo(expectedUserAccountDetailsResponse);
 
             this.userOrchestrationMock.Verify(broker =>
-                broker.EnableOrDisable2FactorAuthenticationAsync(It.IsAny<Guid>()),
+                broker.EnableOrDisableTwoFactorAsync(It.IsAny<Guid>()),
                     Times.Once);
 
             this.jwtOrchestrationMock.Verify(broker =>
