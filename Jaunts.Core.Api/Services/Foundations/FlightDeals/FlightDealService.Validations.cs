@@ -16,10 +16,12 @@ namespace Jaunts.Core.Api.Services.Foundations.FlightDeals
 
             Validate(
                 (Rule: IsInvalid(flightDeal.Id), Parameter: nameof(FlightDeal.Id)),
+                (Rule: IsInvalid(flightDeal.ProviderId), Parameter: nameof(FlightDeal.ProviderId)),
                 (Rule: IsInvalid(flightDeal.Airline), Parameter: nameof(FlightDeal.Airline)),
                 (Rule: IsInvalid(flightDeal.ArrivalCity), Parameter: nameof(FlightDeal.ArrivalCity)),
                 (Rule: IsInvalid(flightDeal.Description), Parameter: nameof(FlightDeal.Description)),
                 (Rule: IsInvalid(flightDeal.DepartureCity), Parameter: nameof(FlightDeal.DepartureCity)),
+                (Rule: IsInvalid(flightDeal.Status), Parameter: nameof(FlightDeal.Status)),
                 (Rule: IsInvalid(flightDeal.EndDate), Parameter: nameof(FlightDeal.EndDate)),
                 (Rule: IsInvalid(flightDeal.StartDate), Parameter: nameof(FlightDeal.StartDate)),
                 (Rule: IsInvalid(flightDeal.CreatedBy), Parameter: nameof(FlightDeal.CreatedBy)),
@@ -91,14 +93,15 @@ namespace Jaunts.Core.Api.Services.Foundations.FlightDeals
             Message = "Date is not recent"
         };
 
+        private static dynamic IsInvalid(FlightDealsStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
         private static void ValidateFlightDealId(Guid flightDealId)
         {
-            if (flightDealId == Guid.Empty)
-            {
-                throw new InvalidFlightDealException(
-                    parameterName: nameof(FlightDeal.Id),
-                    parameterValue: flightDealId);
-            }
+            Validate((Rule: IsInvalid(flightDealId), Parameter: nameof(FlightDeal.Id)));
         }
 
         private static void ValidateStorageFlightDeal(FlightDeal storageFlightDeal, Guid flightDealId)
@@ -119,6 +122,7 @@ namespace Jaunts.Core.Api.Services.Foundations.FlightDeals
                 (Rule: IsInvalid(flightDeal.ArrivalCity), Parameter: nameof(FlightDeal.ArrivalCity)),
                 (Rule: IsInvalid(flightDeal.Description), Parameter: nameof(FlightDeal.Description)),
                 (Rule: IsInvalid(flightDeal.DepartureCity), Parameter: nameof(FlightDeal.DepartureCity)),
+                (Rule: IsInvalid(flightDeal.Status), Parameter: nameof(FlightDeal.Status)),
                 (Rule: IsInvalid(flightDeal.EndDate), Parameter: nameof(FlightDeal.EndDate)),
                 (Rule: IsInvalid(flightDeal.StartDate), Parameter: nameof(FlightDeal.StartDate)),
                 (Rule: IsInvalid(flightDeal.CreatedBy), Parameter: nameof(FlightDeal.CreatedBy)),

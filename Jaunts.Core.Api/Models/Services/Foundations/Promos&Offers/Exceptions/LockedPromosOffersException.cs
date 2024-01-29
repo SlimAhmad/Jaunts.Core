@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class LockedPromosOffersException : Xeption
     {
         public LockedPromosOffersException(Exception innerException)
-            : base(message: "Locked PromosOffers record exception, please try again later.", innerException) { }
+            : base(message: "Locked PromosOffer record exception, please try again later.", innerException) { }
         public LockedPromosOffersException(string message,Exception innerException)
             : base(message, innerException) { }
     }

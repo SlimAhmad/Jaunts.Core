@@ -6,16 +6,16 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class NotFoundVacationPackagesAttachmentException : Xeption
+    public class NotFoundPackageAttachmentException : Xeption
     {
 
-        public NotFoundVacationPackagesAttachmentException(Guid packageId, Guid attachmentId)
-        : base(message: $"Couldn't find package attachment with student id: {packageId} " +
+        public NotFoundPackageAttachmentException(Guid packageId, Guid attachmentId)
+        : base(message: $"Couldn't find attachment with Package id: {packageId} " +
                $"and attachment id: {attachmentId}.")
         { }
-        public NotFoundVacationPackagesAttachmentException(string message)
+        public NotFoundPackageAttachmentException(string message)
             : base(message) { }
     }
 }

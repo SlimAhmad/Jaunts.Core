@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Customers.Exceptions
     public class CustomerValidationException : Xeption
     {
         public CustomerValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "Customer validation error occurred, Please try again.", innerException) { }
         public CustomerValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

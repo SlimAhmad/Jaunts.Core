@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class NotFoundPromosOffersException : Xeption
     {
         public NotFoundPromosOffersException(Guid PromosOffersId)
-            : base(message: $"Couldn't find PromosOffers with id: {PromosOffersId}.") { }
+            : base(message: $"Couldn't find PromosOffer with id: {PromosOffersId}.") { }
         public NotFoundPromosOffersException(string message)
             : base(message) { }
     }

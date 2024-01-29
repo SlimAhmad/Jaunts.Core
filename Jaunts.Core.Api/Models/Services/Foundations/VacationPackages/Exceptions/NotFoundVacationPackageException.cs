@@ -6,13 +6,13 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class NotFoundVacationPackageException : Xeption
+    public class NotFoundPackageException : Xeption
     {
-        public NotFoundVacationPackageException(Guid VacationPackageId)
-            : base(message: $"Couldn't find VacationPackage with id: {VacationPackageId}.") { }
-        public NotFoundVacationPackageException(string message)
+        public NotFoundPackageException(Guid PackageId)
+            : base(message: $"Couldn't find Package with id: {PackageId}.") { }
+        public NotFoundPackageException(string message)
             : base(message) { }
     }
 }

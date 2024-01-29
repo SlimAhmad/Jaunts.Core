@@ -10,27 +10,28 @@ namespace Jaunts.Core.Api.Services.Foundations.TransactionFees
 {
     public partial class TransactionFeeService
     {
-        private void ValidateTransactionFeeOnRegister(TransactionFee shortLet)
+        private void ValidateTransactionFeeOnRegister(TransactionFee transactionFee)
         {
-            ValidateTransactionFee(shortLet);
+            ValidateTransactionFee(transactionFee);
 
             Validate(
-                (Rule: IsInvalid(shortLet.Id), Parameter: nameof(TransactionFee.Id)),
-                (Rule: IsInvalid(shortLet.Name), Parameter: nameof(TransactionFee.Name)),
-                (Rule: IsInvalid(shortLet.Description), Parameter: nameof(TransactionFee.Description)),
-                (Rule: IsInvalid(shortLet.CreatedBy), Parameter: nameof(TransactionFee.CreatedBy)),
-                (Rule: IsInvalid(shortLet.UpdatedBy), Parameter: nameof(TransactionFee.UpdatedBy)),
-                (Rule: IsInvalid(shortLet.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
-                (Rule: IsInvalid(shortLet.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
-                (Rule: IsNotRecent(shortLet.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
+                (Rule: IsInvalid(transactionFee.Id), Parameter: nameof(TransactionFee.Id)),
+                (Rule: IsInvalid(transactionFee.Name), Parameter: nameof(TransactionFee.Name)),
+                (Rule: IsInvalid(transactionFee.Status), Parameter: nameof(TransactionFee.Status)),
+                (Rule: IsInvalid(transactionFee.Description), Parameter: nameof(TransactionFee.Description)),
+                (Rule: IsInvalid(transactionFee.CreatedBy), Parameter: nameof(TransactionFee.CreatedBy)),
+                (Rule: IsInvalid(transactionFee.UpdatedBy), Parameter: nameof(TransactionFee.UpdatedBy)),
+                (Rule: IsInvalid(transactionFee.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
+                (Rule: IsInvalid(transactionFee.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
+                (Rule: IsNotRecent(transactionFee.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
 
-                (Rule: IsNotSame(firstId: shortLet.UpdatedBy,
-                    secondId: shortLet.CreatedBy,
+                (Rule: IsNotSame(firstId: transactionFee.UpdatedBy,
+                    secondId: transactionFee.CreatedBy,
                     secondIdName: nameof(TransactionFee.CreatedBy)),
                     Parameter: nameof(TransactionFee.UpdatedBy)),
 
-                (Rule: IsNotSame(firstDate: shortLet.UpdatedDate,
-                    secondDate: shortLet.CreatedDate,
+                (Rule: IsNotSame(firstDate: transactionFee.UpdatedDate,
+                    secondDate: transactionFee.CreatedDate,
                     secondDateName: nameof(TransactionFee.CreatedDate)),
                     Parameter: nameof(TransactionFee.UpdatedDate))
             );
@@ -87,41 +88,43 @@ namespace Jaunts.Core.Api.Services.Foundations.TransactionFees
             Message = "Date is not recent"
         };
 
-        private static void ValidateTransactionFeeId(Guid shortLetId)
+        private static dynamic IsInvalid(TransactionFeesStatus status) => new
         {
-            if (shortLetId == Guid.Empty)
-            {
-                throw new InvalidTransactionFeeException(
-                    parameterName: nameof(TransactionFee.Id),
-                    parameterValue: shortLetId);
-            }
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
+        private static void ValidateTransactionFeeId(Guid transactionFeeId)
+        {
+            Validate((Rule: IsInvalid(transactionFeeId), Parameter: nameof(TransactionFee.Id)));
         }
 
-        private static void ValidateStorageTransactionFee(TransactionFee storageTransactionFee, Guid shortLetId)
+        private static void ValidateStorageTransactionFee(TransactionFee storageTransactionFee, Guid transactionFeeId)
         {
             if (storageTransactionFee is null)
             {
-                throw new NotFoundTransactionFeeException(shortLetId);
+                throw new NotFoundTransactionFeeException(transactionFeeId);
             }
         }
 
-        private void ValidateTransactionFeeOnModify(TransactionFee shortLet)
+        private void ValidateTransactionFeeOnModify(TransactionFee transactionFee)
         {
-            ValidateTransactionFee(shortLet);
+            ValidateTransactionFee(transactionFee);
 
             Validate(
-                (Rule: IsInvalid(shortLet.Id), Parameter: nameof(TransactionFee.Id)),
-                (Rule: IsInvalid(shortLet.Name), Parameter: nameof(TransactionFee.Name)),
-                (Rule: IsInvalid(shortLet.Description), Parameter: nameof(TransactionFee.Description)),
-                (Rule: IsInvalid(shortLet.CreatedBy), Parameter: nameof(TransactionFee.CreatedBy)),
-                (Rule: IsInvalid(shortLet.UpdatedBy), Parameter: nameof(TransactionFee.UpdatedBy)),
-                (Rule: IsInvalid(shortLet.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
-                (Rule: IsInvalid(shortLet.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
-                (Rule: IsNotRecent(shortLet.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
+                (Rule: IsInvalid(transactionFee.Id), Parameter: nameof(TransactionFee.Id)),
+                (Rule: IsInvalid(transactionFee.Name), Parameter: nameof(TransactionFee.Name)),
+                (Rule: IsInvalid(transactionFee.Status), Parameter: nameof(TransactionFee.Status)),
+                (Rule: IsInvalid(transactionFee.Description), Parameter: nameof(TransactionFee.Description)),
+                (Rule: IsInvalid(transactionFee.CreatedBy), Parameter: nameof(TransactionFee.CreatedBy)),
+                (Rule: IsInvalid(transactionFee.UpdatedBy), Parameter: nameof(TransactionFee.UpdatedBy)),
+                (Rule: IsInvalid(transactionFee.CreatedDate), Parameter: nameof(TransactionFee.CreatedDate)),
+                (Rule: IsInvalid(transactionFee.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
+                (Rule: IsNotRecent(transactionFee.UpdatedDate), Parameter: nameof(TransactionFee.UpdatedDate)),
 
                 (Rule: IsSame(
-                    firstDate: shortLet.UpdatedDate,
-                    secondDate: shortLet.CreatedDate,
+                    firstDate: transactionFee.UpdatedDate,
+                    secondDate: transactionFee.CreatedDate,
                     secondDateName: nameof(TransactionFee.CreatedDate)),
                     Parameter: nameof(TransactionFee.UpdatedDate))
             );
@@ -161,9 +164,9 @@ namespace Jaunts.Core.Api.Services.Foundations.TransactionFees
             return timeDifference.Duration() > oneMinute;
         }
 
-        private static void ValidateTransactionFee(TransactionFee shortLet)
+        private static void ValidateTransactionFee(TransactionFee transactionFee)
         {
-            if (shortLet is null)
+            if (transactionFee is null)
             {
                 throw new NullTransactionFeeException();
             }

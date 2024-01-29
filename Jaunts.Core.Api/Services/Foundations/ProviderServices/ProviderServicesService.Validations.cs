@@ -3,6 +3,8 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
+using Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.Exceptions;
 
@@ -10,7 +12,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
 {
     public partial class ProviderServicesService
     {
-        private void ValidateProviderServiceOnRegister(ProviderService providerService)
+        private void ValidateProviderServiceOnCreate(ProviderService providerService)
         {
             ValidateProviderService(providerService);
 
@@ -19,6 +21,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
                 (Rule: IsInvalid(providerService.ServiceName), Parameter: nameof(ProviderService.ServiceName)),
                 (Rule: IsInvalid(providerService.ProviderId), Parameter: nameof(ProviderService.ProviderId)),
                 (Rule: IsInvalid(providerService.Description), Parameter: nameof(ProviderService.Description)),
+                (Rule: IsInvalid(providerService.Status), Parameter: nameof(ProviderService.Status)),
                 (Rule: IsInvalid(providerService.CreatedBy), Parameter: nameof(ProviderService.CreatedBy)),
                 (Rule: IsInvalid(providerService.UpdatedBy), Parameter: nameof(ProviderService.UpdatedBy)),
                 (Rule: IsInvalid(providerService.CreatedDate), Parameter: nameof(ProviderService.CreatedDate)),
@@ -88,14 +91,15 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
             Message = "Date is not recent"
         };
 
+        private static dynamic IsInvalid(ServiceStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
         private static void ValidateProviderServiceId(Guid providerServiceId)
         {
-            if (providerServiceId == Guid.Empty)
-            {
-                throw new InvalidProviderServiceException(
-                    parameterName: nameof(ProviderService.Id),
-                    parameterValue: providerServiceId);
-            }
+            Validate((Rule: IsInvalid(providerServiceId), Parameter: nameof(ProviderService.Id)));
         }
 
         private static void ValidateStorageProviderService(ProviderService storageProviderService, Guid providerServiceId)
@@ -115,6 +119,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
                 (Rule: IsInvalid(providerService.ServiceName), Parameter: nameof(ProviderService.ServiceName)),
                 (Rule: IsInvalid(providerService.ProviderId), Parameter: nameof(ProviderService.ProviderId)),
                 (Rule: IsInvalid(providerService.Description), Parameter: nameof(ProviderService.Description)),
+                (Rule: IsInvalid(providerService.Status), Parameter: nameof(ProviderService.Status)),
                 (Rule: IsInvalid(providerService.CreatedBy), Parameter: nameof(ProviderService.CreatedBy)),
                 (Rule: IsInvalid(providerService.UpdatedBy), Parameter: nameof(ProviderService.UpdatedBy)),
                 (Rule: IsInvalid(providerService.CreatedDate), Parameter: nameof(ProviderService.CreatedDate)),

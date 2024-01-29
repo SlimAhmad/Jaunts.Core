@@ -5,13 +5,13 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class VacationPackagesAttachmentValidationException : Xeption
+    public class PackageAttachmentValidationException : Xeption
     {
-        public VacationPackagesAttachmentValidationException(Exception innerException)
+        public PackageAttachmentValidationException(Exception innerException)
             : base(message: "Invalid input, contact support.", innerException) { }
-        public VacationPackagesAttachmentValidationException(string message,Exception innerException)
+        public PackageAttachmentValidationException(string message,Exception innerException)
             : base(message, innerException) { }
 
     }

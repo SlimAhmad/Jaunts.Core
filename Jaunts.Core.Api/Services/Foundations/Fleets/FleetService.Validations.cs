@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using Jaunts.Core.Api.Models.Services.Foundations.Fleets;
+using Jaunts.Core.Api.Models.Services.Foundations.Fleets;
 using Jaunts.Core.Api.Models.Services.Foundations.Fleets.Exceptions;
 
 namespace Jaunts.Core.Api.Services.Foundations.Fleets
@@ -21,6 +22,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Fleets
                 (Rule: IsInvalid(fleet.TransmissionType), Parameter: nameof(Fleet.TransmissionType)),
                 (Rule: IsInvalid(fleet.FuelType), Parameter: nameof(Fleet.FuelType)),
                 (Rule: IsInvalid(fleet.Description), Parameter: nameof(Fleet.Description)),
+                (Rule: IsInvalid(fleet.ProviderId), Parameter: nameof(Fleet.ProviderId)),
+                (Rule: IsInvalid(fleet.Status), Parameter: nameof(Fleet.Status)),
                 (Rule: IsInvalid(fleet.Model), Parameter: nameof(Fleet.Model)),
                 (Rule: IsInvalid(fleet.CreatedBy), Parameter: nameof(Fleet.CreatedBy)),
                 (Rule: IsInvalid(fleet.UpdatedBy), Parameter: nameof(Fleet.UpdatedBy)),
@@ -91,14 +94,15 @@ namespace Jaunts.Core.Api.Services.Foundations.Fleets
             Message = "Date is not recent"
         };
 
+        private static dynamic IsInvalid(FleetStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
         private static void ValidateFleetId(Guid fleetId)
         {
-            if (fleetId == Guid.Empty)
-            {
-                throw new InvalidFleetException(
-                    parameterName: nameof(Fleet.Id),
-                    parameterValue: fleetId);
-            }
+            Validate((Rule: IsInvalid(fleetId), Parameter: nameof(Fleet.Id)));
         }
 
         private static void ValidateStorageFleet(Fleet storageFleet, Guid fleetId)
@@ -120,6 +124,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Fleets
                 (Rule: IsInvalid(fleet.TransmissionType), Parameter: nameof(Fleet.TransmissionType)),
                 (Rule: IsInvalid(fleet.FuelType), Parameter: nameof(Fleet.FuelType)),
                 (Rule: IsInvalid(fleet.Description), Parameter: nameof(Fleet.Description)),
+                (Rule: IsInvalid(fleet.ProviderId), Parameter: nameof(Fleet.ProviderId)),
+                (Rule: IsInvalid(fleet.Status), Parameter: nameof(Fleet.Status)),
                 (Rule: IsInvalid(fleet.Model), Parameter: nameof(Fleet.Model)),
                 (Rule: IsInvalid(fleet.CreatedBy), Parameter: nameof(Fleet.CreatedBy)),
                 (Rule: IsInvalid(fleet.UpdatedBy), Parameter: nameof(Fleet.UpdatedBy)),

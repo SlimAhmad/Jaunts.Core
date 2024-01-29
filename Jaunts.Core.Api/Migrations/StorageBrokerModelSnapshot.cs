@@ -22,7 +22,7 @@ namespace Jaunts.Core.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", b =>
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +59,7 @@ namespace Jaunts.Core.Api.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", b =>
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +117,7 @@ namespace Jaunts.Core.Api.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("RideStatus")
                         .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -248,7 +248,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,7 +257,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -266,7 +266,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,13 +275,13 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,7 +290,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

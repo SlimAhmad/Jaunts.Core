@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys.Exceptio
     public class ProviderCategoryValidationException : Xeption
     {
         public ProviderCategoryValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "ProviderCategory validation error occurred, Please try again.", innerException) { }
         public ProviderCategoryValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

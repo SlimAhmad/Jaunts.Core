@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
 {
     public class NullPromosOffersException : Xeption
     {
-        public NullPromosOffersException() : base(message: "The PromosOffers is null.") { }
+        public NullPromosOffersException() : base(message: "The PromosOffer is null.") { }
         public NullPromosOffersException(string message) : base(message) { }
     }
 }

@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Customers.Exceptions
     public class FailedCustomerServiceException : Xeption
     {
         public FailedCustomerServiceException(Exception innerException)
-            : base(message: "Failed customer service error occurred, contact support",
+            : base(message: "Failed Customer service error occurred, Please contact support.",
                   innerException)
         { }
         public FailedCustomerServiceException(string message,Exception innerException)

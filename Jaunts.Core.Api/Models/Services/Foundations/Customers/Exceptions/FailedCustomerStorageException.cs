@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Customers.Exceptions
     public class FailedCustomerStorageException : Xeption
     {
         public FailedCustomerStorageException(Exception innerException)
-            : base(message: "Failed customer storage error occurred, please contact support.", innerException)
+            : base(message: "Failed Customer storage error occurred, Please contact support.", innerException)
         { }
         public FailedCustomerStorageException(string message,Exception innerException)
             : base(message, innerException)

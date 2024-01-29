@@ -3,6 +3,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory;
 using Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors;
 using Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.Exceptions;
 
@@ -95,12 +96,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectors
 
         private static void ValidateProvidersDirectorId(Guid providerId)
         {
-            if (providerId == Guid.Empty)
-            {
-                throw new InvalidProvidersDirectorException(
-                    parameterName: nameof(ProvidersDirector.Id),
-                    parameterValue: providerId);
-            }
+            Validate((Rule: IsInvalid(providerId), Parameter: nameof(ProvidersDirector.Id)));
         }
 
         private static void ValidateStorageProvidersDirector(ProvidersDirector storageProvidersDirector, Guid providerId)

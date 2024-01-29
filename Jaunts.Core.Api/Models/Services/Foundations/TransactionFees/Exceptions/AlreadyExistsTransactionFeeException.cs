@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
     public class AlreadyExistsTransactionFeeException : Xeption
     {
         public AlreadyExistsTransactionFeeException(Exception innerException)
-            : base(message: "Transaction fee  with the same id already exists.", innerException) { }
+            : base(message: "TransactionFee with the same id already exists.", innerException) { }
         public AlreadyExistsTransactionFeeException(string message,Exception innerException)
            : base(message, innerException) { }
     }

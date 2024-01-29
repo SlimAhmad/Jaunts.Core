@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.Except
     public class ProviderAttachmentDependencyException : Xeption
     {
         public ProviderAttachmentDependencyException(Exception innerException)
-             : base(message: "ProviderAttachment dependency error occurred, contact support.", innerException) { }
+             : base(message: "ProviderAttachment dependency error occurred, contact support.", innerException: innerException) { }
         public ProviderAttachmentDependencyException(string message,Exception innerException)
          : base(message, innerException) { }
     }

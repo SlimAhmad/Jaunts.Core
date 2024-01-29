@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Customers.Exceptions
     public class LockedCustomerException : Xeption
     {
         public LockedCustomerException(Exception innerException)
-            : base(message: "Locked customer record exception, please try again later.", innerException) { }
+            : base(message: "Locked Customer record exception, Please try again later.", innerException) { }
         public LockedCustomerException(string message,Exception innerException)
             : base(message, innerException) { }
     }

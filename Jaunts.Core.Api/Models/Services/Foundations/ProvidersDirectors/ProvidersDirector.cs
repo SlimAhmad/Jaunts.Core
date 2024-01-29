@@ -1,4 +1,6 @@
 ﻿using Jaunts.Core.Api.Models.Services.Foundations.Providers;
+using Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachments;
+using System.Text.Json.Serialization;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors
 {
@@ -19,5 +21,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors
         public DateTimeOffset UpdatedDate { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<ProvidersDirectorAttachment> ProvidersDirectorAttachments { get; set; }
     }
 }

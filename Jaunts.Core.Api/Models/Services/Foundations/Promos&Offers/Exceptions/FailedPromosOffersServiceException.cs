@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class FailedPromosOffersServiceException : Xeption
     {
         public FailedPromosOffersServiceException(Exception innerException)
-            : base(message: "Failed PromosOffers service error occurred, contact support",
+            : base(message: "Failed PromosOffer service error occurred, contact support.",
                   innerException)
         { }
         public FailedPromosOffersServiceException(string message,Exception innerException)

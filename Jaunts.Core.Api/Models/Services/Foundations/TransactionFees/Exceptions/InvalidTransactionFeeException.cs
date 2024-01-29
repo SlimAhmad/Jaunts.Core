@@ -9,13 +9,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
 {
     public class InvalidTransactionFeeException : Xeption
     {
-        public InvalidTransactionFeeException(string parameterName, object parameterValue)
-         : base(message: $"Invalid transactionFee, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
         public InvalidTransactionFeeException()
-            : base(message: "Invalid transaction fee . Please fix the errors and try again.")
+            : base(message: "Invalid TransactionFee. Please fix the errors and try again.")
         { }
         public InvalidTransactionFeeException(string message)
             : base(message)

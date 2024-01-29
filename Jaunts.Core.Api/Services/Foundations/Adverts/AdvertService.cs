@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Adverts
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Advert> RegisterAdvertAsync(Advert Advert) =>
+        public ValueTask<Advert> CreateAdvertAsync(Advert Advert) =>
         TryCatch(async () =>
         {
             ValidateAdvertOnRegister(Advert);

@@ -11,8 +11,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments.Except
     public class NotFoundCustomerAttachmentException : Xeption
     {
 
-        public NotFoundCustomerAttachmentException(Guid packageId, Guid attachmentId)
-        : base(message: $"Couldn't find package attachment with student id: {packageId} " +
+        public NotFoundCustomerAttachmentException(Guid customerId, Guid attachmentId)
+        : base(message: $"Couldn't find attachment with Customer id: {customerId} " +
                $"and attachment id: {attachmentId}.")
         { }
         public NotFoundCustomerAttachmentException(string message)

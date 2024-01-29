@@ -5,13 +5,13 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class VacationPackageValidationException : Xeption
+    public class PackageValidationException : Xeption
     {
-        public VacationPackageValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
-        public VacationPackageValidationException(string message,Xeption innerException)
+        public PackageValidationException(Xeption innerException)
+            : base(message: "Package validation error occurred, please try again.", innerException) { }
+        public PackageValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 
     }

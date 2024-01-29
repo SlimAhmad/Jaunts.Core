@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Adverts
 {
     public interface IAdvertService
     {
-        ValueTask<Advert> RegisterAdvertAsync(Advert advert);
+        ValueTask<Advert> CreateAdvertAsync(Advert advert);
         IQueryable<Advert> RetrieveAllAdverts();
         ValueTask<Advert> RetrieveAdvertByIdAsync(Guid advertId);
         ValueTask<Advert> ModifyAdvertAsync(Advert advert);

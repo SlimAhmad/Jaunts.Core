@@ -9,14 +9,9 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
 {
     public class InvalidPromosOffersException : Xeption
     {
-        public InvalidPromosOffersException(string parameterName, object parameterValue)
-            : base(message: $"Invalid PromosOffer, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
 
         public InvalidPromosOffersException()
-            : base(message: "Invalid PromosOffers. Please fix the errors and try again.")
+            : base(message: "Invalid PromosOffer. Please fix the errors and try again.")
         { }
         public InvalidPromosOffersException(string message)
             : base(message)

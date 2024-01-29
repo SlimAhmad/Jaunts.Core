@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.Exception
     public class FailedProviderServiceStorageException : Xeption
     {
         public FailedProviderServiceStorageException(Exception innerException)
-            : base(message: "Failed ProviderService storage error occurred, please contact support.", innerException)
+            : base(message: "Failed ProviderService storage error occurred, Please contact support.", innerException)
         { }
         public FailedProviderServiceStorageException(string message,Exception innerException)
             : base(message, innerException)

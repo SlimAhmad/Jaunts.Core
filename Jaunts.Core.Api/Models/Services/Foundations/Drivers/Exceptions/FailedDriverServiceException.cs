@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Drivers.Exceptions
     public class FailedDriverServiceException : Xeption
     {
         public FailedDriverServiceException(Exception innerException)
-            : base(message: "Failed driver service error occurred, contact support",
+            : base(message: "Failed driver service error occurred, contact support.",
                   innerException)
         { }
         public FailedDriverServiceException(string message,Exception innerException)

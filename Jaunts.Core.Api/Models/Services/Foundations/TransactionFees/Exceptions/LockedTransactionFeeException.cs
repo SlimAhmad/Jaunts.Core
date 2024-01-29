@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
     public class LockedTransactionFeeException : Xeption
     {
         public LockedTransactionFeeException(Exception innerException)
-            : base(message: "Locked transaction fee  record exception, please try again later.", innerException) { }
+            : base(message: "Locked TransactionFee record exception, Please try again later.", innerException) { }
         public LockedTransactionFeeException(string message,Exception innerException)
             : base(message, innerException) { }
     }

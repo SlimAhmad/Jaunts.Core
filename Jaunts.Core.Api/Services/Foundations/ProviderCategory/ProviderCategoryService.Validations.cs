@@ -3,6 +3,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys.Exceptions;
@@ -88,14 +89,9 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderCategories
             Message = "Date is not recent"
         };
 
-        private static void ValidateProviderCategoryId(Guid providerCategoryId)
+        private static void ValidateProviderCategoryId(Guid categoryId)
         {
-            if (providerCategoryId == Guid.Empty)
-            {
-                throw new InvalidProviderCategoryException(
-                    parameterName: nameof(ProviderCategory.Id),
-                    parameterValue: providerCategoryId);
-            }
+            Validate((Rule: IsInvalid(categoryId), Parameter: nameof(ProviderCategory.Id)));
         }
 
         private static void ValidateStorageProviderCategory(ProviderCategory storageProviderCategory, Guid providerCategoryId)

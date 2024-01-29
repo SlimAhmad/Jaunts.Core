@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectors
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ProvidersDirector> RegisterProvidersDirectorAsync(ProvidersDirector driver) =>
+        public ValueTask<ProvidersDirector> CreateProvidersDirectorAsync(ProvidersDirector driver) =>
         TryCatch(async () =>
         {
             ValidateProvidersDirectorOnRegister(driver);

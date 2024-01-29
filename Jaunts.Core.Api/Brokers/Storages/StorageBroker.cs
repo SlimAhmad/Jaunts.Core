@@ -47,8 +47,11 @@ namespace Jaunts.Core.Api.Brokers.Storages
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //SetSemesterCourseReferences(modelBuilder);
-            
+            SetCustomerAttachmentReferences(modelBuilder);
+            SetProviderAttachmentReferences(modelBuilder);
+            SetProvidersDirectorAttachmentReferences(modelBuilder);
+            SetPackageAttachmentReferences(modelBuilder);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -26,10 +26,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Customer> RegisterCustomerAsync(Customer Customer) =>
+        public ValueTask<Customer> CreateCustomerAsync(Customer Customer) =>
         TryCatch(async () =>
         {
-            ValidateCustomerOnRegister(Customer);
+            ValidateCustomerOnCreate(Customer);
 
             return await this.storageBroker.InsertCustomerAsync(Customer);
         });

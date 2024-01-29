@@ -11,5 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     {
         public NotFoundAttachmentException(Guid attachmentId)
             : base(message: $"Couldn't find attachment with id: {attachmentId}.") { }
+        public NotFoundAttachmentException(string message)
+            : base(message) { }
     }
 }

@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Adverts.Exceptions
     public class AdvertValidationException : Xeption
     {
         public AdvertValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "Advert validation error occurred, please try again.", innerException) { }
         public AdvertValidationException(string message,Exception innerException)
             : base(message, innerException) { }
 

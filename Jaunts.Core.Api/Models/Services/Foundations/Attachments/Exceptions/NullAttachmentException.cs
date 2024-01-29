@@ -10,5 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     public class NullAttachmentException : Exception
     {
         public NullAttachmentException() : base(message: "The attachment is null.") { }
+
+        public NullAttachmentException(string message) : base(message) { }
     }
 }

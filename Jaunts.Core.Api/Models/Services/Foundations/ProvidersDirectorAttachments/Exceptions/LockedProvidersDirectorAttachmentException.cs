@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachmen
     public class LockedProvidersDirectorAttachmentException : Xeption
     {
         public LockedProvidersDirectorAttachmentException(Exception innerException)
-            : base(message: "Locked ProvidersDirectorAttachment record exception, please try again later.", innerException) { }
+            : base(message: "Locked ProvidersDirectorAttachment record exception, Please try again later.", innerException) { }
         public LockedProvidersDirectorAttachmentException(string message,Exception innerException)
             : base(message, innerException) { }
     }

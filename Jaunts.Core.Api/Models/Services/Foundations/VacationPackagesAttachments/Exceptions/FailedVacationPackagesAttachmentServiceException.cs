@@ -6,15 +6,15 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class FailedVacationPackagesAttachmentServiceException : Xeption
+    public class FailedPackageAttachmentServiceException : Xeption
     {
-        public FailedVacationPackagesAttachmentServiceException(Exception innerException)
-            : base(message: "Failed VacationPackagesAttachment service error occurred, contact support",
+        public FailedPackageAttachmentServiceException(Exception innerException)
+            : base(message: "Failed PackageAttachment service error occurred, Please contact support.",
                   innerException)
         { }
-        public FailedVacationPackagesAttachmentServiceException(string message,Exception innerException)
+        public FailedPackageAttachmentServiceException(string message,Exception innerException)
           : base(message,
                 innerException)
         { }

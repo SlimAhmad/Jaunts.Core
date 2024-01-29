@@ -26,18 +26,18 @@ namespace Jaunts.Core.Api.Services.Foundations.CustomerAttachments
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<CustomerAttachment> AddVacationPackageAttachmentAsync(CustomerAttachment vacationPackagesAttachment) =>
+        public ValueTask<CustomerAttachment> AddCustomerAttachmentAsync(CustomerAttachment customerAttachment) =>
             TryCatch(async () =>
         {
-            ValidateCustomerAttachmentOnCreate(vacationPackagesAttachment);
+            ValidateCustomerAttachmentOnCreate(customerAttachment);
 
-            return await this.storageBroker.InsertCustomerAttachmentAsync(vacationPackagesAttachment);
+            return await this.storageBroker.InsertCustomerAttachmentAsync(customerAttachment);
         });
 
-        public IQueryable<CustomerAttachment> RetrieveAllVacationPackageAttachments() =>
+        public IQueryable<CustomerAttachment> RetrieveAllCustomerAttachments() =>
         TryCatch(() => this.storageBroker.SelectAllCustomerAttachments());
 
-        public ValueTask<CustomerAttachment> RetrieveVacationPackageAttachmentByIdAsync
+        public ValueTask<CustomerAttachment> RetrieveCustomerAttachmentByIdAsync
             (Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Services.Foundations.CustomerAttachments
             return maybeCustomerAttachment;
         });
 
-        public ValueTask<CustomerAttachment> RemoveVacationPackageAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
+        public ValueTask<CustomerAttachment> RemoveCustomerAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
             ValidateCustomerAttachmentIdIsNull(packageId, attachmentId);

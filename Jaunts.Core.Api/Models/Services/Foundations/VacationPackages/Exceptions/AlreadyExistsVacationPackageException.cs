@@ -6,13 +6,13 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class AlreadyExistsVacationPackageException : Xeption
+    public class AlreadyExistsPackageException : Xeption
     {
-        public AlreadyExistsVacationPackageException(Exception innerException)
-            : base(message: "VacationPackage  with the same id already exists.", innerException) { }
-        public AlreadyExistsVacationPackageException(string message,Exception innerException)
+        public AlreadyExistsPackageException(Exception innerException)
+            : base(message: "Package with the same id already exists.", innerException) { }
+        public AlreadyExistsPackageException(string message,Exception innerException)
            : base(message, innerException) { }
     }
 }

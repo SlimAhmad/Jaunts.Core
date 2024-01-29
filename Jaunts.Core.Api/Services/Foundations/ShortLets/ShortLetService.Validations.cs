@@ -3,6 +3,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
 using Jaunts.Core.Api.Models.Services.Foundations.ShortLets;
 using Jaunts.Core.Api.Models.Services.Foundations.ShortLets.Exceptions;
 
@@ -19,6 +20,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ShortLets
                 (Rule: IsInvalid(shortLet.Name), Parameter: nameof(ShortLet.Name)),
                 (Rule: IsInvalid(shortLet.Location), Parameter: nameof(ShortLet.Location)),
                 (Rule: IsInvalid(shortLet.Description), Parameter: nameof(ShortLet.Description)),
+                (Rule: IsInvalid(shortLet.Status), Parameter: nameof(ShortLet.Status)),
                 (Rule: IsInvalid(shortLet.CreatedBy), Parameter: nameof(ShortLet.CreatedBy)),
                 (Rule: IsInvalid(shortLet.UpdatedBy), Parameter: nameof(ShortLet.UpdatedBy)),
                 (Rule: IsInvalid(shortLet.CreatedDate), Parameter: nameof(ShortLet.CreatedDate)),
@@ -88,16 +90,16 @@ namespace Jaunts.Core.Api.Services.Foundations.ShortLets
             Message = "Date is not recent"
         };
 
+        private static dynamic IsInvalid(ShortLetStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
         private static void ValidateShortLetId(Guid shortLetId)
         {
-            if (shortLetId == Guid.Empty)
-            {
-                throw new InvalidShortLetException(
-                    parameterName: nameof(ShortLet.Id),
-                    parameterValue: shortLetId);
-            }
+            Validate((Rule: IsInvalid(shortLetId), Parameter: nameof(ShortLet.Id)));
         }
-
         private static void ValidateStorageShortLet(ShortLet storageShortLet, Guid shortLetId)
         {
             if (storageShortLet is null)
@@ -115,6 +117,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ShortLets
                 (Rule: IsInvalid(shortLet.Name), Parameter: nameof(ShortLet.Name)),
                 (Rule: IsInvalid(shortLet.Description), Parameter: nameof(ShortLet.Description)),
                 (Rule: IsInvalid(shortLet.Location), Parameter: nameof(ShortLet.Location)),
+                (Rule: IsInvalid(shortLet.Status), Parameter: nameof(ShortLet.Status)),
                 (Rule: IsInvalid(shortLet.CreatedBy), Parameter: nameof(ShortLet.CreatedBy)),
                 (Rule: IsInvalid(shortLet.UpdatedBy), Parameter: nameof(ShortLet.UpdatedBy)),
                 (Rule: IsInvalid(shortLet.CreatedDate), Parameter: nameof(ShortLet.CreatedDate)),

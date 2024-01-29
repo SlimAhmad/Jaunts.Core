@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Drivers.Exceptions
     public class DriverValidationException : Xeption
     {
         public DriverValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "Driver validation error occurred, please try again.", innerException) { }
         public DriverValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

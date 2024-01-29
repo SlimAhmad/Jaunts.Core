@@ -26,10 +26,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ProviderService> RegisterProviderServiceAsync(ProviderService driver) =>
+        public ValueTask<ProviderService> CreateProviderServiceAsync(ProviderService driver) =>
         TryCatch(async () =>
         {
-            ValidateProviderServiceOnRegister(driver);
+            ValidateProviderServiceOnCreate(driver);
 
             return await this.storageBroker.InsertProviderServiceAsync(driver);
         });

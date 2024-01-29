@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachmen
     public class FailedProvidersDirectorAttachmentServiceException : Xeption
     {
         public FailedProvidersDirectorAttachmentServiceException(Exception innerException)
-            : base(message: "Failed ProvidersDirectorAttachment service error occurred, contact support",
+            : base(message: "Failed ProvidersDirectorAttachment service error occurred, Please contact support.",
                   innerException)
         { }
         public FailedProvidersDirectorAttachmentServiceException(string message,Exception innerException)

@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.Exception
     public class LockedProviderServiceException : Xeption
     {
         public LockedProviderServiceException(Exception innerException)
-            : base(message: "Locked ProviderService record exception, please try again later.", innerException) { }
+            : base(message: "Locked ProviderService record exception, Please try again later.", innerException) { }
         public LockedProviderServiceException(string message,Exception innerException)
             : base(message, innerException) { }
     }

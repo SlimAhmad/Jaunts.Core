@@ -4,6 +4,6 @@
     {
         Active,
         Inactive,
-        Canceled
+        Waved
     }
 }

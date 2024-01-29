@@ -9,10 +9,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments.Except
 {
     public class InvalidCustomerAttachmentException : Xeption
     {
-        public InvalidCustomerAttachmentException(string parameterName, object parameterValue)
-         : base(message: $"Invalid vacationPackage, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
+        public InvalidCustomerAttachmentException()
+         : base(message: $"Invalid CustomerAttachment. Please fix the errors and try again.")
         { }
 
         public InvalidCustomerAttachmentException(string message)

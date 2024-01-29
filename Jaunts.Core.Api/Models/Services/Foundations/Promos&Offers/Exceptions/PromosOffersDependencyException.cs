@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class PromosOffersDependencyException : Xeption
     {
         public PromosOffersDependencyException(Xeption innerException)
-             : base(message: "PromosOffers dependency error occurred, contact support.", innerException) { }
+             : base(message: "PromosOffer dependency error occurred, contact support.", innerException) { }
         public PromosOffersDependencyException(string message,Xeption innerException)
          : base(message, innerException) { }
     }

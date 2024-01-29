@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys.Exceptio
     public class LockedProviderCategoryException : Xeption
     {
         public LockedProviderCategoryException(Exception innerException)
-            : base(message: "Locked ProviderCategory record exception, please try again later.", innerException) { }
+            : base(message: "Locked ProviderCategory record exception, Please try again later.", innerException) { }
         public LockedProviderCategoryException(string message,Exception innerException)
             : base(message, innerException) { }
     }

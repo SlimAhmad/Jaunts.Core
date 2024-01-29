@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class AlreadyExistsPromosOffersException : Xeption
     {
         public AlreadyExistsPromosOffersException(Exception innerException)
-            : base(message: "PromosOffers with the same id already exists.", innerException) { }
+            : base(message: "PromosOffer with the same id already exists.", innerException) { }
         public AlreadyExistsPromosOffersException(string message,Exception innerException)
            : base(message, innerException) { }
     }

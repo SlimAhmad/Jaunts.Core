@@ -9,9 +9,9 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Rides.Exceptions
 {
     public class RideDependencyException : Xeption
     {
-        public RideDependencyException(Xeption innerException)
+        public RideDependencyException(Exception innerException)
              : base(message: "Ride dependency error occurred, contact support.", innerException) { }
-        public RideDependencyException(string message,Xeption innerException)
+        public RideDependencyException(string message,Exception innerException)
          : base(message, innerException) { }
     }
 }

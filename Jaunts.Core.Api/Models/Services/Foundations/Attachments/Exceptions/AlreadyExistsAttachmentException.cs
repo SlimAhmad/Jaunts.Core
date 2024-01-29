@@ -11,5 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     {
         public AlreadyExistsAttachmentException(Exception innerException)
             : base(message: "Attachment with the same id already exists.", innerException) { }
+        public AlreadyExistsAttachmentException(string message,Exception innerException)
+            : base(message, innerException) { }
     }
 }

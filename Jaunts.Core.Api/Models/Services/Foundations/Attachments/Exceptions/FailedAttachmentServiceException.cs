@@ -11,7 +11,10 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     public class FailedAttachmentServiceException : Xeption
     {
         public FailedAttachmentServiceException(Exception innerException)
-            : base(message: "Failed Attachment Service Exception occured,contact support", innerException)
+            : base(message: "Failed Attachment Service Exception occurred,contact support.", innerException)
+        { }
+        public FailedAttachmentServiceException(string message,Exception innerException)
+            : base(message, innerException)
         { }
     }
 }

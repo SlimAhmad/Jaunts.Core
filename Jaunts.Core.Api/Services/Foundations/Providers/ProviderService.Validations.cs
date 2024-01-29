@@ -3,6 +3,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
 using Jaunts.Core.Api.Models.Services.Foundations.Providers;
 using Jaunts.Core.Api.Models.Services.Foundations.Providers.Exceptions;
 
@@ -16,9 +17,11 @@ namespace Jaunts.Core.Api.Services.Foundations.Providers
 
             Validate(
                 (Rule: IsInvalid(provider.Id), Parameter: nameof(Provider.Id)),
+                (Rule: IsInvalid(provider.UserId), Parameter: nameof(Provider.UserId)),
                 (Rule: IsInvalid(provider.Address), Parameter: nameof(Provider.Address)),
                 (Rule: IsInvalid(provider.CompanyName), Parameter: nameof(Provider.CompanyName)),
                 (Rule: IsInvalid(provider.RcNumber), Parameter: nameof(Provider.RcNumber)),
+                (Rule: IsInvalid(provider.Status), Parameter: nameof(Provider.Status)),
                 (Rule: IsInvalid(provider.Incorporation), Parameter: nameof(Provider.Incorporation)),
                 (Rule: IsInvalid(provider.CreatedBy), Parameter: nameof(Provider.CreatedBy)),
                 (Rule: IsInvalid(provider.UpdatedBy), Parameter: nameof(Provider.UpdatedBy)),
@@ -89,14 +92,15 @@ namespace Jaunts.Core.Api.Services.Foundations.Providers
             Message = "Date is not recent"
         };
 
-        private static void ValidateProviderId(Guid providerId)
+        private static dynamic IsInvalid(ProviderStatus status) => new
         {
-            if (providerId == Guid.Empty)
-            {
-                throw new InvalidProviderException(
-                    parameterName: nameof(Provider.Id),
-                    parameterValue: providerId);
-            }
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
+        private static void ValidateProviderId(Guid driverId)
+        {
+            Validate((Rule: IsInvalid(driverId), Parameter: nameof(Driver.Id)));
         }
 
         private static void ValidateStorageProvider(Provider storageProvider, Guid providerId)

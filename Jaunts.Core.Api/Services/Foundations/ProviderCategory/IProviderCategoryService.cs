@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderCategories
 {
     public interface IProviderCategoryService
     {
-        ValueTask<ProviderCategory> RegisterProviderCategoryAsync(ProviderCategory providerCategory);
+        ValueTask<ProviderCategory> CreateProviderCategoryAsync(ProviderCategory providerCategory);
         IQueryable<ProviderCategory> RetrieveAllProviderCategories();
         ValueTask<ProviderCategory> RetrieveProviderCategoryByIdAsync(Guid providerCategoryId);
         ValueTask<ProviderCategory> ModifyProviderCategoryAsync(ProviderCategory providerCategory);

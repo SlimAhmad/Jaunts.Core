@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Drivers
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Driver> RegisterDriverAsync(Driver driver) =>
+        public ValueTask<Driver> CreateDriverAsync(Driver driver) =>
         TryCatch(async () =>
         {
             ValidateDriverOnRegister(driver);

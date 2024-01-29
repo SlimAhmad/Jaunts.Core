@@ -9,10 +9,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.Except
 {
     public class InvalidProviderAttachmentException : Xeption
     {
-        public InvalidProviderAttachmentException(string parameterName, object parameterValue)
-         : base(message: $"Invalid vacationPackage, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
+        public InvalidProviderAttachmentException()
+           : base(message: "Invalid providerAttachment. Please correct the errors and try again.")
         { }
 
         public InvalidProviderAttachmentException(string message)

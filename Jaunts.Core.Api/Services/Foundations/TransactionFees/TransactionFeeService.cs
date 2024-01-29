@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.TransactionFees
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<TransactionFee> RegisterTransactionFeeAsync(TransactionFee shortlet) =>
+        public ValueTask<TransactionFee> CreateTransactionFeeAsync(TransactionFee shortlet) =>
         TryCatch(async () =>
         {
             ValidateTransactionFeeOnRegister(shortlet);

@@ -12,7 +12,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachmen
     {
 
         public NotFoundProvidersDirectorAttachmentException(Guid packageId, Guid attachmentId)
-        : base(message: $"Couldn't find package attachment with student id: {packageId} " +
+        : base(message: $"Couldn't find attachment with ProviderDirectors id: {packageId} " +
                $"and attachment id: {attachmentId}.")
         { }
         public NotFoundProvidersDirectorAttachmentException(string message)

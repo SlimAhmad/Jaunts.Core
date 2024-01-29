@@ -1,4 +1,7 @@
-﻿namespace Jaunts.Core.Api.Models.Services.Foundations.Customers
+﻿using Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments;
+using System.Text.Json.Serialization;
+
+namespace Jaunts.Core.Api.Models.Services.Foundations.Customers
 {
     public class Customer : IAuditable
     {
@@ -14,5 +17,8 @@
         public DateTimeOffset UpdatedDate { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<CustomerAttachment> CustomerAttachments { get; set; }
     }
 }

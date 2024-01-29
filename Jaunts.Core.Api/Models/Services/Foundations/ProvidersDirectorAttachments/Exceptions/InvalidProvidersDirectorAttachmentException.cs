@@ -9,10 +9,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachmen
 {
     public class InvalidProvidersDirectorAttachmentException : Xeption
     {
-        public InvalidProvidersDirectorAttachmentException(string parameterName, object parameterValue)
-         : base(message: $"Invalid vacationPackage, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
+        public InvalidProvidersDirectorAttachmentException()
+         : base(message: $"Invalid ProvidersDirectorAttachment. Please fix the errors and try again.")
         { }
 
         public InvalidProvidersDirectorAttachmentException(string message)

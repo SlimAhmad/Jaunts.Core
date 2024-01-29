@@ -10,10 +10,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
 {
     public partial class ProvidersDirectorAttachmentService
     {
-        private static void ValidateProvidersDirectorAttachmentOnCreate(ProvidersDirectorAttachment vacationPackagesAttachment)
+        private static void ValidateProvidersDirectorAttachmentOnCreate(ProvidersDirectorAttachment providersDirectorAttachment)
         {
-            ValidateProvidersDirectorAttachmentIsNull(vacationPackagesAttachment);
-            ValidateProvidersDirectorAttachmentIdIsNull(vacationPackagesAttachment.ProviderId, vacationPackagesAttachment.AttachmentId);
+            ValidateProvidersDirectorAttachmentIsNull(providersDirectorAttachment);
+            ValidateProvidersDirectorAttachmentIdIsNull(providersDirectorAttachment.ProviderDirectorId, providersDirectorAttachment.AttachmentId);
         }
 
         private static void ValidateProvidersDirectorAttachmentIsNull(ProvidersDirectorAttachment ProvidersDirectorAttachment)
@@ -24,30 +24,53 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             }
         }
 
-        private static void ValidateProvidersDirectorAttachmentIdIsNull(Guid packageId, Guid attachmentId)
+
+        private static dynamic IsInvalid(Guid id) => new
         {
-            if (packageId == default)
-            {
-                throw new InvalidProvidersDirectorAttachmentException(
-                    parameterName: nameof(ProvidersDirectorAttachment.ProviderId),
-                    parameterValue: packageId);
-            }
-            else if (attachmentId == default)
-            {
-                throw new InvalidProvidersDirectorAttachmentException(
-                    parameterName: nameof(ProvidersDirectorAttachment.AttachmentId),
-                    parameterValue: attachmentId);
-            }
+            Condition = id == Guid.Empty,
+            Message = "Id is required"
+        };
+
+        private static void ValidateProvidersDirectorAttachmentId(Guid ProviderDirectorId)
+        {
+            Validate((Rule: IsInvalid(ProviderDirectorId), Parameter: nameof(ProvidersDirectorAttachment.ProviderDirectorId)));
+        }
+        private static void ValidateAttachmentId(Guid attachmentId)
+        {
+            Validate((Rule: IsInvalid(attachmentId), Parameter: nameof(ProvidersDirectorAttachment.AttachmentId)));
+        }
+
+        private static void ValidateProvidersDirectorAttachmentIdIsNull(Guid ProviderDirectorId, Guid attachmentId)
+        {
+            ValidateAttachmentId(attachmentId);
+            ValidateProvidersDirectorAttachmentId(ProviderDirectorId);
         }
 
         private static void ValidateStorageProvidersDirectorAttachment(
-            ProvidersDirectorAttachment storageVacationPackageAttachment,
-            Guid packageId, Guid attachmentId)
+            ProvidersDirectorAttachment storageProvidersDirectorAttachment,
+            Guid ProviderDirectorId, Guid attachmentId)
         {
-            if (storageVacationPackageAttachment is null)
+            if (storageProvidersDirectorAttachment is null)
             {
-                throw new NotFoundProvidersDirectorAttachmentException(packageId, attachmentId);
+                throw new NotFoundProvidersDirectorAttachmentException(ProviderDirectorId, attachmentId);
             }
+        }
+
+        private static void Validate(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidProvidersDirectorAttachmentException = new InvalidProvidersDirectorAttachmentException();
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidProvidersDirectorAttachmentException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidProvidersDirectorAttachmentException.ThrowIfContainsErrors();
         }
     }
 }

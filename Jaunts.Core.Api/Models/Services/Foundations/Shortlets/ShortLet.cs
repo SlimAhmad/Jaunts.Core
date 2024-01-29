@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.Amenities;
+using Jaunts.Core.Api.Models.Services.Foundations.ShortLetAttachments;
+using System.Text.Json.Serialization;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.ShortLets
 {
@@ -9,13 +11,16 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ShortLets
         public string Location { get; set; }
         public string Description { get; set; }
         public Decimal PricePerNight { get; set; }
-        public ShortLetsStatus Status { get; set; }
+        public ShortLetStatus Status { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
 
         [JsonIgnore]
-        public IEnumerable<Amenities> Amenities { get; set; }
+        public IEnumerable<Amenity> Amenities { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<ShortLetAttachment> ShortLetAttachments { get; set; }
     }
 }

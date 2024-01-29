@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys.Exceptio
     public class FailedProviderCategoryServiceException : Xeption
     {
         public FailedProviderCategoryServiceException(Exception innerException)
-            : base(message: "Failed ProviderCategory service error occurred, contact support",
+            : base(message: "Failed ProviderCategory service error occurred, contact support.",
                   innerException)
         { }
         public FailedProviderCategoryServiceException(string message,Exception innerException)

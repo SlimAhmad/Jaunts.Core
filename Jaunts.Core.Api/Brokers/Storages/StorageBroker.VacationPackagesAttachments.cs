@@ -1,50 +1,50 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments;
+using Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments;
 
 namespace Jaunts.Core.Api.Brokers.Storages
 {
     public partial class StorageBroker
     {
-        public DbSet<VacationPackagesAttachment> VacationPackagesAttachments { get; set; }
+        public DbSet<PackageAttachment> PackageAttachments { get; set; }
 
-        public async ValueTask<VacationPackagesAttachment> InsertVacationPackagesAttachmentAsync(VacationPackagesAttachment vacationPackages)
+        public async ValueTask<PackageAttachment> InsertPackageAttachmentAsync(PackageAttachment Package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackagesAttachment> vacationPackagesEntityEntry = await broker.VacationPackagesAttachments.AddAsync(entity: vacationPackages);
+            EntityEntry<PackageAttachment> PackageEntityEntry = await broker.PackageAttachments.AddAsync(entity: Package);
             await broker.SaveChangesAsync();
 
-            return vacationPackagesEntityEntry.Entity;
+            return PackageEntityEntry.Entity;
         }
 
-        public IQueryable<VacationPackagesAttachment> SelectAllVacationPackagesAttachments() => this.VacationPackagesAttachments;
+        public IQueryable<PackageAttachment> SelectAllPackageAttachments() => this.PackageAttachments;
 
-        public async ValueTask<VacationPackagesAttachment> SelectVacationPackagesAttachmentByIdAsync(
-             Guid vacationPackagesId,
+        public async ValueTask<PackageAttachment> SelectPackageAttachmentByIdAsync(
+             Guid PackageId,
              Guid attachmentId)
         {
             var broker = new StorageBroker(this.configuration);
             broker.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            return await broker.VacationPackagesAttachments.FindAsync(vacationPackagesId, attachmentId);
+            return await broker.PackageAttachments.FindAsync(PackageId, attachmentId);
         }
 
-        public async ValueTask<VacationPackagesAttachment> UpdateVacationPackagesAttachmentAsync(VacationPackagesAttachment vacationPackages)
+        public async ValueTask<PackageAttachment> UpdatePackageAttachmentAsync(PackageAttachment Package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackagesAttachment> vacationPackagesEntityEntry = broker.VacationPackagesAttachments.Update(entity: vacationPackages);
+            EntityEntry<PackageAttachment> PackageEntityEntry = broker.PackageAttachments.Update(entity: Package);
             await broker.SaveChangesAsync();
 
-            return vacationPackagesEntityEntry.Entity;
+            return PackageEntityEntry.Entity;
         }
 
-        public async ValueTask<VacationPackagesAttachment> DeleteVacationPackagesAttachmentAsync(VacationPackagesAttachment vacationPackages)
+        public async ValueTask<PackageAttachment> DeletePackageAttachmentAsync(PackageAttachment Package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackagesAttachment> vacationPackagesEntityEntry = broker.VacationPackagesAttachments.Remove(entity: vacationPackages);
+            EntityEntry<PackageAttachment> PackageEntityEntry = broker.PackageAttachments.Remove(entity: Package);
             await broker.SaveChangesAsync();
 
-            return vacationPackagesEntityEntry.Entity;
+            return PackageEntityEntry.Entity;
         }
     }
 }

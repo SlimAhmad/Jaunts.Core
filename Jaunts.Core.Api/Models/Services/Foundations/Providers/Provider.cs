@@ -8,7 +8,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Providers
     public class Provider : IAuditable
     {
         public Guid Id { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public string CompanyName { get; set; }
         public string RcNumber { get; set; }
         public string Address { get; set; }
@@ -24,5 +24,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Providers
 
         [JsonIgnore]
         public IEnumerable<ProviderService> ProviderServices { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<ProviderAttachment> ProviderAttachments { get; set; }
     }
 }

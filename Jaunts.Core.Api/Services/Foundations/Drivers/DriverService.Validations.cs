@@ -3,8 +3,10 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Jaunts.Core.Api.Models.Services.Foundations.Adverts;
 using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
 using Jaunts.Core.Api.Models.Services.Foundations.Drivers.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
 
 namespace Jaunts.Core.Api.Services.Foundations.Drivers
 {
@@ -21,7 +23,9 @@ namespace Jaunts.Core.Api.Services.Foundations.Drivers
                 (Rule: IsInvalid(driver.LastName), Parameter: nameof(Driver.LastName)),
                 (Rule: IsInvalid(driver.MiddleName), Parameter: nameof(Driver.MiddleName)),
                 (Rule: IsInvalid(driver.ContactNumber), Parameter: nameof(Driver.ContactNumber)),
-                (Rule: IsInvalid(driver.CarId), Parameter: nameof(Driver.CarId)),
+                (Rule: IsInvalid(driver.DriverStatus), Parameter: nameof(Driver.DriverStatus)),
+                (Rule: IsInvalid(driver.FleetId), Parameter: nameof(Driver.FleetId)),
+                (Rule: IsInvalid(driver.ProviderId), Parameter: nameof(Driver.ProviderId)),
                 (Rule: IsInvalid(driver.CreatedBy), Parameter: nameof(Driver.CreatedBy)),
                 (Rule: IsInvalid(driver.UpdatedBy), Parameter: nameof(Driver.UpdatedBy)),
                 (Rule: IsInvalid(driver.CreatedDate), Parameter: nameof(Driver.CreatedDate)),
@@ -91,14 +95,15 @@ namespace Jaunts.Core.Api.Services.Foundations.Drivers
             Message = "Date is not recent"
         };
 
+        private static dynamic IsInvalid(DriverStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
         private static void ValidateDriverId(Guid driverId)
         {
-            if (driverId == Guid.Empty)
-            {
-                throw new InvalidDriverException(
-                    parameterName: nameof(Driver.Id),
-                    parameterValue: driverId);
-            }
+            Validate((Rule: IsInvalid(driverId), Parameter: nameof(Driver.Id)));
         }
 
         private static void ValidateStorageDriver(Driver storageDriver, Guid driverId)
@@ -120,7 +125,9 @@ namespace Jaunts.Core.Api.Services.Foundations.Drivers
                 (Rule: IsInvalid(driver.LastName), Parameter: nameof(Driver.LastName)),
                 (Rule: IsInvalid(driver.MiddleName), Parameter: nameof(Driver.MiddleName)),
                 (Rule: IsInvalid(driver.ContactNumber), Parameter: nameof(Driver.ContactNumber)),
-                (Rule: IsInvalid(driver.CarId), Parameter: nameof(Driver.CarId)),
+                (Rule: IsInvalid(driver.DriverStatus), Parameter: nameof(Driver.DriverStatus)),
+                (Rule: IsInvalid(driver.ProviderId), Parameter: nameof(Driver.ProviderId)),
+                (Rule: IsInvalid(driver.FleetId), Parameter: nameof(Driver.FleetId)),
                 (Rule: IsInvalid(driver.CreatedBy), Parameter: nameof(Driver.CreatedBy)),
                 (Rule: IsInvalid(driver.UpdatedBy), Parameter: nameof(Driver.UpdatedBy)),
                 (Rule: IsInvalid(driver.CreatedDate), Parameter: nameof(Driver.CreatedDate)),

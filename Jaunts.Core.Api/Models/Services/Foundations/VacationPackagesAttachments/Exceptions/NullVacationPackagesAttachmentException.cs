@@ -5,11 +5,11 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class NullVacationPackagesAttachmentException : Xeption
+    public class NullPackageAttachmentException : Xeption
     {
-        public NullVacationPackagesAttachmentException() : base(message: "The VacationPackagesAttachment is null.") { }
-        public NullVacationPackagesAttachmentException(string message) : base(message) { }
+        public NullPackageAttachmentException() : base(message: "The PackageAttachment is null.") { }
+        public NullPackageAttachmentException(string message) : base(message) { }
     }
 }

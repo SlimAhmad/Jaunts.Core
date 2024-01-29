@@ -282,7 +282,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Roles
         }
 
         [Fact]
-        public async void ShouldThrowValidationExceptionOnCreateWhenRoleAlreadyExistsAndLogItAsync()
+        public async void ShouldThrowValidationExceptionOnCreateWhenRoleAlreadyExistsAndLogItAsync() 
         {
             // given
             DateTimeOffset randomDateTime = GetRandomDateTime();

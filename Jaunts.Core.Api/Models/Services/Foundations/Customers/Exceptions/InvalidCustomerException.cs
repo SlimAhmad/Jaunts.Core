@@ -10,14 +10,10 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Customers.Exceptions
     public class InvalidCustomerException : Xeption
     {
 
-        public InvalidCustomerException(string parameterName, object parameterValue)
-            : base(message: $"Invalid customer, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
+
 
         public InvalidCustomerException()
-            : base(message: "Invalid customer. Please fix the errors and try again.") { }
+            : base(message: "Invalid Customer. Please fix the errors and try again.") { }
 
         public InvalidCustomerException(string message)
             : base(message)

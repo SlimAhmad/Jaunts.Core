@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectors
 {
     public interface IProvidersDirectorService 
     {
-        ValueTask<ProvidersDirector> RegisterProvidersDirectorAsync(ProvidersDirector providersDirector);
+        ValueTask<ProvidersDirector> CreateProvidersDirectorAsync(ProvidersDirector providersDirector);
         IQueryable<ProvidersDirector> RetrieveAllProvidersDirectors();
         ValueTask<ProvidersDirector> RetrieveProvidersDirectorByIdAsync(Guid providersDirectorId);
         ValueTask<ProvidersDirector> ModifyProvidersDirectorAsync(ProvidersDirector providersDirector);

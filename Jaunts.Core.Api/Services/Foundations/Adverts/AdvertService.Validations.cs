@@ -5,6 +5,7 @@
 
 using Jaunts.Core.Api.Models.Services.Foundations.Adverts;
 using Jaunts.Core.Api.Models.Services.Foundations.Adverts.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Rides;
 
 namespace Jaunts.Core.Api.Services.Foundations.Adverts
 {
@@ -17,6 +18,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Adverts
             Validate(
                 (Rule: IsInvalid(advert.Id), Parameter: nameof(Advert.Id)),
                 (Rule: IsInvalid(advert.Description), Parameter: nameof(Advert.Description)),
+                (Rule: IsInvalid(advert.Placement), Parameter: nameof(Advert.Placement)),
+                (Rule: IsInvalid(advert.Status), Parameter: nameof(Advert.Status)),
                 (Rule: IsInvalid(advert.EndDate), Parameter: nameof(Advert.EndDate)),
                 (Rule: IsInvalid(advert.StartDate), Parameter: nameof(Advert.StartDate)),
                 (Rule: IsInvalid(advert.ProviderId), Parameter: nameof(Advert.ProviderId)),
@@ -90,14 +93,21 @@ namespace Jaunts.Core.Api.Services.Foundations.Adverts
             Message = "Date is not recent"
         };
 
-        private static void ValidateAdvertId(Guid advertId)
+        private static dynamic IsInvalid(AdvertStatus status) => new
         {
-            if (advertId == Guid.Empty)
-            {
-                throw new InvalidAdvertException(
-                    parameterName: nameof(Advert.Id),
-                    parameterValue: advertId);
-            }
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
+        private static dynamic IsInvalid(AdvertsPlacement status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+
+        private static void ValidateAdvertId(Guid rideId)
+        {
+            Validate((Rule: IsInvalid(rideId), Parameter: nameof(Ride.Id)));
         }
 
         private static void ValidateStorageAdvert(Advert storageAdvert, Guid advertId)
@@ -115,6 +125,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Adverts
             Validate(
                 (Rule: IsInvalid(advert.Id), Parameter: nameof(Advert.Id)),
                 (Rule: IsInvalid(advert.Description), Parameter: nameof(Advert.Description)),
+                (Rule: IsInvalid(advert.Placement), Parameter: nameof(Advert.Placement)),
+                (Rule: IsInvalid(advert.Status), Parameter: nameof(Advert.Status)),
                 (Rule: IsInvalid(advert.EndDate), Parameter: nameof(Advert.EndDate)),
                 (Rule: IsInvalid(advert.StartDate), Parameter: nameof(Advert.StartDate)),
                 (Rule: IsInvalid(advert.ProviderId), Parameter: nameof(Advert.ProviderId)),

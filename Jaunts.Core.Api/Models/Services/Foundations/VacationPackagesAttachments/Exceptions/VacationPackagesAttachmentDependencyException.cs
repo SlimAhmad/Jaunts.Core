@@ -5,13 +5,13 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class VacationPackagesAttachmentDependencyException : Xeption
+    public class PackageAttachmentDependencyException : Xeption
     {
-        public VacationPackagesAttachmentDependencyException(Exception innerException)
-             : base(message: "VacationPackagesAttachment dependency error occurred, contact support.", innerException) { }
-        public VacationPackagesAttachmentDependencyException(string message,Exception innerException)
+        public PackageAttachmentDependencyException(Exception innerException)
+             : base(message: "PackageAttachment dependency error occurred, contact support.", innerException) { }
+        public PackageAttachmentDependencyException(string message,Exception innerException)
          : base(message, innerException) { }
     }
 }

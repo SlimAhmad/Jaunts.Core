@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.TransactionFees
 {
     public interface ITransactionFeeService 
     {
-        ValueTask<TransactionFee> RegisterTransactionFeeAsync(TransactionFee shortLet);
+        ValueTask<TransactionFee> CreateTransactionFeeAsync(TransactionFee shortLet);
         IQueryable<TransactionFee> RetrieveAllTransactionFees();
         ValueTask<TransactionFee> RetrieveTransactionFeeByIdAsync(Guid shortLetId);
         ValueTask<TransactionFee> ModifyTransactionFeeAsync(TransactionFee shortLet);

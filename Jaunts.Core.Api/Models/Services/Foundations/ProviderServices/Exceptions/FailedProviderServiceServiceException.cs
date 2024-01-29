@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.Exception
     public class FailedProviderServiceServiceException : Xeption
     {
         public FailedProviderServiceServiceException(Exception innerException)
-            : base(message: "Failed ProviderService service error occurred, contact support",
+            : base(message: "Failed ProviderService service error occurred, contact support.",
                   innerException)
         { }
         public FailedProviderServiceServiceException(string message,Exception innerException)

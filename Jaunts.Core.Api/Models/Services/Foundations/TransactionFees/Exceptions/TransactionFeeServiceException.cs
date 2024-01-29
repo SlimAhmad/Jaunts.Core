@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
     public class TransactionFeeServiceException : Xeption
     {
         public TransactionFeeServiceException(Xeption innerException)
-            : base(message: "Transaction fee  service error occurred, contact support.", innerException) { }
+            : base(message: "TransactionFee service error occurred, contact support.", innerException) { }
         public TransactionFeeServiceException(string message,Xeption innerException)
             : base(message, innerException) { }
     }

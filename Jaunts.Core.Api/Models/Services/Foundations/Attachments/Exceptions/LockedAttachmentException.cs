@@ -11,5 +11,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     {
         public LockedAttachmentException(Exception innerException)
             : base(message: "Locked attachment record exception, please try again later.", innerException) { }
+
+        public LockedAttachmentException(string message,Exception innerException)
+            : base(message, innerException) { }
     }
 }

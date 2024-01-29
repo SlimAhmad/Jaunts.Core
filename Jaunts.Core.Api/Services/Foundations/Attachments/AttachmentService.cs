@@ -61,7 +61,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Attachments
         public ValueTask<Attachment> RemoveAttachmentByIdAsync(Guid attachmentId) =>
         TryCatch(async () =>
         {
-            ValidateAttachmentIdIsNull(attachmentId);
+            ValidateAttachmentId(attachmentId);
             Attachment maybeAttachment = await this.storageBroker.SelectAttachmentByIdAsync(attachmentId);
             ValidateStorageAttachment(maybeAttachment, attachmentId);
 

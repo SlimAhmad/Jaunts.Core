@@ -9,11 +9,6 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Providers.Exceptions
 {
     public class InvalidProviderException : Xeption
     {
-        public InvalidProviderException(string parameterName, object parameterValue)
-            : base(message: $"Invalid provider, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
 
         public InvalidProviderException()
             : base(message: "Invalid provider. Please fix the errors and try again.")

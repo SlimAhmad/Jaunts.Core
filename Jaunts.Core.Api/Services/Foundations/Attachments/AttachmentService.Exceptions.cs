@@ -4,6 +4,7 @@
 // ---------------------------------------------------------------
 
 using EFxceptions.Models.Exceptions;
+using Jaunts.Core.Api.Models.Attachments.Exceptions;
 using Jaunts.Core.Api.Models.Services.Foundations.Attachments;
 using Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -43,17 +44,24 @@ namespace Jaunts.Core.Api.Services.Foundations.Attachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedAttachmentStorageException =
+                   new FailedAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAttachmentStorageException);
             }
             catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {
-                var lockedAttachmentException = new LockedAttachmentException(dbUpdateConcurrencyException);
+                var lockedAttachmentException = 
+                    new LockedAttachmentException(dbUpdateConcurrencyException);
 
                 throw CreateAndLogDependencyException(lockedAttachmentException);
             }
             catch (DbUpdateException dbUpdateException)
             {
-                throw CreateAndLogDependencyException(dbUpdateException);
+                var failedAttachmentStorageException =
+                   new FailedAttachmentStorageException(dbUpdateException);
+
+                throw CreateAndLogDependencyException(failedAttachmentStorageException);
             }
             catch (Exception exception)
             {
@@ -72,7 +80,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Attachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedAttachmentStorageException =
+                   new FailedAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAttachmentStorageException);
             }
             catch (Exception exception)
             {
