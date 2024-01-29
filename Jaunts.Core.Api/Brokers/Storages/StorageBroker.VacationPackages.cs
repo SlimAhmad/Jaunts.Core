@@ -1,4 +1,4 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.VacationPackages;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.Packages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -6,40 +6,40 @@ namespace Jaunts.Core.Api.Brokers.Storages
 {
     public partial class StorageBroker
     {
-        public DbSet<VacationPackage> VacationPackage { get; set; }
+        public DbSet<Package> Package { get; set; }
 
-        public async ValueTask<VacationPackage> InsertVacationPackageAsync(VacationPackage package)
+        public async ValueTask<Package> InsertPackageAsync(Package package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackage> packageEntityEntry = await broker.VacationPackage.AddAsync(entity: package);
+            EntityEntry<Package> packageEntityEntry = await broker.Package.AddAsync(entity: package);
             await broker.SaveChangesAsync();
 
             return packageEntityEntry.Entity;
         }
 
-        public IQueryable<VacationPackage> SelectAllVacationPackages() => this.VacationPackage;
+        public IQueryable<Package> SelectAllPackage() => this.Package;
 
-        public async ValueTask<VacationPackage> SelectVacationPackageByIdAsync(Guid packageId)
+        public async ValueTask<Package> SelectPackageByIdAsync(Guid packageId)
         {
             using var broker = new StorageBroker(this.configuration);
             broker.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-            return await VacationPackage.FindAsync(packageId);
+            return await Package.FindAsync(packageId);
         }
 
-        public async ValueTask<VacationPackage> UpdateVacationPackageAsync(VacationPackage package)
+        public async ValueTask<Package> UpdatePackageAsync(Package package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackage> packageEntityEntry = broker.VacationPackage.Update(entity: package);
+            EntityEntry<Package> packageEntityEntry = broker.Package.Update(entity: package);
             await broker.SaveChangesAsync();
 
             return packageEntityEntry.Entity;
         }
 
-        public async ValueTask<VacationPackage> DeleteVacationPackageAsync(VacationPackage package)
+        public async ValueTask<Package> DeletePackageAsync(Package package)
         {
             var broker = new StorageBroker(this.configuration);
-            EntityEntry<VacationPackage> packageEntityEntry = broker.VacationPackage.Remove(entity: package);
+            EntityEntry<Package> packageEntityEntry = broker.Package.Remove(entity: package);
             await broker.SaveChangesAsync();
 
             return packageEntityEntry.Entity;

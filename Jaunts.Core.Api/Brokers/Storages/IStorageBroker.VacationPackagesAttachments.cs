@@ -1,22 +1,22 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments;
 
 namespace Jaunts.Core.Api.Brokers.Storages
 {
     public partial interface IStorageBroker
     {
-        ValueTask<VacationPackagesAttachment> InsertVacationPackagesAttachmentAsync(
-            VacationPackagesAttachment vacationPackagesAttachment);
+        ValueTask<PackageAttachment> InsertPackageAttachmentAsync(
+            PackageAttachment PackageAttachment);
 
-        IQueryable<VacationPackagesAttachment> SelectAllVacationPackagesAttachments();
+        IQueryable<PackageAttachment> SelectAllPackageAttachments();
 
-        ValueTask<VacationPackagesAttachment> SelectVacationPackagesAttachmentByIdAsync(
-            Guid vacationPackagesId,
+        ValueTask<PackageAttachment> SelectPackageAttachmentByIdAsync(
+            Guid PackageId,
             Guid attachmentId);
 
-        ValueTask<VacationPackagesAttachment> UpdateVacationPackagesAttachmentAsync(
-            VacationPackagesAttachment vacationPackagesAttachment);
+        ValueTask<PackageAttachment> UpdatePackageAttachmentAsync(
+            PackageAttachment PackageAttachment);
 
-        ValueTask<VacationPackagesAttachment> DeleteVacationPackagesAttachmentAsync(
-            VacationPackagesAttachment vacationPackagesAttachment);
+        ValueTask<PackageAttachment> DeletePackageAttachmentAsync(
+            PackageAttachment PackageAttachment);
     }
 }
