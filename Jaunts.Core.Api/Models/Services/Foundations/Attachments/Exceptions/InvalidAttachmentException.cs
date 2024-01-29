@@ -4,15 +4,18 @@
 // ---------------------------------------------------------------
 
 using System;
+using Xeptions;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
 {
-    public class InvalidAttachmentException : Exception
+    public class InvalidAttachmentException : Xeption
     {
-        public InvalidAttachmentException(string parameterName, object parameterValue)
-            : base(message: $"Invalid attachment, " +
-                  $"parameter name: {parameterName}, " +
-                  $"parameter value: {parameterValue}.")
+        public InvalidAttachmentException()
+            : base(message: "Invalid attachment. Please correct the errors and try again.")
+        { }
+
+        public InvalidAttachmentException(string message)
+            : base(message)
         { }
     }
 }

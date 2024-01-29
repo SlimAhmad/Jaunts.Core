@@ -5,13 +5,13 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class VacationPackageServiceException : Xeption
+    public class PackageServiceException : Xeption
     {
-        public VacationPackageServiceException(Xeption innerException)
-            : base(message: "VacationPackage service error occurred, contact support.", innerException) { }
-        public VacationPackageServiceException(string message,Xeption innerException)
+        public PackageServiceException(Xeption innerException)
+            : base(message: "Package service error occurred, contact support.", innerException) { }
+        public PackageServiceException(string message,Xeption innerException)
             : base(message, innerException) { }
     }
 }

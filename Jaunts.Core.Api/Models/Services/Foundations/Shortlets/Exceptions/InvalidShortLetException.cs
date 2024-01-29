@@ -9,13 +9,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ShortLets.Exceptions
 {
     public class InvalidShortLetException : Xeption
     {
-        public InvalidShortLetException(string parameterName, object parameterValue)
-         : base(message: $"Invalid shortLet, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
         public InvalidShortLetException()
-            : base(message: "Invalid ShortLet. Please fix the errors and try again.")
+            : base(message: "Invalid shortLet. Please fix the errors and try again.")
         { }
         public InvalidShortLetException(string message)
             : base(message)

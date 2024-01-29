@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class FailedPromosOffersStorageException : Xeption
     {
         public FailedPromosOffersStorageException(Exception innerException)
-            : base(message: "Failed PromosOffers storage error occurred, please contact support.", innerException)
+            : base(message: "Failed PromosOffer storage error occurred, please contact support.", innerException)
         { }
         public FailedPromosOffersStorageException(string message,Exception innerException)
             : base(message, innerException)

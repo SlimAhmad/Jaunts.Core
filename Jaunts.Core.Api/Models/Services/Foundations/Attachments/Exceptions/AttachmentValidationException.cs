@@ -10,6 +10,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     public class AttachmentValidationException : Exception
     {
         public AttachmentValidationException(Exception innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "Attachment validation error occurred, please try again.", innerException) { }
+        public AttachmentValidationException(string message,Exception innerException)
+            : base(message, innerException) { }
     }
 }

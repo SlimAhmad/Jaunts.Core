@@ -10,12 +10,6 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Adverts.Exceptions
     public class InvalidAdvertException : Xeption
     {
 
-       public InvalidAdvertException(string parameterName, object parameterValue)
-         : base(message: $"Invalid student, " +
-           $"parameter name: {parameterName}, " +
-           $"parameter value: {parameterValue}.")
-        { }
-
         public InvalidAdvertException()
             : base(message: "Invalid advert. Please fix the errors and try again.") { }
 

@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Rides.Exceptions
     public class FailedRideServiceException : Xeption
     {
         public FailedRideServiceException(Exception innerException)
-            : base(message: "Failed Ride service error occurred, contact support",
+            : base(message: "Failed Ride service error occurred, contact support.",
                   innerException)
         { }
         public FailedRideServiceException(string message,Exception innerException)

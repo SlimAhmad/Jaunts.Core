@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Fleets.Exceptions
     public class FailedFleetServiceException : Xeption
     {
         public FailedFleetServiceException(Exception innerException)
-            : base(message: "Failed fleet service error occurred, contact support",
+            : base(message: "Failed fleet service error occurred, contact support.",
                   innerException)
         { }
         public FailedFleetServiceException(string message,Exception innerException)

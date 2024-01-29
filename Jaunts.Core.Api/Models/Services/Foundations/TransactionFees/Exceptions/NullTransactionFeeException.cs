@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
 {
     public class NullTransactionFeeException : Xeption
     {
-        public NullTransactionFeeException() : base(message: "The transaction fee is null.") { }
+        public NullTransactionFeeException() : base(message: "The TransactionFee is null.") { }
         public NullTransactionFeeException(string message) : base(message) { }
     }
 }

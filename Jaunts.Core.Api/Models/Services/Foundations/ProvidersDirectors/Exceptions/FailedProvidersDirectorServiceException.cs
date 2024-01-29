@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.Excepti
     public class FailedProvidersDirectorServiceException : Xeption
     {
         public FailedProvidersDirectorServiceException(Exception innerException)
-            : base(message: "Failed ProvidersDirector service error occurred, contact support",
+            : base(message: "Failed ProvidersDirector service error occurred, Please contact support.",
                   innerException)
         { }
         public FailedProvidersDirectorServiceException(string message,Exception innerException)

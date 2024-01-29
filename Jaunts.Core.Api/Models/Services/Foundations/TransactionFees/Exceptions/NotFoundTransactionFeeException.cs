@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
     public class NotFoundTransactionFeeException : Xeption
     {
         public NotFoundTransactionFeeException(Guid TransactionFeeId)
-            : base(message: $"Couldn't find transaction fee  with id: {TransactionFeeId}.") { }
+            : base(message: $"Couldn't find TransactionFee with id: {TransactionFeeId}.") { }
         public NotFoundTransactionFeeException(string message)
             : base(message) { }
     }

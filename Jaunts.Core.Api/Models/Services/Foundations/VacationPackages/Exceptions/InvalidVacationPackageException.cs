@@ -5,19 +5,14 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class InvalidVacationPackageException : Xeption
+    public class InvalidPackageException : Xeption
     {
-        public InvalidVacationPackageException(string parameterName, object parameterValue)
-         : base(message: $"Invalid vacationPackage, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
+        public InvalidPackageException()
+            : base(message: "Invalid Package. Please fix the errors and try again.")
         { }
-        public InvalidVacationPackageException()
-            : base(message: "Invalid VacationPackage. Please fix the errors and try again.")
-        { }
-        public InvalidVacationPackageException(string message)
+        public InvalidPackageException(string message)
             : base(message)
         { }
     }

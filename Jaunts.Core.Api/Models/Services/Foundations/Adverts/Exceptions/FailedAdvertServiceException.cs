@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Adverts.Exceptions
     public class FailedAdvertServiceException : Xeption
     {
         public FailedAdvertServiceException(Exception innerException)
-            : base(message: "Failed advert service error occurred, contact support",
+            : base(message: "Failed advert service error occurred, contact support.",
                   innerException)
         { }
         public FailedAdvertServiceException(string message,Exception innerException)

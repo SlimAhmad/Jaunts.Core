@@ -1,4 +1,6 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.Providers;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments;
+using Jaunts.Core.Api.Models.Services.Foundations.PromosOfferAttachments;
+using Jaunts.Core.Api.Models.Services.Foundations.Providers;
 using Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachments;
 using System.Text.Json.Serialization;
 
@@ -20,14 +22,13 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Promos_Offers
 
         public Guid ProviderId { get; set; }
         public Provider Provider { get; set; }
-
-        public Guid ProviderServicesId { get; set; }
-        public Services Services { get; set; }
+        public Service Service { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid UpdatedBy { get; set; }
+        public PromosOfferAttachment PromosOfferAttachment { get; set; }
 
     }
 }

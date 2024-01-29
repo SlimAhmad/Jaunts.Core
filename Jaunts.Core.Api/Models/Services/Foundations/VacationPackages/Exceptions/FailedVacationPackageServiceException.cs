@@ -6,15 +6,15 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class FailedVacationPackageServiceException : Xeption
+    public class FailedPackageServiceException : Xeption
     {
-        public FailedVacationPackageServiceException(Exception innerException)
-            : base(message: "Failed VacationPackage service error occurred, contact support",
+        public FailedPackageServiceException(Exception innerException)
+            : base(message: "Failed Package service error occurred, contact support.",
                   innerException)
         { }
-        public FailedVacationPackageServiceException(string message,Exception innerException)
+        public FailedPackageServiceException(string message,Exception innerException)
           : base(message,
                 innerException)
         { }

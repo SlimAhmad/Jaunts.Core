@@ -1,12 +1,12 @@
-﻿namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+﻿namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class InvalidVacationPackagesAttachmentReferenceException : Exception
+    public class InvalidPackageAttachmentReferenceException : Exception
     {
     
-            public InvalidVacationPackagesAttachmentReferenceException(Exception innerException)
+            public InvalidPackageAttachmentReferenceException(Exception innerException)
                 : base(message: "Invalid guardian attachment reference error occurred.", innerException) { }
 
-        public InvalidVacationPackagesAttachmentReferenceException(string message,Exception innerException)
+        public InvalidPackageAttachmentReferenceException(string message,Exception innerException)
           : base(message, innerException) { }
 
     }

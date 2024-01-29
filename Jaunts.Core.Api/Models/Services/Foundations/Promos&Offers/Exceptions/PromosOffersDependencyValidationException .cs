@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.PromosOffers.Exceptions
     public class PromosOffersDependencyValidationException : Xeption
     {
         public PromosOffersDependencyValidationException(Xeption innerException)
-            : base(message: "PromosOffers dependency validation error occurred, fix the errors.", innerException) { }
+            : base(message: "PromosOffer dependency validation error occurred, fix the errors.", innerException) { }
         public PromosOffersDependencyValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
     }

@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ShortLets.Exceptions
     public class ShortLetValidationException : Xeption
     {
         public ShortLetValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "ShortLet validation error occurred, please try again.", innerException) { }
         public ShortLetValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

@@ -5,17 +5,15 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class InvalidVacationPackagesAttachmentException : Xeption
+    public class InvalidPackageAttachmentException : Xeption
     {
-        public InvalidVacationPackagesAttachmentException(string parameterName, object parameterValue)
-         : base(message: $"Invalid vacationPackage, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
+        public InvalidPackageAttachmentException()
+         : base(message: $"Invalid PackageAttachment. Please correct the errors and try again.")
         { }
 
-        public InvalidVacationPackagesAttachmentException(string message)
+        public InvalidPackageAttachmentException(string message)
             : base(message)
         { }
     }

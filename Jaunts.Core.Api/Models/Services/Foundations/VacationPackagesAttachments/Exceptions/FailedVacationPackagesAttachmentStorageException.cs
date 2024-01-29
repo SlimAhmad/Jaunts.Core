@@ -6,14 +6,14 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackagesAttachments.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.Exceptions
 {
-    public class FailedVacationPackagesAttachmentStorageException : Xeption
+    public class FailedPackageAttachmentStorageException : Xeption
     {
-        public FailedVacationPackagesAttachmentStorageException(Exception innerException)
-            : base(message: "Failed VacationPackagesAttachment storage error occurred, please contact support.", innerException)
+        public FailedPackageAttachmentStorageException(Exception innerException)
+            : base(message: "Failed PackageAttachment storage error occurred, Please contact support.", innerException)
         { }
-        public FailedVacationPackagesAttachmentStorageException(string message,Exception innerException)
+        public FailedPackageAttachmentStorageException(string message,Exception innerException)
             : base(message, innerException)
         { }
     }

@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ShortLets.Exceptions
     public class FailedShortLetServiceException : Xeption
     {
         public FailedShortLetServiceException(Exception innerException)
-            : base(message: "Failed ShortLet service error occurred, contact support",
+            : base(message: "Failed ShortLet service error occurred, contact support.",
                   innerException)
         { }
         public FailedShortLetServiceException(string message,Exception innerException)

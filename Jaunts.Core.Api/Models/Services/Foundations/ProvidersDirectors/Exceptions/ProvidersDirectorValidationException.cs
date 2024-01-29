@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.Excepti
     public class ProvidersDirectorValidationException : Xeption
     {
         public ProvidersDirectorValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "ProvidersDirector validation error occurred, Please try again.", innerException) { }
         public ProvidersDirectorValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

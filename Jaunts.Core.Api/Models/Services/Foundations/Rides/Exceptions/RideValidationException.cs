@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Rides.Exceptions
     public class RideValidationException : Xeption
     {
         public RideValidationException(Xeption innerException)
-            : base(message: "Invalid input, contact support.", innerException) { }
+            : base(message: "Ride validation error occurred, please try again.", innerException) { }
         public RideValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
 

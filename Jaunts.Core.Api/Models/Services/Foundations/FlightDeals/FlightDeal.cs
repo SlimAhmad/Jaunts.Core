@@ -1,4 +1,5 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.Providers;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments;
+using Jaunts.Core.Api.Models.Services.Foundations.Providers;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.FlightDeals
 {
@@ -16,8 +17,9 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.FlightDeals
         public FlightDealsStatus Status { get; set; }
        
 
-        public Guid VendorId { get; set; }
-        public Provider Vendors { get; set; }
+        public Guid ProviderId { get; set; }
+        public Provider Providers { get; set; }
+        public FlightDealAttachment FlightDealAttachment { get; set; }
 
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }

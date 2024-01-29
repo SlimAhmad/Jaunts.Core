@@ -5,13 +5,13 @@
 
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class VacationPackageDependencyValidationException : Xeption
+    public class PackageDependencyValidationException : Xeption
     {
-        public VacationPackageDependencyValidationException(Xeption innerException)
-            : base(message: "VacationPackage dependency validation error occurred, fix the errors.", innerException) { }
-        public VacationPackageDependencyValidationException(string message,Xeption innerException)
+        public PackageDependencyValidationException(Xeption innerException)
+            : base(message: "Package dependency validation error occurred, fix the errors.", innerException) { }
+        public PackageDependencyValidationException(string message,Xeption innerException)
             : base(message, innerException) { }
     }
 }

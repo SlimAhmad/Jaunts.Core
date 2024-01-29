@@ -9,14 +9,9 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.ProviderCategorys.Exceptio
 {
     public class InvalidProviderCategoryException : Xeption
     {
-        public InvalidProviderCategoryException(string parameterName, object parameterValue)
-            : base(message: $"Invalid providerCategory, " +
-          $"parameter name: {parameterName}, " +
-          $"parameter value: {parameterValue}.")
-        { }
 
         public InvalidProviderCategoryException()
-            : base(message: "Invalid providerCategory. Please fix the errors and try again.") { }
+            : base(message: "Invalid ProviderCategory. Please fix the errors and try again.") { }
 
         public InvalidProviderCategoryException(string message)
             : base(message)

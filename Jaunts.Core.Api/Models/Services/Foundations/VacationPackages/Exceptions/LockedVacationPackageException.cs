@@ -6,13 +6,13 @@
 using System;
 using Xeptions;
 
-namespace Jaunts.Core.Api.Models.Services.Foundations.VacationPackages.Exceptions
+namespace Jaunts.Core.Api.Models.Services.Foundations.Packages.Exceptions
 {
-    public class LockedVacationPackageException : Xeption
+    public class LockedPackageException : Xeption
     {
-        public LockedVacationPackageException(Exception innerException)
-            : base(message: "Locked VacationPackage record exception, please try again later.", innerException) { }
-        public LockedVacationPackageException(string message,Exception innerException)
+        public LockedPackageException(Exception innerException)
+            : base(message: "Locked Package record exception, please try again later.", innerException) { }
+        public LockedPackageException(string message,Exception innerException)
             : base(message, innerException) { }
     }
 }

@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.Exceptions
     public class FailedTransactionFeeServiceException : Xeption
     {
         public FailedTransactionFeeServiceException(Exception innerException)
-            : base(message: "Failed Transaction fee  service error occurred, contact support",
+            : base(message: "Failed TransactionFee service error occurred, contact support.",
                   innerException)
         { }
         public FailedTransactionFeeServiceException(string message,Exception innerException)

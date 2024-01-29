@@ -11,7 +11,7 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments.Except
     public class FailedCustomerAttachmentStorageException : Xeption
     {
         public FailedCustomerAttachmentStorageException(Exception innerException)
-            : base(message: "Failed CustomerAttachment storage error occurred, please contact support.", innerException)
+            : base(message: "Failed CustomerAttachment storage error occurred, Please contact support.", innerException)
         { }
         public FailedCustomerAttachmentStorageException(string message,Exception innerException)
             : base(message, innerException)

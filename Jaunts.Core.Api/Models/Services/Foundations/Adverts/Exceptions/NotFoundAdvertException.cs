@@ -10,8 +10,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Adverts.Exceptions
 {
     public class NotFoundAdvertException : Xeption
     {
-        public NotFoundAdvertException(Guid examId)
-            : base(message: $"Couldn't find advert with id: {examId}.") { }
+        public NotFoundAdvertException(Guid advertId)
+            : base(message: $"Couldn't find advert with id: {advertId}.") { }
         public NotFoundAdvertException(string message)
             : base(message) { }
     }

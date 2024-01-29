@@ -10,6 +10,8 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions
     public class AttachmentDependencyException : Exception
     {
         public AttachmentDependencyException(Exception innerException)
-            : base(message: "Service dependency error occurred, contact support.", innerException) { }
+            : base(message: "Attachment dependency error occurred, contact support.", innerException) { }
+        public AttachmentDependencyException(string message,Exception innerException)
+            : base(message, innerException) { }
     }
 }
