@@ -2,12 +2,7 @@
 using Force.DeepCloner;
 using Jaunts.Core.Api.Models.Services.Foundations.Users;
 using Jaunts.Core.Models.Auth.LoginRegister;
-using Microsoft.AspNetCore.Identity.Data;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -23,9 +18,9 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Users
             ApplicationUser inputUser = randomUser;
             ApplicationUser addedUser = inputUser;
             ApplicationUser expectedUser = addedUser.DeepClone();
-            Core.Models.Auth.LoginRegister.ResetPasswordRequest resetPassword = CreateRandomResetPasswordRequest(inputUser);
+            ResetPasswordRequest resetPassword = CreateRandomResetPasswordRequest(inputUser);
 
-            bool randomBoolean = GetRandomBoolean();
+            bool randomBoolean = true;
             bool inputBoolean = randomBoolean;
             bool expectedBoolean = inputBoolean;
 

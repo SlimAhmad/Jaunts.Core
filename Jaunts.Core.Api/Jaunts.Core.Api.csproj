@@ -38,8 +38,4 @@
     <ProjectReference Include="..\Jaunts.Core\Jaunts.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Services\Foundations\Transactions\" />
-  </ItemGroup>
-
 </Project>
