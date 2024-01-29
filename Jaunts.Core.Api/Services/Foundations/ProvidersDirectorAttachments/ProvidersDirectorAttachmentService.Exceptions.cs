@@ -37,7 +37,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedProvidersDirectorAttachmentStorageException =
+                   new FailedProvidersDirectorAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedProvidersDirectorAttachmentStorageException);
             }
             catch (DuplicateKeyException duplicateKeyException)
             {
@@ -62,7 +65,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             }
             catch (DbUpdateException dbUpdateException)
             {
-                throw CreateAndLogDependencyException(dbUpdateException);
+                var failedProvidersDirectorAttachmentStorageException =
+                   new FailedProvidersDirectorAttachmentStorageException(dbUpdateException);
+
+                throw CreateAndLogDependencyException(failedProvidersDirectorAttachmentStorageException);
             }
             catch (Exception exception)
             {
@@ -81,44 +87,50 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedProvidersDirectorAttachmentStorageException =
+                   new FailedProvidersDirectorAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedProvidersDirectorAttachmentStorageException);
             }
             catch (Exception exception)
             {
-                throw CreateAndLogServiceException(exception);
+                var failedProvidersDirectorAttachmentServiceException =
+                    new FailedProvidersDirectorAttachmentServiceException(exception);
+
+                throw CreateAndLogServiceException(failedProvidersDirectorAttachmentServiceException);
             }
         }
 
         private ProvidersDirectorAttachmentValidationException CreateAndLogValidationException(Exception exception)
         {
-            var guardianAttachmentValidationException = new ProvidersDirectorAttachmentValidationException(exception);
-            this.loggingBroker.LogError(guardianAttachmentValidationException);
+            var providersDirectorAttachmentValidationException = new ProvidersDirectorAttachmentValidationException(exception);
+            this.loggingBroker.LogError(providersDirectorAttachmentValidationException);
 
-            return guardianAttachmentValidationException;
+            return providersDirectorAttachmentValidationException;
         }
 
         private ProvidersDirectorAttachmentDependencyException CreateAndLogCriticalDependencyException(Exception exception)
         {
-            var guardianAttachmentDependencyException = new ProvidersDirectorAttachmentDependencyException(exception);
-            this.loggingBroker.LogCritical(guardianAttachmentDependencyException);
+            var providersDirectorAttachmentDependencyException = new ProvidersDirectorAttachmentDependencyException(exception);
+            this.loggingBroker.LogCritical(providersDirectorAttachmentDependencyException);
 
-            return guardianAttachmentDependencyException;
+            return providersDirectorAttachmentDependencyException;
         }
 
         private ProvidersDirectorAttachmentDependencyException CreateAndLogDependencyException(Exception exception)
         {
-            var guardianAttachmentDependencyException = new ProvidersDirectorAttachmentDependencyException(exception);
-            this.loggingBroker.LogError(guardianAttachmentDependencyException);
+            var providersDirectorAttachmentDependencyException = new ProvidersDirectorAttachmentDependencyException(exception);
+            this.loggingBroker.LogError(providersDirectorAttachmentDependencyException);
 
-            return guardianAttachmentDependencyException;
+            return providersDirectorAttachmentDependencyException;
         }
 
         private ProvidersDirectorAttachmentServiceException CreateAndLogServiceException(Exception exception)
         {
-            var guardianAttachmentServiceException = new ProvidersDirectorAttachmentServiceException(exception);
-            this.loggingBroker.LogError(guardianAttachmentServiceException);
+            var providersDirectorAttachmentServiceException = new ProvidersDirectorAttachmentServiceException(exception);
+            this.loggingBroker.LogError(providersDirectorAttachmentServiceException);
 
-            return guardianAttachmentServiceException;
+            return providersDirectorAttachmentServiceException;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
 {
     public interface ICustomerService
     {
-        ValueTask<Customer> RegisterCustomerAsync(Customer customer);
+        ValueTask<Customer> CreateCustomerAsync(Customer customer);
         IQueryable<Customer> RetrieveAllCustomers();
         ValueTask<Customer> RetrieveCustomerByIdAsync(Guid customerId);
         ValueTask<Customer> ModifyCustomerAsync(Customer customer);

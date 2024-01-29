@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
 {
     public partial class CustomerService
     {
-        private void ValidateCustomerOnRegister(Customer customer)
+        private void ValidateCustomerOnCreate(Customer customer)
         {
             ValidateCustomer(customer);
 
@@ -18,6 +18,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
                 (Rule: IsInvalid(customer.Id), Parameter: nameof(Customer.Id)),
                 (Rule: IsInvalid(customer.LastName), Parameter: nameof(Customer.LastName)),
                 (Rule: IsInvalid(customer.FirstName), Parameter: nameof(Customer.FirstName)),
+                (Rule: IsInvalid(customer.MiddleName), Parameter: nameof(Customer.MiddleName)),
                 (Rule: IsInvalid(customer.Address), Parameter: nameof(Customer.Address)),
                 (Rule: IsInvalid(customer.BirthDate), Parameter: nameof(Customer.BirthDate)),
                 (Rule: IsInvalid(customer.UserId), Parameter: nameof(Customer.UserId)),
@@ -92,12 +93,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
 
         private static void ValidateCustomerId(Guid customerId)
         {
-            if (customerId == Guid.Empty)
-            {
-                throw new InvalidCustomerException(
-                    parameterName: nameof(Customer.Id),
-                    parameterValue: customerId);
-            }
+            Validate((Rule: IsInvalid(customerId), Parameter: nameof(Customer.Id)));
         }
 
         private static void ValidateStorageCustomer(Customer storageCustomer, Guid customerId)
@@ -116,6 +112,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Customers
                 (Rule: IsInvalid(customer.Id), Parameter: nameof(Customer.Id)),
                 (Rule: IsInvalid(customer.LastName), Parameter: nameof(Customer.LastName)),
                 (Rule: IsInvalid(customer.FirstName), Parameter: nameof(Customer.FirstName)),
+                (Rule: IsInvalid(customer.MiddleName), Parameter: nameof(Customer.MiddleName)),
                 (Rule: IsInvalid(customer.Address), Parameter: nameof(Customer.Address)),
                 (Rule: IsInvalid(customer.BirthDate), Parameter: nameof(Customer.BirthDate)),
                 (Rule: IsInvalid(customer.UserId), Parameter: nameof(Customer.UserId)),

@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Drivers
 {
     public interface IDriverService
     {
-        ValueTask<Driver> RegisterDriverAsync(Driver driver);
+        ValueTask<Driver> CreateDriverAsync(Driver driver);
         IQueryable<Driver> RetrieveAllDrivers();
         ValueTask<Driver> RetrieveDriverByIdAsync(Guid driverId);
         ValueTask<Driver> ModifyDriverAsync(Driver driver);

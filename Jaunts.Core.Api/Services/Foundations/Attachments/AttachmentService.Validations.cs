@@ -5,19 +5,64 @@
 
 using Jaunts.Core.Api.Models.Services.Foundations.Attachments;
 using Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Attachments.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.Attachments;
 
 namespace Jaunts.Core.Api.Services.Foundations.Attachments
 {
     public partial class AttachmentService : IAttachmentService
     {
-        private static void ValidateAttachmentId(Guid attachmentId)
+        private void ValidateAttachmentOnCreate(Attachment attachment)
         {
-            if (IsInvalid(attachmentId))
-            {
-                throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.Id),
-                    parameterValue: attachmentId);
-            }
+            ValidateAttachmentIsNull(attachment);
+            Validate(
+              (Rule: IsInvalid(attachment.Id), Parameter: nameof(Attachment.Id)),
+              (Rule: IsInvalid(attachment.Description), Parameter: nameof(Attachment.Description)),
+              (Rule: IsInvalid(attachment.Extension), Parameter: nameof(Attachment.Extension)),
+              (Rule: IsInvalid(attachment.ExternalUrl), Parameter: nameof(Attachment.ExternalUrl)),
+              (Rule: IsInvalid(attachment.Label), Parameter: nameof(Attachment.Label)),
+              (Rule: IsInvalid(attachment.ContentType), Parameter: nameof(Attachment.ContentType)),
+              (Rule: IsInvalid(attachment.Status), Parameter: nameof(Attachment.Status)),
+              (Rule: IsInvalid(attachment.CreatedBy), Parameter: nameof(Attachment.CreatedBy)),
+              (Rule: IsInvalid(attachment.UpdatedBy), Parameter: nameof(Attachment.UpdatedBy)),
+              (Rule: IsInvalid(attachment.CreatedDate), Parameter: nameof(Attachment.CreatedDate)),
+              (Rule: IsInvalid(attachment.UpdatedDate), Parameter: nameof(Attachment.UpdatedDate)),
+              (Rule: IsNotRecent(attachment.CreatedDate), Parameter: nameof(Attachment.CreatedDate)),
+
+              (Rule: IsNotSame(firstId: attachment.UpdatedBy,
+                  secondId: attachment.CreatedBy,
+                  secondIdName: nameof(Attachment.CreatedBy)),
+            Parameter: nameof(Attachment.UpdatedBy)),
+            (Rule: IsNotSame(firstDate: attachment.UpdatedDate,
+                  secondDate: attachment.CreatedDate,
+                  secondDateName: nameof(Attachment.CreatedDate)),
+                  Parameter: nameof(Attachment.UpdatedDate)));
+
+        }
+
+        private void ValidateAttachmentOnModify(Attachment attachment)
+        {
+            ValidateAttachmentIsNull(attachment);
+
+            Validate(
+                (Rule: IsInvalid(attachment.Id), Parameter: nameof(Attachment.Id)),
+                (Rule: IsInvalid(attachment.Description), Parameter: nameof(Attachment.Description)),
+                (Rule: IsInvalid(attachment.Extension), Parameter: nameof(Attachment.Extension)),
+                (Rule: IsInvalid(attachment.ExternalUrl), Parameter: nameof(Attachment.ExternalUrl)),
+                (Rule: IsInvalid(attachment.Label), Parameter: nameof(Attachment.Label)),
+                (Rule: IsInvalid(attachment.ContentType), Parameter: nameof(Attachment.ContentType)),
+                (Rule: IsInvalid(attachment.Status), Parameter: nameof(Attachment.Status)),
+                (Rule: IsInvalid(attachment.CreatedBy), Parameter: nameof(Attachment.CreatedBy)),
+                (Rule: IsInvalid(attachment.UpdatedBy), Parameter: nameof(Attachment.UpdatedBy)),
+                (Rule: IsInvalid(attachment.CreatedDate), Parameter: nameof(Attachment.CreatedDate)),
+                (Rule: IsInvalid(attachment.UpdatedDate), Parameter: nameof(Attachment.UpdatedDate)),
+                (Rule: IsNotRecent(attachment.UpdatedDate), Parameter: nameof(Attachment.UpdatedDate)),
+
+          (Rule: IsSame(
+                firstDate: attachment.UpdatedDate,
+                secondDate: attachment.CreatedDate,
+                secondDateName: nameof(Attachment.CreatedDate)),
+                Parameter: nameof(Attachment.UpdatedDate)));
         }
 
         private static void ValidateStorageAttachment(Attachment storageAttachment, Guid attachmentId)
@@ -32,150 +77,87 @@ namespace Jaunts.Core.Api.Services.Foundations.Attachments
             Attachment inputAttachment,
             Attachment storageAttachment)
         {
-            switch (inputAttachment)
+            Validate(
+                (Rule: IsNotSame(
+                    firstDate: inputAttachment.CreatedDate,
+                    secondDate: storageAttachment.CreatedDate,
+                    secondDateName: nameof(Attachment.CreatedDate)),
+                    Parameter: nameof(Attachment.CreatedDate)),
+
+                (Rule: IsSame(
+                    firstDate: inputAttachment.UpdatedDate,
+                    secondDate: storageAttachment.UpdatedDate,
+                    secondDateName: nameof(Attachment.UpdatedDate)),
+                    Parameter: nameof(Attachment.UpdatedDate)),
+
+                (Rule: IsNotSame(
+                    firstId: inputAttachment.CreatedBy,
+                    secondId: storageAttachment.CreatedBy,
+                    secondIdName: nameof(Attachment.CreatedBy)),
+                    Parameter: nameof(Attachment.CreatedBy))
+            );
+        }
+
+        private static dynamic IsInvalid(Guid id) => new
+        {
+            Condition = id == Guid.Empty,
+            Message = "Id is required"
+        };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required"
+        };
+
+        private static dynamic IsInvalid(DateTimeOffset date) => new
+        {
+            Condition = date == default,
+            Message = "Date is required"
+        };
+
+        private static dynamic IsNotSame(
+            Guid firstId,
+            Guid secondId,
+            string secondIdName) => new
             {
-                case { } when inputAttachment.CreatedDate != storageAttachment.CreatedDate:
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.CreatedDate),
-                        parameterValue: inputAttachment.CreatedDate);
+                Condition = firstId != secondId,
+                Message = $"Id is not the same as {secondIdName}"
+            };
 
-                case { } when inputAttachment.CreatedBy != storageAttachment.CreatedBy:
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.CreatedBy),
-                        parameterValue: inputAttachment.CreatedBy);
-
-                case { } when inputAttachment.UpdatedDate == storageAttachment.UpdatedDate:
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.UpdatedDate),
-                        parameterValue: inputAttachment.UpdatedDate);
-            }
-        }
-
-        private static bool IsInvalid(Guid input) => input == Guid.Empty;
-        private static bool IsInvalid(string input) => String.IsNullOrWhiteSpace(input);
-        private static bool IsInvalid(DateTimeOffset input) => input == default;
-
-        private void ValidateAttachmentOnCreate(Attachment attachment)
-        {
-            ValidateAttachmentIsNull(attachment);
-            ValidateAttachmentIdIsNull(attachment.Id);
-            ValidateInvalidFields(attachment);
-            ValidateInvalidAuditFields(attachment);
-            ValidateAuditFieldsDataOnCreate(attachment);
-        }
-
-        private void ValidateAttachmentOnModify(Attachment attachment)
-        {
-            ValidateAttachmentIsNull(attachment);
-            ValidateAttachmentIdIsNull(attachment.Id);
-            ValidateInvalidFields(attachment);
-            ValidateInvalidAuditFields(attachment);
-            ValidateDatesAreNotSame(attachment);
-            ValidateUpdatedDateIsRecent(attachment);
-        }
-
-        private void ValidateAuditFieldsDataOnCreate(Attachment attachment)
-        {
-            switch (attachment)
+        private static dynamic IsNotSame(
+            DateTimeOffset firstDate,
+            DateTimeOffset secondDate,
+            string secondDateName) => new
             {
-                case { } when attachment.UpdatedBy != attachment.CreatedBy:
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.UpdatedBy),
-                    parameterValue: attachment.UpdatedBy);
+                Condition = firstDate != secondDate,
+                Message = $"Date is not the same as {secondDateName}"
+            };
 
-                case { } when attachment.UpdatedDate != attachment.CreatedDate:
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.UpdatedDate),
-                    parameterValue: attachment.UpdatedDate);
-
-                case { } when IsDateNotRecent(attachment.CreatedDate):
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.CreatedDate),
-                    parameterValue: attachment.CreatedDate);
-            }
-        }
-
-        private static void ValidateDatesAreNotSame(Attachment attachment)
-        {
-            if (attachment.CreatedDate == attachment.UpdatedDate)
+        private static dynamic IsSame(
+            DateTimeOffset firstDate,
+            DateTimeOffset secondDate,
+            string secondDateName) => new
             {
-                throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.UpdatedDate),
-                    parameterValue: attachment.UpdatedDate);
-            }
-        }
+                Condition = firstDate == secondDate,
+                Message = $"Date is the same as {secondDateName}"
+            };
 
-        private void ValidateUpdatedDateIsRecent(Attachment attachment)
+        private static dynamic IsInvalid(AttachmentStatus status) => new
         {
-            if (IsDateNotRecent(attachment.UpdatedDate))
-            {
-                throw new InvalidAttachmentException(
-                    parameterName: nameof(attachment.UpdatedDate),
-                    parameterValue: attachment.UpdatedDate);
-            }
-        }
-
-        private static void ValidateInvalidAuditFields(Attachment attachment)
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+        private dynamic IsNotRecent(DateTimeOffset dateTimeOffset) => new
         {
-            switch (attachment)
-            {
-                case { } when IsInvalid(attachment.CreatedBy):
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.CreatedBy),
-                    parameterValue: attachment.CreatedBy);
+            Condition = IsDateNotRecent(dateTimeOffset),
+            Message = "Date is not recent"
+        };
 
-                case { } when IsInvalid(attachment.CreatedDate):
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.CreatedDate),
-                    parameterValue: attachment.CreatedDate);
 
-                case { } when IsInvalid(attachment.UpdatedBy):
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.UpdatedBy),
-                    parameterValue: attachment.UpdatedBy);
-
-                case { } when IsInvalid(attachment.UpdatedDate):
-                    throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.UpdatedDate),
-                    parameterValue: attachment.UpdatedDate);
-            }
-        }
-
-        private static void ValidateInvalidFields(Attachment attachment)
+        private static void ValidateAttachmentId(Guid attachmentId)
         {
-            switch (attachment)
-            {
-                case { } when IsInvalid(attachment.Label):
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.Label),
-                        parameterValue: attachment.Label);
-
-                case { } when IsInvalid(attachment.Description):
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.Description),
-                        parameterValue: attachment.Description);
-
-                case { } when IsInvalid(attachment.ContentType):
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.ContentType),
-                        parameterValue: attachment.ContentType);
-
-                case { } when IsInvalid(attachment.Extension):
-                    throw new InvalidAttachmentException(
-                        parameterName: nameof(Attachment.Extension),
-                        parameterValue: attachment.Extension);
-
-            }
-        }
-
-        private static void ValidateAttachmentIdIsNull(Guid attachmentId)
-        {
-            if (attachmentId == default)
-            {
-                throw new InvalidAttachmentException(
-                    parameterName: nameof(Attachment.Id),
-                    parameterValue: attachmentId);
-            }
+            Validate((Rule: IsInvalid(attachmentId), Parameter: nameof(Attachment.Id)));
         }
 
         private static void ValidateAttachmentIsNull(Attachment attachment)
@@ -195,6 +177,23 @@ namespace Jaunts.Core.Api.Services.Foundations.Attachments
             TimeSpan oneMinute = TimeSpan.FromMinutes(1);
 
             return timeDifference.Duration() > oneMinute;
+        }
+
+        private static void Validate(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidAttachmentException = new InvalidAttachmentException();
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidAttachmentException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidAttachmentException.ThrowIfContainsErrors();
         }
     }
 }

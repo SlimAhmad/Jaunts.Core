@@ -26,18 +26,18 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ProvidersDirectorAttachment> AddVacationPackageAttachmentAsync(ProvidersDirectorAttachment vacationPackagesAttachment) =>
+        public ValueTask<ProvidersDirectorAttachment> AddProvidersDirectorAttachmentAsync(ProvidersDirectorAttachment PackageAttachment) =>
             TryCatch(async () =>
         {
-            ValidateProvidersDirectorAttachmentOnCreate(vacationPackagesAttachment);
+            ValidateProvidersDirectorAttachmentOnCreate(PackageAttachment);
 
-            return await this.storageBroker.InsertProvidersDirectorAttachmentAsync(vacationPackagesAttachment);
+            return await this.storageBroker.InsertProvidersDirectorAttachmentAsync(PackageAttachment);
         });
 
-        public IQueryable<ProvidersDirectorAttachment> RetrieveAllVacationPackageAttachments() =>
+        public IQueryable<ProvidersDirectorAttachment> RetrieveAllProvidersDirectorAttachments() =>
         TryCatch(() => this.storageBroker.SelectAllProvidersDirectorAttachments());
 
-        public ValueTask<ProvidersDirectorAttachment> RetrieveVacationPackageAttachmentByIdAsync
+        public ValueTask<ProvidersDirectorAttachment> RetrieveProvidersDirectorAttachmentByIdAsync
             (Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProvidersDirectorAttachments
             return maybeProvidersDirectorAttachment;
         });
 
-        public ValueTask<ProvidersDirectorAttachment> RemoveVacationPackageAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
+        public ValueTask<ProvidersDirectorAttachment> RemoveProvidersDirectorAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
             ValidateProvidersDirectorAttachmentIdIsNull(packageId, attachmentId);

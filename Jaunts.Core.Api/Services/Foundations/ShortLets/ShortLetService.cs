@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ShortLets
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ShortLet> RegisterShortLetAsync(ShortLet shortlet) =>
+        public ValueTask<ShortLet> CreateShortLetAsync(ShortLet shortlet) =>
         TryCatch(async () =>
         {
             ValidateShortLetOnRegister(shortlet);

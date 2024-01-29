@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.FlightDeals
 {
     public interface IFlightDealService
     {
-        ValueTask<FlightDeal> RegisterFlightDealAsync(FlightDeal fleet);
+        ValueTask<FlightDeal> CreateFlightDealAsync(FlightDeal fleet);
         IQueryable<FlightDeal> RetrieveAllFlightDeals();
         ValueTask<FlightDeal> RetrieveFlightDealByIdAsync(Guid fleetId);
         ValueTask<FlightDeal> ModifyFlightDealAsync(FlightDeal fleet);

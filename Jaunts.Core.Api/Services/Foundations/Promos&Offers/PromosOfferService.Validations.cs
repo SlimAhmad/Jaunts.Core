@@ -19,6 +19,9 @@ namespace Jaunts.Core.Api.Services.Foundations.PromosOffers
                 (Rule: IsInvalid(PromosOffer.CodeOrName), Parameter: nameof(PromosOffer.CodeOrName)),
                 (Rule: IsInvalid(PromosOffer.Description), Parameter: nameof(PromosOffer.Description)),
                 (Rule: IsInvalid(PromosOffer.StartDate), Parameter: nameof(PromosOffer.StartDate)),
+                (Rule: IsInvalid(PromosOffer.Status), Parameter: nameof(PromosOffer.Status)),
+                (Rule: IsInvalid(PromosOffer.ProviderId), Parameter: nameof(PromosOffer.ProviderId)),
+                (Rule: IsInvalid(PromosOffer.Service), Parameter: nameof(PromosOffer.Service)),
                 (Rule: IsInvalid(PromosOffer.EndDate), Parameter: nameof(PromosOffer.EndDate)),
                 (Rule: IsInvalid(PromosOffer.CreatedBy), Parameter: nameof(PromosOffer.CreatedBy)),
                 (Rule: IsInvalid(PromosOffer.UpdatedBy), Parameter: nameof(PromosOffer.UpdatedBy)),
@@ -88,22 +91,26 @@ namespace Jaunts.Core.Api.Services.Foundations.PromosOffers
             Condition = IsDateNotRecent(dateTimeOffset),
             Message = "Date is not recent"
         };
-
-        private static void ValidatePromosOfferId(Guid PromosOfferId)
+        private static dynamic IsInvalid(PromosOffersStatus status) => new
         {
-            if (PromosOfferId == Guid.Empty)
-            {
-                throw new InvalidPromosOffersException(
-                    parameterName: nameof(PromosOffer.Id),
-                    parameterValue: PromosOfferId);
-            }
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+        private static dynamic IsInvalid(Service status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
+        };
+        private static void ValidatePromosOfferId(Guid promosOfferId)
+        {
+            Validate((Rule: IsInvalid(promosOfferId), Parameter: nameof(PromosOffer.Id)));
         }
 
-        private static void ValidateStoragePromosOffer(PromosOffer storagePromosOffer, Guid PromosOfferId)
+        private static void ValidateStoragePromosOffer(PromosOffer storagePromosOffer, Guid promosOfferId)
         {
             if (storagePromosOffer is null)
             {
-                throw new NotFoundPromosOffersException(PromosOfferId);
+                throw new NotFoundPromosOffersException(promosOfferId);
             }
         }
 
@@ -115,6 +122,9 @@ namespace Jaunts.Core.Api.Services.Foundations.PromosOffers
                 (Rule: IsInvalid(PromosOffer.Id), Parameter: nameof(PromosOffer.Id)),
                 (Rule: IsInvalid(PromosOffer.CodeOrName), Parameter: nameof(PromosOffer.CodeOrName)),
                 (Rule: IsInvalid(PromosOffer.Description), Parameter: nameof(PromosOffer.Description)),
+                (Rule: IsInvalid(PromosOffer.Status), Parameter: nameof(PromosOffer.Status)),
+                (Rule: IsInvalid(PromosOffer.ProviderId), Parameter: nameof(PromosOffer.ProviderId)),
+                (Rule: IsInvalid(PromosOffer.Service), Parameter: nameof(PromosOffer.Service)),
                 (Rule: IsInvalid(PromosOffer.StartDate), Parameter: nameof(PromosOffer.StartDate)),
                 (Rule: IsInvalid(PromosOffer.EndDate), Parameter: nameof(PromosOffer.EndDate)),
                 (Rule: IsInvalid(PromosOffer.CreatedBy), Parameter: nameof(PromosOffer.CreatedBy)),

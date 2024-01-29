@@ -9,9 +9,9 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
 {
     public interface IProviderAttachmentService
     {
-        ValueTask<ProviderAttachment> AddVacationPackageAttachmentAsync(ProviderAttachment providerAttachment);
-        IQueryable<ProviderAttachment> RetrieveAllVacationPackageAttachments();
-        ValueTask<ProviderAttachment> RetrieveVacationPackageAttachmentByIdAsync(Guid guardianId, Guid attachmentId);
-        ValueTask<ProviderAttachment> RemoveVacationPackageAttachmentByIdAsync(Guid guardianId, Guid attachmentId);
+        ValueTask<ProviderAttachment> AddProviderAttachmentAsync(ProviderAttachment providerAttachment);
+        IQueryable<ProviderAttachment> RetrieveAllProviderAttachments();
+        ValueTask<ProviderAttachment> RetrieveProviderAttachmentByIdAsync(Guid guardianId, Guid attachmentId);
+        ValueTask<ProviderAttachment> RemoveProviderAttachmentByIdAsync(Guid guardianId, Guid attachmentId);
     }
 }

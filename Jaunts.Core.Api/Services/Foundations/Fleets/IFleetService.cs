@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Fleets
 {
     public interface IFleetService
     {
-        ValueTask<Fleet> RegisterFleetAsync(Fleet fleet);
+        ValueTask<Fleet> CreateFleetAsync(Fleet fleet);
         IQueryable<Fleet> RetrieveAllFleets();
         ValueTask<Fleet> RetrieveFleetByIdAsync(Guid fleetId);
         ValueTask<Fleet> ModifyFleetAsync(Fleet fleet);

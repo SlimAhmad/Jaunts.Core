@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Services.Foundations.PromosOffers
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<PromosOffer> RegisterPromosOfferAsync(PromosOffer driver) =>
+        public ValueTask<PromosOffer> CreatePromosOfferAsync(PromosOffer driver) =>
         TryCatch(async () =>
         {
             ValidatePromosOfferOnRegister(driver);

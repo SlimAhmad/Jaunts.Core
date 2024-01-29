@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Ride> RegisterRideAsync(Ride Ride) =>
+        public ValueTask<Ride> CreateRideAsync(Ride Ride) =>
         TryCatch(async () =>
         {
             ValidateRideOnRegister(Ride);

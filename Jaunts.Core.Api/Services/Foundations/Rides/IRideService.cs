@@ -9,7 +9,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
 {
     public interface IRideService
     {
-        ValueTask<Ride> RegisterRideAsync(Ride ride);
+        ValueTask<Ride> CreateRideAsync(Ride ride);
         IQueryable<Ride> RetrieveAllRides();
         ValueTask<Ride> RetrieveRideByIdAsync(Guid rideId);
         ValueTask<Ride> ModifyRideAsync(Ride ride);

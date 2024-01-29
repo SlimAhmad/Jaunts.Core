@@ -5,15 +5,17 @@
 
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.Exceptions;
+using Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.Exceptions;
+using Termii.Core.Models.Services.Foundations.Termii.Tokens;
 
 namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
 {
     public partial class ProviderAttachmentService
     {
-        private static void ValidateProviderAttachmentOnCreate(ProviderAttachment vacationPackagesAttachment)
+        private static void ValidateProviderAttachmentOnCreate(ProviderAttachment PackageAttachment)
         {
-            ValidateProviderAttachmentIsNull(vacationPackagesAttachment);
-            ValidateProviderAttachmentIdIsNull(vacationPackagesAttachment.ProviderId, vacationPackagesAttachment.AttachmentId);
+            ValidateProviderAttachmentIsNull(PackageAttachment);
+            ValidateProviderAttachmentIdIsNull(PackageAttachment.ProviderId, PackageAttachment.AttachmentId);
         }
 
         private static void ValidateProviderAttachmentIsNull(ProviderAttachment ProviderAttachment)
@@ -24,20 +26,26 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             }
         }
 
+
+        private static dynamic IsInvalid(Guid id) => new
+        {
+            Condition = id == Guid.Empty,
+            Message = "Id is required"
+        };
+
+        private static void ValidateProviderAttachmentId(Guid providerId)
+        {
+            Validate((Rule: IsInvalid(providerId), Parameter: nameof(ProviderAttachment.ProviderId)));
+        }
+        private static void ValidateAttachmentId(Guid attachmentId)
+        {
+            Validate((Rule: IsInvalid(attachmentId), Parameter: nameof(ProviderAttachment.AttachmentId)));
+        }
+
         private static void ValidateProviderAttachmentIdIsNull(Guid providerId, Guid attachmentId)
         {
-            if (providerId == default)
-            {
-                throw new InvalidProviderAttachmentException(
-                    parameterName: nameof(ProviderAttachment.ProviderId),
-                    parameterValue: providerId);
-            }
-            else if (attachmentId == default)
-            {
-                throw new InvalidProviderAttachmentException(
-                    parameterName: nameof(ProviderAttachment.AttachmentId),
-                    parameterValue: attachmentId);
-            }
+            ValidateAttachmentId(attachmentId);
+            ValidateProviderAttachmentId(providerId);
         }
 
         private static void ValidateStorageProviderAttachment(
@@ -49,5 +57,23 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
                 throw new NotFoundProviderAttachmentException(providerId, attachmentId);
             }
         }
+
+        private static void Validate(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidProviderAttachmentException = new InvalidProviderAttachmentException();
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidProviderAttachmentException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidProviderAttachmentException.ThrowIfContainsErrors();
+        }
+
     }
 }

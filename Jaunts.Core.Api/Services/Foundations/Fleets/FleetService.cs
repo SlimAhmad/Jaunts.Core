@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Fleets
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<Fleet> RegisterFleetAsync(Fleet driver) =>
+        public ValueTask<Fleet> CreateFleetAsync(Fleet driver) =>
         TryCatch(async () =>
         {
             ValidateFleetOnRegister(driver);

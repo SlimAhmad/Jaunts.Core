@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Services.Foundations.FlightDeals
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<FlightDeal> RegisterFlightDealAsync(FlightDeal driver) =>
+        public ValueTask<FlightDeal> CreateFlightDealAsync(FlightDeal driver) =>
         TryCatch(async () =>
         {
             ValidateFlightDealOnRegister(driver);

@@ -37,7 +37,10 @@ namespace Jaunts.Core.Api.Services.Foundations.CustomerAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedCustomerAttachmentStorageException =
+                   new FailedCustomerAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedCustomerAttachmentStorageException);
             }
             catch (DuplicateKeyException duplicateKeyException)
             {
@@ -62,7 +65,10 @@ namespace Jaunts.Core.Api.Services.Foundations.CustomerAttachments
             }
             catch (DbUpdateException dbUpdateException)
             {
-                throw CreateAndLogDependencyException(dbUpdateException);
+                var failedCustomerAttachmentStorageException =
+                   new FailedCustomerAttachmentStorageException(dbUpdateException);
+
+                throw CreateAndLogDependencyException(failedCustomerAttachmentStorageException);
             }
             catch (Exception exception)
             {
@@ -81,44 +87,50 @@ namespace Jaunts.Core.Api.Services.Foundations.CustomerAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedCustomerAttachmentStorageException =
+                   new FailedCustomerAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedCustomerAttachmentStorageException);
             }
             catch (Exception exception)
             {
-                throw CreateAndLogServiceException(exception);
+                var failedCustomerAttachmentServiceException =
+                    new FailedCustomerAttachmentServiceException(exception);
+
+                throw CreateAndLogServiceException(failedCustomerAttachmentServiceException);
             }
         }
 
         private CustomerAttachmentValidationException CreateAndLogValidationException(Exception exception)
         {
-            var guardianAttachmentValidationException = new CustomerAttachmentValidationException(exception);
-            this.loggingBroker.LogError(guardianAttachmentValidationException);
+            var customerAttachmentValidationException = new CustomerAttachmentValidationException(exception);
+            this.loggingBroker.LogError(customerAttachmentValidationException);
 
-            return guardianAttachmentValidationException;
+            return customerAttachmentValidationException;
         }
 
         private CustomerAttachmentDependencyException CreateAndLogCriticalDependencyException(Exception exception)
         {
-            var guardianAttachmentDependencyException = new CustomerAttachmentDependencyException(exception);
-            this.loggingBroker.LogCritical(guardianAttachmentDependencyException);
+            var customerAttachmentDependencyException = new CustomerAttachmentDependencyException(exception);
+            this.loggingBroker.LogCritical(customerAttachmentDependencyException);
 
-            return guardianAttachmentDependencyException;
+            return customerAttachmentDependencyException;
         }
 
         private CustomerAttachmentDependencyException CreateAndLogDependencyException(Exception exception)
         {
-            var guardianAttachmentDependencyException = new CustomerAttachmentDependencyException(exception);
-            this.loggingBroker.LogError(guardianAttachmentDependencyException);
+            var customerAttachmentDependencyException = new CustomerAttachmentDependencyException(exception);
+            this.loggingBroker.LogError(customerAttachmentDependencyException);
 
-            return guardianAttachmentDependencyException;
+            return customerAttachmentDependencyException;
         }
 
         private CustomerAttachmentServiceException CreateAndLogServiceException(Exception exception)
         {
-            var guardianAttachmentServiceException = new CustomerAttachmentServiceException(exception);
-            this.loggingBroker.LogError(guardianAttachmentServiceException);
+            var customerAttachmentServiceException = new CustomerAttachmentServiceException(exception);
+            this.loggingBroker.LogError(customerAttachmentServiceException);
 
-            return guardianAttachmentServiceException;
+            return customerAttachmentServiceException;
         }
     }
 }

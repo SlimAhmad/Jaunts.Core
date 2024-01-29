@@ -5,6 +5,7 @@
 
 using Jaunts.Core.Api.Models.Services.Foundations.Rides;
 using Jaunts.Core.Api.Models.Services.Foundations.Rides.Exceptions;
+using Termii.Core.Models.Services.Foundations.Termii.Tokens;
 
 namespace Jaunts.Core.Api.Services.Foundations.Rides
 {
@@ -19,7 +20,8 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
                 (Rule: IsInvalid(ride.Description), Parameter: nameof(Ride.Description)),
                 (Rule: IsInvalid(ride.Location), Parameter: nameof(Ride.Location)),
                 (Rule: IsInvalid(ride.Name), Parameter: nameof(Ride.Name)),
-                (Rule: IsInvalid(ride.CarId), Parameter: nameof(Ride.CarId)),
+                (Rule: IsInvalid(ride.RideStatus), Parameter: nameof(Ride.RideStatus)),
+                (Rule: IsInvalid(ride.FleetId), Parameter: nameof(Ride.FleetId)),
                 (Rule: IsInvalid(ride.CreatedBy), Parameter: nameof(Ride.CreatedBy)),
                 (Rule: IsInvalid(ride.UpdatedBy), Parameter: nameof(Ride.UpdatedBy)),
                 (Rule: IsInvalid(ride.CreatedDate), Parameter: nameof(Ride.CreatedDate)),
@@ -32,6 +34,30 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
                     Parameter: nameof(Ride.UpdatedBy)),
 
                 (Rule: IsNotSame(firstDate: ride.UpdatedDate,
+                    secondDate: ride.CreatedDate,
+                    secondDateName: nameof(Ride.CreatedDate)),
+                    Parameter: nameof(Ride.UpdatedDate))
+            );
+        }
+
+        private void ValidateRideOnModify(Ride ride)
+        {
+            ValidateRide(ride);
+
+            Validate(
+                (Rule: IsInvalid(ride.Id), Parameter: nameof(Ride.Id)),
+                (Rule: IsInvalid(ride.Description), Parameter: nameof(Ride.Description)),
+                (Rule: IsInvalid(ride.Location), Parameter: nameof(Ride.Location)),
+                (Rule: IsInvalid(ride.Name), Parameter: nameof(Ride.Name)),
+                (Rule: IsInvalid(ride.RideStatus), Parameter: nameof(Ride.RideStatus)),
+                (Rule: IsInvalid(ride.FleetId), Parameter: nameof(Ride.FleetId)),
+                (Rule: IsInvalid(ride.CreatedBy), Parameter: nameof(Ride.CreatedBy)),
+                (Rule: IsInvalid(ride.UpdatedBy), Parameter: nameof(Ride.UpdatedBy)),
+                (Rule: IsInvalid(ride.CreatedDate), Parameter: nameof(Ride.CreatedDate)),
+                (Rule: IsNotRecent(ride.UpdatedDate), Parameter: nameof(Ride.UpdatedDate)),
+
+                (Rule: IsSame(
+                    firstDate: ride.UpdatedDate,
                     secondDate: ride.CreatedDate,
                     secondDateName: nameof(Ride.CreatedDate)),
                     Parameter: nameof(Ride.UpdatedDate))
@@ -54,6 +80,12 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
         {
             Condition = date == default,
             Message = "Date is required"
+        };
+
+        private static dynamic IsInvalid(RideStatus status) => new
+        {
+            Condition = Enum.IsDefined(status) is false,
+            Message = "Value is not recognized"
         };
 
         private static dynamic IsNotSame(
@@ -91,12 +123,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
 
         private static void ValidateRideId(Guid rideId)
         {
-            if (rideId == Guid.Empty)
-            {
-                throw new InvalidRideException(
-                    parameterName: nameof(Ride.Id),
-                    parameterValue: rideId);
-            }
+            Validate((Rule: IsInvalid(rideId), Parameter: nameof(Ride.Id)));
         }
 
         private static void ValidateStorageRide(Ride storageRide, Guid rideId)
@@ -105,30 +132,6 @@ namespace Jaunts.Core.Api.Services.Foundations.Rides
             {
                 throw new NotFoundRideException(rideId);
             }
-        }
-
-        private void ValidateRideOnModify(Ride ride)
-        {
-            ValidateRide(ride);
-
-            Validate(
-                (Rule: IsInvalid(ride.Id), Parameter: nameof(Ride.Id)),
-                (Rule: IsInvalid(ride.Description), Parameter: nameof(Ride.Description)),
-                (Rule: IsInvalid(ride.Location), Parameter: nameof(Ride.Location)),
-                (Rule: IsInvalid(ride.Name), Parameter: nameof(Ride.Name)),
-                (Rule: IsInvalid(ride.CarId), Parameter: nameof(Ride.CarId)),
-                (Rule: IsInvalid(ride.CreatedBy), Parameter: nameof(Ride.CreatedBy)),
-                (Rule: IsInvalid(ride.UpdatedBy), Parameter: nameof(Ride.UpdatedBy)),
-                (Rule: IsInvalid(ride.CreatedDate), Parameter: nameof(Ride.CreatedDate)),
-                (Rule: IsInvalid(ride.UpdatedDate), Parameter: nameof(Ride.UpdatedDate)),
-                (Rule: IsNotRecent(ride.UpdatedDate), Parameter: nameof(Ride.UpdatedDate)),
-
-                (Rule: IsSame(
-                    firstDate: ride.UpdatedDate,
-                    secondDate: ride.CreatedDate,
-                    secondDateName: nameof(Ride.CreatedDate)),
-                    Parameter: nameof(Ride.UpdatedDate))
-            );
         }
 
         public void ValidateAgainstStorageRideOnModify(Ride inputRide, Ride storageRide)

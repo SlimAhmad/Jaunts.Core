@@ -26,18 +26,18 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             this.loggingBroker = loggingBroker;
         }
 
-        public ValueTask<ProviderAttachment> AddVacationPackageAttachmentAsync(ProviderAttachment vacationPackagesAttachment) =>
+        public ValueTask<ProviderAttachment> AddProviderAttachmentAsync(ProviderAttachment PackageAttachment) =>
             TryCatch(async () =>
         {
-            ValidateProviderAttachmentOnCreate(vacationPackagesAttachment);
+            ValidateProviderAttachmentOnCreate(PackageAttachment);
 
-            return await this.storageBroker.InsertProviderAttachmentAsync(vacationPackagesAttachment);
+            return await this.storageBroker.InsertProviderAttachmentAsync(PackageAttachment);
         });
 
-        public IQueryable<ProviderAttachment> RetrieveAllVacationPackageAttachments() =>
+        public IQueryable<ProviderAttachment> RetrieveAllProviderAttachments() =>
         TryCatch(() => this.storageBroker.SelectAllProviderAttachments());
 
-        public ValueTask<ProviderAttachment> RetrieveVacationPackageAttachmentByIdAsync
+        public ValueTask<ProviderAttachment> RetrieveProviderAttachmentByIdAsync
             (Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
@@ -51,7 +51,7 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             return maybeProviderAttachment;
         });
 
-        public ValueTask<ProviderAttachment> RemoveVacationPackageAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
+        public ValueTask<ProviderAttachment> RemoveProviderAttachmentByIdAsync(Guid packageId, Guid attachmentId) =>
         TryCatch(async () =>
         {
             ValidateProviderAttachmentIdIsNull(packageId, attachmentId);

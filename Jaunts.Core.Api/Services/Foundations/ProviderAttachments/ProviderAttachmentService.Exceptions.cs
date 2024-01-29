@@ -37,7 +37,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedAttachmentStorageException =
+                   new FailedProviderAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAttachmentStorageException);
             }
             catch (DuplicateKeyException duplicateKeyException)
             {
@@ -62,7 +65,10 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             }
             catch (DbUpdateException dbUpdateException)
             {
-                throw CreateAndLogDependencyException(dbUpdateException);
+                var failedProviderAttachmentStorageException =
+                   new FailedProviderAttachmentStorageException(dbUpdateException);
+
+                throw CreateAndLogDependencyException(failedProviderAttachmentStorageException);
             }
             catch (Exception exception)
             {
@@ -81,11 +87,17 @@ namespace Jaunts.Core.Api.Services.Foundations.ProviderAttachments
             }
             catch (SqlException sqlException)
             {
-                throw CreateAndLogCriticalDependencyException(sqlException);
+                var failedAttachmentStorageException =
+                  new FailedProviderAttachmentStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedAttachmentStorageException);
             }
             catch (Exception exception)
             {
-                throw CreateAndLogServiceException(exception);
+                var failedProviderAttachmentServiceException =
+                    new FailedProviderAttachmentServiceException(exception);
+
+                throw CreateAndLogServiceException(failedProviderAttachmentServiceException);
             }
         }
 
