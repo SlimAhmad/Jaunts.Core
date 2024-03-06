@@ -73,7 +73,7 @@ namespace Jaunts.Core.Api.Controllers
             try
             {
                 ApplicationRole storageRole =
-                    await this.roleProcessingService.RetrieveRoleById(roleId);
+                    await this.roleProcessingService.RetrieveRoleByIdAsync(roleId);
 
                 return Ok(storageRole);
             }

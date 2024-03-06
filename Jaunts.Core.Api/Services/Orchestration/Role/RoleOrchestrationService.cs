@@ -42,7 +42,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.Role
             return await this.roleProcessingService.RetrievePermissions(userRoles);  
         });
         public ValueTask<ApplicationRole> RetrieveRoleById(Guid id) =>
-        TryCatch(async () => await this.roleProcessingService.RetrieveRoleById(id));
+        TryCatch(async () => await this.roleProcessingService.RetrieveRoleByIdAsync(id));
         public ValueTask<ApplicationRole> UpsertRoleAsync(ApplicationRole role) =>
         TryCatch(async () => await this.roleProcessingService.UpsertRoleAsync(role));
     }

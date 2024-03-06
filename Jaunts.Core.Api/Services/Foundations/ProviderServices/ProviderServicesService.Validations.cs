@@ -10,7 +10,7 @@ using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.Exceptions;
 
 namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
 {
-    public partial class ProviderServicesService
+    public partial class ProviderServiceService
     {
         private void ValidateProviderServiceOnCreate(ProviderService providerService)
         {

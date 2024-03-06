@@ -1,6 +1,9 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.WalletBalances;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.Transactions;
+using Jaunts.Core.Api.Models.Services.Foundations.WalletBalances;
+using Jaunts.Core.Api.Models.Services.Foundations.Wallets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 
 namespace Jaunts.Core.Api.Brokers.Storages
 {
@@ -17,7 +20,10 @@ namespace Jaunts.Core.Api.Brokers.Storages
             return walletBalanceEntityEntry.Entity;
         }
 
-        public IQueryable<WalletBalance> SelectAllWalletBalances() => this.WalletBalance;
+        public IQueryable<WalletBalance> SelectAllWalletBalances() => this.WalletBalance
+            .Include(x => x.Wallet)
+            .ThenInclude(x => x.User)
+            .AsQueryable();
 
         public async ValueTask<WalletBalance> SelectWalletBalanceByIdAsync(Guid walletBalanceId)
         {

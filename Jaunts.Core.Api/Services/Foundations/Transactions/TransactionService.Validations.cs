@@ -16,11 +16,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Transactions
 
             Validate(
                 (Rule: IsInvalid(transaction.Id), Parameter: nameof(Transaction.Id)),
-                (Rule: IsInvalid(transaction.UserId), Parameter: nameof(Transaction.UserId)),
                 (Rule: IsInvalid(transaction.WalletBalanceId), Parameter: nameof(Transaction.WalletBalanceId)),
                 (Rule: IsInvalid(transaction.Narration), Parameter: nameof(Transaction.Narration)),
                 (Rule: IsInvalid(transaction.TransactionType), Parameter: nameof(Transaction.TransactionType)),
-                (Rule: IsInvalid(transaction.TransactionStatus), Parameter: nameof(Transaction.TransactionStatus)),
+                (Rule: IsInvalid(transaction.Status), Parameter: nameof(Transaction.Status)),
                 (Rule: IsInvalid(transaction.CreatedBy), Parameter: nameof(Transaction.CreatedBy)),
                 (Rule: IsInvalid(transaction.UpdatedBy), Parameter: nameof(Transaction.UpdatedBy)),
                 (Rule: IsInvalid(transaction.CreatedDate), Parameter: nameof(Transaction.CreatedDate)),
@@ -121,11 +120,10 @@ namespace Jaunts.Core.Api.Services.Foundations.Transactions
 
             Validate(
                 (Rule: IsInvalid(transaction.Id), Parameter: nameof(Transaction.Id)),
-                (Rule: IsInvalid(transaction.UserId), Parameter: nameof(Transaction.UserId)),
                 (Rule: IsInvalid(transaction.WalletBalanceId), Parameter: nameof(Transaction.WalletBalanceId)),
                 (Rule: IsInvalid(transaction.Narration), Parameter: nameof(Transaction.Narration)),
                 (Rule: IsInvalid(transaction.TransactionType), Parameter: nameof(Transaction.TransactionType)),
-                (Rule: IsInvalid(transaction.TransactionStatus), Parameter: nameof(Transaction.TransactionStatus)),
+                (Rule: IsInvalid(transaction.Status), Parameter: nameof(Transaction.Status)),
                 (Rule: IsInvalid(transaction.CreatedBy), Parameter: nameof(Transaction.CreatedBy)),
                 (Rule: IsInvalid(transaction.UpdatedBy), Parameter: nameof(Transaction.UpdatedBy)),
                 (Rule: IsInvalid(transaction.CreatedDate), Parameter: nameof(Transaction.CreatedDate)),

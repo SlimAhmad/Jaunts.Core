@@ -34,7 +34,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Packages
             return await this.storageBroker.InsertPackageAsync(package);
         });
 
-        public IQueryable<Package> RetrieveAllPackage() =>
+        public IQueryable<Package> RetrieveAllPackages() =>
         TryCatch(() => this.storageBroker.SelectAllPackage());
 
         public ValueTask<Package> RetrievePackageByIdAsync(Guid PackageId) =>

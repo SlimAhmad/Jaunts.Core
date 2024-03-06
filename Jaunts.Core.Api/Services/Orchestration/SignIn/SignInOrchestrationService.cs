@@ -68,6 +68,7 @@ namespace Jaunts.Core.Api.Services.Orchestration.SignIn
            
             ApplicationUser user = await userProcessingService.RetrieveUserByEmailOrUserNameAsync(
                 userNameOrEmail);
+            ValidateUser(user);
             if (user.TwoFactorEnabled)
             {
                 await signInProcessingService.SignOutAsync();

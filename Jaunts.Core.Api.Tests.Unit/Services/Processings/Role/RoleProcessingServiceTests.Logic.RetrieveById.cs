@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
 
             // when
             ApplicationRole actualRole =
-                  await this.roleProcessingService.RetrieveRoleById(randomRoleId);
+                  await this.roleProcessingService.RetrieveRoleByIdAsync(randomRoleId);
 
             // then
             actualRole.Should().BeEquivalentTo(expectedRole);

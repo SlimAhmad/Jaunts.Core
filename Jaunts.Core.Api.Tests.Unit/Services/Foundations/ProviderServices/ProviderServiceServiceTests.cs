@@ -26,7 +26,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.ProviderServices
         private readonly Mock<IStorageBroker> storageBrokerMock;
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
-        private readonly IProviderServicesService providerServiceService;
+        private readonly IProviderServiceService providerServiceService;
 
         public ProviderServiceServiceTests()
         {
@@ -34,7 +34,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.ProviderServices
             this.dateTimeBrokerMock = new Mock<IDateTimeBroker>();
             this.loggingBrokerMock = new Mock<ILoggingBroker>();
 
-            this.providerServiceService = new ProviderServicesService(
+            this.providerServiceService = new ProviderServiceService(
                 storageBroker: this.storageBrokerMock.Object,
                 dateTimeBroker: this.dateTimeBrokerMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);

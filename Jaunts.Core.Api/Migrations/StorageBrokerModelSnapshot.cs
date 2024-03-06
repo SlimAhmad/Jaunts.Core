@@ -17,12 +17,806 @@ namespace Jaunts.Core.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.2.23480.1")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", b =>
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.AdvertAttachments.AdvertAttachment", b =>
+                {
+                    b.Property<Guid>("AdvertId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AdvertId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("AdvertAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Adverts.Advert", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Placement")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("TransactionFeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.HasIndex("TransactionFeeId");
+
+                    b.ToTable("Adverts");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Amenities.Amenity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ShortLetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShortLetId");
+
+                    b.ToTable("Amenities");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Contents")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Extension")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ExternalUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Label")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments.CustomerAttachment", b =>
+                {
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CustomerId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("CustomerAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Customers.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("BirthDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.DriverAttachments.DriverAttachment", b =>
+                {
+                    b.Property<Guid>("DriverId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DriverId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("DriverAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Drivers.Driver", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("DriverStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FleetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicenseNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FleetId");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Driver");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Fleets.Fleet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FuelType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlateNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("SeatingCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TransmissionType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Fleet");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments.FlightDealAttachment", b =>
+                {
+                    b.Property<Guid>("FlightDealId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("FlightDealId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId")
+                        .IsUnique();
+
+                    b.HasIndex("FlightDealId")
+                        .IsUnique();
+
+                    b.ToTable("FlightDealAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.FlightDeals.FlightDeal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Airline")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ArrivalCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DepartureCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("FlightDeal");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.PackageAttachment", b =>
+                {
+                    b.Property<Guid>("PackageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PackageId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("PackageAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Packages.Package", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Destination")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Package");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.PromosOfferAttachments.PromosOfferAttachment", b =>
+                {
+                    b.Property<Guid>("PromosOfferId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PromosOfferId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId")
+                        .IsUnique();
+
+                    b.HasIndex("PromosOfferId")
+                        .IsUnique();
+
+                    b.ToTable("PromosOfferAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Promos_Offers.PromosOffer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CodeOrName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DiscountPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("EndDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("MaximumUsageLimit")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MinimumPurchaseAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Service")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("StartDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("PromosOffer");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.ProviderAttachment", b =>
+                {
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProviderId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("ProviderAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory.ProviderCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProviderCategory");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.ProviderService", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("ProviderService");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("Incorporation")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("ProviderCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RcNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderCategoryId");
+
+                    b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachments.ProvidersDirectorAttachment", b =>
+                {
+                    b.Property<Guid>("ProviderDirectorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProviderDirectorId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("ProvidersDirectorAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.ProvidersDirector", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("ProvidersDirector");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.RideAttachments.RideAttachment", b =>
+                {
+                    b.Property<Guid>("RideId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RideId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("RideAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Rides.Ride", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("FleetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("RideStatus")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FleetId");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Ride");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +853,152 @@ namespace Jaunts.Core.Api.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", b =>
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ShortLetAttachments.ShortLetAttachment", b =>
+                {
+                    b.Property<Guid>("ShortLetId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttachmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ShortLetId", "AttachmentId");
+
+                    b.HasIndex("AttachmentId");
+
+                    b.ToTable("ShortLetAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ShortLets.ShortLet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PricePerNight")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShortLet");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.TransactionFee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionFee");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Transactions.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BalanceAfter")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("BalanceBefore")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("From")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Narration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("To")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TransactionFeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("WalletBalanceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionFeeId");
+
+                    b.HasIndex("WalletBalanceId");
+
+                    b.ToTable("Transaction");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,7 +1056,7 @@ namespace Jaunts.Core.Api.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RideStatus")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -141,6 +1080,77 @@ namespace Jaunts.Core.Api.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.WalletBalances.WalletBalance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletBalance");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Wallets.Wallet", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UpdatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WalletName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Wallet");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -246,9 +1256,370 @@ namespace Jaunts.Core.Api.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.AdvertAttachments.AdvertAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Adverts.Advert", "Advert")
+                        .WithMany("AdvertAttachments")
+                        .HasForeignKey("AdvertId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("AdvertAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Advert");
+
+                    b.Navigation("Attachment");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Adverts.Advert", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.TransactionFee", "TransactionFee")
+                        .WithMany()
+                        .HasForeignKey("TransactionFeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provider");
+
+                    b.Navigation("TransactionFee");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Amenities.Amenity", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.ShortLets.ShortLet", "ShortLet")
+                        .WithMany("Amenities")
+                        .HasForeignKey("ShortLetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShortLet");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.CustomerAttachments.CustomerAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("CustomerAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Customers.Customer", "Customer")
+                        .WithMany("CustomerAttachments")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.DriverAttachments.DriverAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("DriverAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Drivers.Driver", "Driver")
+                        .WithMany("DriverAttachments")
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Driver");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Drivers.Driver", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Fleets.Fleet", "Fleet")
+                        .WithMany()
+                        .HasForeignKey("FleetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany("Drivers")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Fleet");
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Fleets.Fleet", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Providers")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Providers");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments.FlightDealAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithOne("FlightDealAttachment")
+                        .HasForeignKey("Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments.FlightDealAttachment", "AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.FlightDeals.FlightDeal", "FlightDeal")
+                        .WithOne("FlightDealAttachment")
+                        .HasForeignKey("Jaunts.Core.Api.Models.Services.Foundations.FlightDealAttachments.FlightDealAttachment", "FlightDealId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("FlightDeal");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.FlightDeals.FlightDeal", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Providers")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Providers");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.PackageAttachments.PackageAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("PackageAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Packages.Package", "Package")
+                        .WithMany("PackageAttachments")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Package");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.PromosOfferAttachments.PromosOfferAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithOne("PromosOfferAttachment")
+                        .HasForeignKey("Jaunts.Core.Api.Models.Services.Foundations.PromosOfferAttachments.PromosOfferAttachment", "AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Promos_Offers.PromosOffer", "PromosOffer")
+                        .WithOne("PromosOfferAttachment")
+                        .HasForeignKey("Jaunts.Core.Api.Models.Services.Foundations.PromosOfferAttachments.PromosOfferAttachment", "PromosOfferId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("PromosOffer");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Promos_Offers.PromosOffer", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany()
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments.ProviderAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("ProviderAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany("ProviderAttachments")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderServices.ProviderService", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany("ProviderServices")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory.ProviderCategory", null)
+                        .WithMany("Providers")
+                        .HasForeignKey("ProviderCategoryId");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectorAttachments.ProvidersDirectorAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("ProvidersDirectorsAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.ProvidersDirector", "ProviderDirector")
+                        .WithMany("ProvidersDirectorAttachments")
+                        .HasForeignKey("ProviderDirectorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("ProviderDirector");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.ProvidersDirector", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany("ProvidersDirectors")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.RideAttachments.RideAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("RideAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Rides.Ride", "Ride")
+                        .WithMany("RideAttachments")
+                        .HasForeignKey("RideId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("Ride");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Rides.Ride", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Fleets.Fleet", "Fleet")
+                        .WithMany()
+                        .HasForeignKey("FleetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", "Provider")
+                        .WithMany("Rides")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Fleet");
+
+                    b.Navigation("Provider");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ShortLetAttachments.ShortLetAttachment", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", "Attachment")
+                        .WithMany("ShortLetAttachments")
+                        .HasForeignKey("AttachmentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.ShortLets.ShortLet", "ShortLet")
+                        .WithMany("ShortLetAttachments")
+                        .HasForeignKey("ShortLetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Attachment");
+
+                    b.Navigation("ShortLet");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Transactions.Transaction", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.TransactionFees.TransactionFee", "TransactionFee")
+                        .WithMany()
+                        .HasForeignKey("TransactionFeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.WalletBalances.WalletBalance", "WalletBalance")
+                        .WithMany()
+                        .HasForeignKey("WalletBalanceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TransactionFee");
+
+                    b.Navigation("WalletBalance");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.WalletBalances.WalletBalance", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Wallets.Wallet", "Wallet")
+                        .WithMany("WalletBalances")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wallet");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Wallets.Wallet", b =>
+                {
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,7 +1628,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -266,7 +1637,7 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,13 +1646,13 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Role.ApplicationRole", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Role.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -290,11 +1661,104 @@ namespace Jaunts.Core.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Jaunts.Core.Api.Models.Service.Foundations.Users.ApplicationUser", null)
+                    b.HasOne("Jaunts.Core.Api.Models.Services.Foundations.Users.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Adverts.Advert", b =>
+                {
+                    b.Navigation("AdvertAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Attachments.Attachment", b =>
+                {
+                    b.Navigation("AdvertAttachments");
+
+                    b.Navigation("CustomerAttachments");
+
+                    b.Navigation("DriverAttachments");
+
+                    b.Navigation("FlightDealAttachment");
+
+                    b.Navigation("PackageAttachments");
+
+                    b.Navigation("PromosOfferAttachment");
+
+                    b.Navigation("ProviderAttachments");
+
+                    b.Navigation("ProvidersDirectorsAttachments");
+
+                    b.Navigation("RideAttachments");
+
+                    b.Navigation("ShortLetAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Customers.Customer", b =>
+                {
+                    b.Navigation("CustomerAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Drivers.Driver", b =>
+                {
+                    b.Navigation("DriverAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.FlightDeals.FlightDeal", b =>
+                {
+                    b.Navigation("FlightDealAttachment");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Packages.Package", b =>
+                {
+                    b.Navigation("PackageAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Promos_Offers.PromosOffer", b =>
+                {
+                    b.Navigation("PromosOfferAttachment");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProviderCategory.ProviderCategory", b =>
+                {
+                    b.Navigation("Providers");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Providers.Provider", b =>
+                {
+                    b.Navigation("Drivers");
+
+                    b.Navigation("ProviderAttachments");
+
+                    b.Navigation("ProviderServices");
+
+                    b.Navigation("ProvidersDirectors");
+
+                    b.Navigation("Rides");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors.ProvidersDirector", b =>
+                {
+                    b.Navigation("ProvidersDirectorAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Rides.Ride", b =>
+                {
+                    b.Navigation("RideAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.ShortLets.ShortLet", b =>
+                {
+                    b.Navigation("Amenities");
+
+                    b.Navigation("ShortLetAttachments");
+                });
+
+            modelBuilder.Entity("Jaunts.Core.Api.Models.Services.Foundations.Wallets.Wallet", b =>
+                {
+                    b.Navigation("WalletBalances");
                 });
 #pragma warning restore 612, 618
         }

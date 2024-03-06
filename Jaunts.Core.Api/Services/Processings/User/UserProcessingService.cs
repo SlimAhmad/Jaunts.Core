@@ -94,7 +94,7 @@ namespace Jaunts.Core.Api.Services.Processings.User
                 SameUserAs(email));
             ValidateUserResponseIsNotNull(user);
             var passwordReset = await userService.ModifyUserPasswordAsync(
-                user, HttpUtility.UrlDecode(token), password);
+                user, token, password);
             var response = passwordReset != null ? true : false;
             
             return response;

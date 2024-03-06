@@ -30,7 +30,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
 
             // when
             ValueTask<ApplicationRole> actualRoleResponseTask =
-                this.roleProcessingService.RetrieveRoleById(someRoleId);
+                this.roleProcessingService.RetrieveRoleByIdAsync(someRoleId);
 
             RoleProcessingDependencyValidationException
                actualRoleProcessingDependencyValidationException =
@@ -73,7 +73,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
 
             // when
             ValueTask<ApplicationRole> actualRoleResponseTask =
-                this.roleProcessingService.RetrieveRoleById(someRoleId);
+                this.roleProcessingService.RetrieveRoleByIdAsync(someRoleId);
 
 
             RoleProcessingDependencyException
@@ -122,7 +122,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
 
             // when
             ValueTask<ApplicationRole> actualRoleResponseTask =
-                this.roleProcessingService.RetrieveRoleById(someRoleId);
+                this.roleProcessingService.RetrieveRoleByIdAsync(someRoleId);
 
             RoleProcessingServiceException
                actualRoleProcessingServiceException =

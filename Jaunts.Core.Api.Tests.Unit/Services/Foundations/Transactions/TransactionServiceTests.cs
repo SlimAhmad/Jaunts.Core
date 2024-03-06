@@ -121,8 +121,10 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Transactions
             var filler = new Filler<Transaction>();
 
             filler.Setup()
-                .OnProperty(Transaction => Transaction.TransactionStatus).Use(TransactionStatus.Success)
-                .OnProperty(Transaction => Transaction.TransactionType).Use(TransactionType.Transfer)
+                .OnProperty(transaction => transaction.Status).Use(TransactionStatus.Success)
+                .OnProperty(transaction => transaction.TransactionType).Use(TransactionType.Transfer)
+                .OnProperty(transaction => transaction.WalletBalance).IgnoreIt()
+                .OnProperty(transaction => transaction.TransactionFee).IgnoreIt()
                 .OnType<DateTimeOffset>().Use(dateTime);
 
             return filler;

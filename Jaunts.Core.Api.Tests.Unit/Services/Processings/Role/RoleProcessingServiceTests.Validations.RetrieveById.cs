@@ -32,7 +32,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Processings.Role
 
             // when
             ValueTask<ApplicationRole> upsertRoleTask =
-                this.roleProcessingService.RetrieveRoleById(roleId);
+                this.roleProcessingService.RetrieveRoleByIdAsync(roleId);
 
             RoleProcessingValidationException actualRoleProcessingValidationException =
                 await Assert.ThrowsAsync<RoleProcessingValidationException>(

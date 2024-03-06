@@ -12,7 +12,7 @@ using Xeptions;
 
 namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
 {
-    public partial class ProviderServicesService
+    public partial class ProviderServiceService
     {
         private delegate ValueTask<ProviderService> ReturningProviderServiceFunction();
         private delegate IQueryable<ProviderService> ReturningProviderServiceCategoriesFunction();

@@ -8,7 +8,7 @@ namespace Jaunts.Core.Api.Services.Processings.Role
     {
         IQueryable<ApplicationRole> RetrieveAllRoles();
         ValueTask<bool> RemoveRoleByIdAsync(Guid id);
-        ValueTask<ApplicationRole> RetrieveRoleById(Guid id);
+        ValueTask<ApplicationRole> RetrieveRoleByIdAsync(Guid id);
         ValueTask<ApplicationRole> UpsertRoleAsync(ApplicationRole role);
         ValueTask<int> RetrievePermissions(List<string> role);
 

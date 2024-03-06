@@ -17,7 +17,6 @@ namespace Jaunts.Core.Api.Services.Foundations.WalletBalances
             Validate(
                 (Rule: IsInvalid(walletBalance.Id), Parameter: nameof(WalletBalance.Id)),
                 (Rule: IsInvalid(walletBalance.WalletId), Parameter: nameof(WalletBalance.WalletId)),
-                (Rule: IsInvalid(walletBalance.Description), Parameter: nameof(WalletBalance.Description)),
                 (Rule: IsInvalid(walletBalance.CreatedBy), Parameter: nameof(WalletBalance.CreatedBy)),
                 (Rule: IsInvalid(walletBalance.UpdatedBy), Parameter: nameof(WalletBalance.UpdatedBy)),
                 (Rule: IsInvalid(walletBalance.CreatedDate), Parameter: nameof(WalletBalance.CreatedDate)),
@@ -108,7 +107,6 @@ namespace Jaunts.Core.Api.Services.Foundations.WalletBalances
             Validate(
                 (Rule: IsInvalid(walletBalance.Id), Parameter: nameof(WalletBalance.Id)),
                 (Rule: IsInvalid(walletBalance.WalletId), Parameter: nameof(WalletBalance.WalletId)),
-                (Rule: IsInvalid(walletBalance.Description), Parameter: nameof(WalletBalance.Description)),
                 (Rule: IsInvalid(walletBalance.CreatedBy), Parameter: nameof(WalletBalance.CreatedBy)),
                 (Rule: IsInvalid(walletBalance.UpdatedBy), Parameter: nameof(WalletBalance.UpdatedBy)),
                 (Rule: IsInvalid(walletBalance.CreatedDate), Parameter: nameof(WalletBalance.CreatedDate)),

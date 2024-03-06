@@ -38,7 +38,7 @@ namespace Jaunts.Core.Api.Services.Processings.Role
                 return true;
             });
 
-            public ValueTask<ApplicationRole> RetrieveRoleById(
+            public ValueTask<ApplicationRole> RetrieveRoleByIdAsync(
                 Guid id) =>
             TryCatch(async () =>
             {

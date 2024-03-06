@@ -10,13 +10,13 @@ using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices;
 
 namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
 {
-    public partial class ProviderServicesService : IProviderServicesService
+    public partial class ProviderServiceService : IProviderServiceService
     {
         private readonly IStorageBroker storageBroker;
         private readonly IDateTimeBroker dateTimeBroker;
         private readonly ILoggingBroker loggingBroker;
 
-        public ProviderServicesService(
+        public ProviderServiceService(
             IStorageBroker storageBroker,
             IDateTimeBroker dateTimeBroker,
             ILoggingBroker loggingBroker)

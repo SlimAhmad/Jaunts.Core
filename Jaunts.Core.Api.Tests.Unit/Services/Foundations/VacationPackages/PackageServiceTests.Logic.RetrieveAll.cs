@@ -27,7 +27,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Packages
 
             // when
             IQueryable<Package> actualPackage =
-                this.packageService.RetrieveAllPackage();
+                this.packageService.RetrieveAllPackages();
 
             // then
             actualPackage.Should().BeEquivalentTo(expectedPackage);

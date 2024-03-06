@@ -36,7 +36,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Packages
 
             // when
             Action retrieveAllPackageAction = () =>
-                this.packageService.RetrieveAllPackage();
+                this.packageService.RetrieveAllPackages();
 
             PackageDependencyException actualDependencyException =
               Assert.Throws<PackageDependencyException>(
@@ -82,7 +82,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Packages
 
             // when
             Action retrieveAllPackageAction = () =>
-                this.packageService.RetrieveAllPackage();
+                this.packageService.RetrieveAllPackages();
 
             PackageServiceException actualServiceException =
               Assert.Throws<PackageServiceException>(

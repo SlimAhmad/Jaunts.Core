@@ -121,6 +121,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.WalletBalances
             var filler = new Filler<WalletBalance>();
 
             filler.Setup()
+                .OnProperty(walletBalance => walletBalance.Wallet).IgnoreIt()
                 .OnType<DateTimeOffset>().Use(dateTime);
 
             return filler;

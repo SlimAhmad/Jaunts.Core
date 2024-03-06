@@ -59,19 +59,11 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.WalletBalances
         }
 
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData("  ")]
-        public async void ShouldThrowValidationExceptionOnCreateWhenWalletBalanceIsInvalidAndLogItAsync(
-            string invalidText)
+        [Fact]
+        public async void ShouldThrowValidationExceptionOnCreateWhenWalletBalanceIsInvalidAndLogItAsync()
         {
             // given
-            var invalidWalletBalance = new WalletBalance
-            {
-                Description = invalidText
-
-            };
+            var invalidWalletBalance = new WalletBalance();
 
             var invalidWalletBalanceException = new InvalidWalletBalanceException();
 
@@ -82,10 +74,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.WalletBalances
             invalidWalletBalanceException.AddData(
                 key: nameof(WalletBalance.WalletId),
                 values: "Id is required");
-
-            invalidWalletBalanceException.AddData(
-                key: nameof(WalletBalance.Description),
-                values: "Text is required");
 
             invalidWalletBalanceException.AddData(
                 key: nameof(WalletBalance.CreatedBy),

@@ -1,6 +1,8 @@
-﻿using Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments;
+﻿using Jaunts.Core.Api.Models.Services.Foundations.Drivers;
+using Jaunts.Core.Api.Models.Services.Foundations.ProviderAttachments;
 using Jaunts.Core.Api.Models.Services.Foundations.ProvidersDirectors;
 using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices;
+using Jaunts.Core.Api.Models.Services.Foundations.Rides;
 using System.Text.Json.Serialization;
 
 namespace Jaunts.Core.Api.Models.Services.Foundations.Providers
@@ -27,5 +29,11 @@ namespace Jaunts.Core.Api.Models.Services.Foundations.Providers
 
         [JsonIgnore]
         public IEnumerable<ProviderAttachment> ProviderAttachments { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<Driver> Drivers { get; set; }
+
+        [JsonIgnore]
+        public IEnumerable<Ride> Rides { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Role
             ApplicationRole expectedRole = storageRole;
 
             this.roleProcessingServiceMock.Setup(service =>
-                service.RetrieveRoleById(randomRoleId))
+                service.RetrieveRoleByIdAsync(randomRoleId))
                     .ReturnsAsync(storageRole);
 
             // when
@@ -33,7 +33,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Orchestrations.Role
             actualRole.Should().BeEquivalentTo(expectedRole);
 
             this.roleProcessingServiceMock.Verify(service =>
-                service.RetrieveRoleById(randomRoleId),
+                service.RetrieveRoleByIdAsync(randomRoleId),
                     Times.Once);
 
             this.roleProcessingServiceMock.VerifyNoOtherCalls();

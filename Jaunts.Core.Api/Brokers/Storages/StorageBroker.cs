@@ -47,7 +47,16 @@ namespace Jaunts.Core.Api.Brokers.Storages
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            SetDriverReferences(modelBuilder);
+            SetRideReferences(modelBuilder);
             SetCustomerAttachmentReferences(modelBuilder);
+            SetAdvertAttachmentReferences(modelBuilder);
+            SetDriverAttachmentReferences(modelBuilder);
+            SetFlightDealAttachmentReferences(modelBuilder);
+            SetPromosOfferAttachmentReferences(modelBuilder);
+            SetRideAttachmentReferences(modelBuilder);
+            SetShortLetAttachmentReferences(modelBuilder);
+            SetPackageAttachmentReferences(modelBuilder);
             SetProviderAttachmentReferences(modelBuilder);
             SetProvidersDirectorAttachmentReferences(modelBuilder);
             SetPackageAttachmentReferences(modelBuilder);

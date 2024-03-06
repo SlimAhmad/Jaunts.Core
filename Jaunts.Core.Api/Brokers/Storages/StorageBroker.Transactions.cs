@@ -17,7 +17,10 @@ namespace Jaunts.Core.Api.Brokers.Storages
             return transactionEntityEntry.Entity;
         }
 
-        public IQueryable<Transaction> SelectAllTransactions() => this.Transaction;
+        public IQueryable<Transaction> SelectAllTransactions() => this.Transaction
+            .Include(x=> x.WalletBalance)
+            .ThenInclude(x=> x.Wallet)
+            .Include(x=> x.TransactionFee);
 
         public async ValueTask<Transaction> SelectTransactionByIdAsync(Guid transactionId)
         {

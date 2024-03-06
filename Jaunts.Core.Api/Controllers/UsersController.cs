@@ -42,11 +42,11 @@ namespace Jaunts.Core.Api.Controllers
             }
             catch (UserDependencyException userDependencyException)
             {
-                return Problem(userDependencyException.Message);
+                return InternalServerError(userDependencyException);
             }
             catch (UserServiceException userProcessingServiceException)
             {
-                return Problem(userProcessingServiceException.Message);
+                return InternalServerError(userProcessingServiceException);
             }
         }
 
@@ -62,11 +62,11 @@ namespace Jaunts.Core.Api.Controllers
             }
             catch (UserDependencyException userDependencyException)
             {
-                return Problem(userDependencyException.Message);
+                return InternalServerError(userDependencyException);
             }
             catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userProcessingServiceException.Message);
+                return InternalServerError(userProcessingServiceException);
             }
         }
 
@@ -95,11 +95,11 @@ namespace Jaunts.Core.Api.Controllers
             }
             catch (UserDependencyException userDependencyException)
             {
-                return Problem(userDependencyException.Message);
+                return InternalServerError(userDependencyException);
             }
             catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userProcessingServiceException.Message);
+                return InternalServerError(userProcessingServiceException);
             }
         }
 
@@ -133,11 +133,11 @@ namespace Jaunts.Core.Api.Controllers
             }
             catch (UserDependencyException userDependencyException)
             {
-                return Problem(userDependencyException.Message);
+                return InternalServerError(userDependencyException);
             }
             catch (UserProcessingServiceException userProcessingServiceException)
             {
-                return Problem(userProcessingServiceException.Message);
+                return InternalServerError(userProcessingServiceException);
             }
         }
 

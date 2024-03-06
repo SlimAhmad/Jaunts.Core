@@ -65,12 +65,12 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Transactions
             Transaction randomTransaction = CreateRandomTransaction(randomDateTime);
             Transaction invalidTransaction = randomTransaction;
             invalidTransaction.UpdatedBy = randomTransaction.CreatedBy;
-            invalidTransaction.TransactionStatus = GetInvalidEnum<TransactionStatus>();
+            invalidTransaction.Status = GetInvalidEnum<TransactionStatus>();
 
             var invalidTransactionException = new InvalidTransactionException();
 
             invalidTransactionException.AddData(
-                key: nameof(Transaction.TransactionStatus),
+                key: nameof(Transaction.Status),
                 values: "Value is not recognized");
 
             var expectedTransactionValidationException = new TransactionValidationException(
@@ -180,10 +180,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Transactions
 
             invalidTransactionException.AddData(
                 key: nameof(Transaction.Id),
-                values: "Id is required");
-
-            invalidTransactionException.AddData(
-                key: nameof(Transaction.UserId),
                 values: "Id is required");
 
             invalidTransactionException.AddData(

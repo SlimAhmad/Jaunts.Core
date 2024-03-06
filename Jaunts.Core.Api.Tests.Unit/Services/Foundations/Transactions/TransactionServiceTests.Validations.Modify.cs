@@ -74,10 +74,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.Transactions
                 values: "Id is required");
 
             invalidTransactionException.AddData(
-                key: nameof(Transaction.UserId),
-                values: "Id is required");
-
-            invalidTransactionException.AddData(
                   key: nameof(Transaction.WalletBalanceId),
                   values: "Id is required");
 

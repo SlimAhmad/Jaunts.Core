@@ -64,7 +64,7 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
                 ValidateUser(user);
                 ValidateToken(token);
-                string verificationUrl = GenerateResetPasswordUrlAsync(user.Id.ToString(), token);
+                string verificationUrl = GenerateResetPasswordUrlAsync(user.Email, token);
                 SendEmailMessage emailDetails = ConvertEmailDetailsRequest(user,
                     "Forgot Password Verification Token - Jaunts",
                     configuration.Value.Email, configuration.Value.Name);
@@ -131,8 +131,8 @@ namespace Jaunts.Core.Api.Services.Processings.Email
 
             public string GenerateConfirmationUrlAsync(string id, string token) =>
                     $"http://localhost:7040/api/verify/email/?userId={HttpUtility.UrlEncode(id)}&emailToken={HttpUtility.UrlEncode(token)}";
-            public string GenerateResetPasswordUrlAsync(string id, string token) =>
-                 $"http://localhost:7040/api/verify/email/?userId={HttpUtility.UrlEncode(id)} &emailToken= {HttpUtility.UrlEncode(token)}";
+            public string GenerateResetPasswordUrlAsync(string email, string token) =>
+                 $"https://localhost:7244/reset/password?email={HttpUtility.UrlEncode(email)} &emailToken= {HttpUtility.UrlEncode(token)}";
             public string GenerateOTPLoginUrlAsync(string id, string code) =>
                  $"http://localhost:7040/api/verify/email/?userId={HttpUtility.UrlEncode(id)}&emailToken={HttpUtility.UrlEncode(code)}";
 

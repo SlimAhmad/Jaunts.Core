@@ -7,7 +7,7 @@ using Jaunts.Core.Api.Models.Services.Foundations.ProviderServices;
 
 namespace Jaunts.Core.Api.Services.Foundations.ProviderServices
 {
-    public interface IProviderServicesService 
+    public interface IProviderServiceService 
     {
         ValueTask<ProviderService> CreateProviderServiceAsync(ProviderService providerService);
         IQueryable<ProviderService> RetrieveAllProviderServices();

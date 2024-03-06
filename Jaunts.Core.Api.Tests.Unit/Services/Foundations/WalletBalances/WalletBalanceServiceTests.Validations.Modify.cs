@@ -64,10 +64,7 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.WalletBalances
             string invalidText)
         {
             // given
-            var invalidWalletBalance = new WalletBalance
-            {
-                Description = invalidText,
-            };
+            var invalidWalletBalance = new WalletBalance();
 
             var invalidWalletBalanceException = new InvalidWalletBalanceException();
 
@@ -78,10 +75,6 @@ namespace Jaunts.Core.Api.Tests.Unit.Services.Foundations.WalletBalances
             invalidWalletBalanceException.AddData(
                 key: nameof(WalletBalance.WalletId),
                 values: "Id is required");
-
-            invalidWalletBalanceException.AddData(
-                key: nameof(WalletBalance.Description),
-                values: "Text is required");
  
             invalidWalletBalanceException.AddData(
                 key: nameof(WalletBalance.CreatedDate),

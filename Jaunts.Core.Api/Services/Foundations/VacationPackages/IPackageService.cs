@@ -10,7 +10,7 @@ namespace Jaunts.Core.Api.Services.Foundations.Packages
     public interface IPackageService 
     {
         ValueTask<Package> CreatePackageAsync(Package Package);
-        IQueryable<Package> RetrieveAllPackage();
+        IQueryable<Package> RetrieveAllPackages();
         ValueTask<Package> RetrievePackageByIdAsync(Guid PackageId);
         ValueTask<Package> ModifyPackageAsync(Package Package);
         ValueTask<Package> RemovePackageByIdAsync(Guid PackageId);
